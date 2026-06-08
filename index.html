@@ -611,6 +611,23 @@
     transform: translateY(2px) scale(0.97);
     box-shadow: 0 2px 8px rgba(255,122,69,0.4);
   }
+  .menu-btn.tap.flash {
+    background: var(--ok);
+    border-color: var(--ok);
+    box-shadow: 0 0 24px var(--ok), 0 6px 18px rgba(109,217,154,0.5);
+  }
+  .menu-btn.tap.shake {
+    animation: shake 0.4s ease-in-out;
+    background: var(--danger);
+    border-color: var(--danger);
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%      { transform: translateX(-8px); }
+    40%      { transform: translateX(8px); }
+    60%      { transform: translateX(-6px); }
+    80%      { transform: translateX(4px); }
+  }
 
   /* ============ CREATION / EGG / HATCH SHARED ============ */
   .creation-stage, .egg-stage, .hatch-stage {
@@ -1144,6 +1161,66 @@ const DEFAULT_PARTY = [
 // Starter pool — 4 species randomly assigned at game start
 const STARTER_POOL = ['pibbi', 'chikapi', 'bubloo', 'mosshu'];
 
+// ============================================================
+// VARIED COPY POOLS (v0.4.1 — rotate to avoid repetition)
+// ============================================================
+const COPY = {
+  trainerWelcome: [
+    name => `Welcome, ${name}. Your DotPetMon journey begins now.`,
+    name => `Hello, ${name}. The world of DotPetMon awaits you.`,
+    name => `${name}, it's wonderful to meet you. Are you ready for adventure?`,
+    name => `A new trainer arrives! Welcome, ${name}.`,
+    name => `${name}, your first friend is waiting to be found.`,
+  ],
+  trainerReturn: [
+    name => `Welcome back, ${name}.`,
+    name => `${name}, your DotPetMon missed you.`,
+    name => `Good to see you again, ${name}.`,
+    name => `${name}, ready to continue your journey?`,
+  ],
+  eggNarration: [
+    name => `"${name}, this egg has been kept safe by the elders for generations. ` +
+            `No one knows which DotPetMon sleeps inside. It will choose you as its first companion."`,
+    name => `"${name}, take this egg. I felt its warmth respond when you walked in. ` +
+            `Only a true partner can hatch it. Are you ready?"`,
+    name => `"They say the first egg always finds the right trainer. ${name}, ` +
+            `today the egg has chosen you. Listen closely — its heartbeat is faint but steady."`,
+    name => `"This egg belonged to no one until now, ${name}. ` +
+            `When it hatches, you'll feel a bond stronger than anything else. Take care of it."`,
+  ],
+  hatchEncouragement: [
+    'Listen to the rhythm. Tap when each beat appears.',
+    'Feel the egg pulse. Match your taps to its heartbeat.',
+    'The egg responds to rhythm. Tap in time and it will hatch.',
+    'Listen carefully. Each tap brings new life closer.',
+  ],
+  hatchMidProgress: [
+    'I can hear a heartbeat inside.',
+    'The egg is starting to crack!',
+    'Almost there — keep the rhythm.',
+    'Something is moving inside.',
+  ],
+  hatchSuccess: [
+    'The egg hatches!',
+    'New life emerges!',
+    'A new friend awakens!',
+    'The shell shatters with joy!',
+  ],
+  starterIntro: [
+    (name, sp) => `Your first DotPetMon is ${sp.name}! A ${sp.type} type. ${sp.tactile}.`,
+    (name, sp) => `Meet ${sp.name}, ${name}'s first partner. A ${sp.type} type with ${sp.tactile}.`,
+    (name, sp) => `${sp.name} emerges from the egg! ${sp.type} type. Feel the shape: ${sp.tactile}.`,
+    (name, sp) => `Hello, ${sp.name}! A ${sp.type} type DotPetMon now joins ${name}'s party.`,
+  ],
+  starterAccept: [
+    (nickname, sp) => `${nickname} joins your party. Welcome to DotPetMon!`,
+    (nickname, sp) => `${nickname} is now your companion. Let the adventure begin!`,
+    (nickname, sp) => `${nickname} trusts you. Treat each other well.`,
+    (nickname, sp) => `Your bond with ${nickname} begins today. Take care of them.`,
+  ],
+};
+function pickCopy(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
 const state = {
   // Screen routing
   screen: 'title',  // 'title' | 'creation' | 'egg' | 'hatch' | 'reveal' | 'main'
@@ -1556,7 +1633,7 @@ function submitTrainerName() {
     state.trainer.name = name;
   }
   SFX.selectPet();
-  speak(`Welcome, ${name}. Let's begin your DotPetMon journey.`);
+  speak(pickCopy(COPY.trainerWelcome)(name));
   saveSettings();
   showScreen('egg');
 }
@@ -1565,14 +1642,11 @@ function submitTrainerName() {
 // EGG RECEIPT SCREEN
 // ============================================================
 function renderEgg() {
-  // Narration
+  // Narration (rotated from variation pool)
   const narr = document.getElementById('egg-narration');
   if (narr) {
     const name = state.trainer?.name || '트레이너';
-    narr.textContent =
-      `"${name}, 이 알을 받아주세요. 마을 어른들이 오래전부터 ` +
-      `소중히 지켜온 것이에요. 안에 어떤 닷펫몬이 있는지는 아무도 모릅니다. ` +
-      `당신과 함께 깨어날 첫 친구가 되어줄 거예요."`;
+    narr.textContent = pickCopy(COPY.eggNarration)(name);
   }
   // Egg illustration on canvas
   const canvas = document.getElementById('egg-canvas');
@@ -1589,34 +1663,61 @@ function eggContinue() {
   showScreen('hatch');
 }
 
-// Egg sprite drawn directly to cells (stage 0=intact, 1=cracking, 2=open)
-function drawEggSprite(cells, stage) {
-  const cx = 30, cy = 22;
-  // Oval egg
+// Egg sprite — stage 0~5 (intact → fully cracking → about to burst)
+// + optional shake offset for pulse-on-hit feedback
+function drawEggSprite(cells, stage, shakeX = 0) {
+  const cx = 30 + shakeX, cy = 22;
+  // Filled oval egg
   for (let y = -16; y <= 16; y++) {
     for (let x = -12; x <= 12; x++) {
       const d = (x*x)/(12*12) + (y*y)/(16*16);
       if (d <= 1.05) setPin(cells, cx + x, cy + y);
     }
   }
-  // Speckles (always visible)
-  for (const [dx, dy] of [[-6,-10],[4,-8],[-3,3],[5,5],[-7,1],[6,-2],[2,10]]) {
+  // Speckles (always visible — pastel spots cleared)
+  for (const [dx, dy] of [[-6,-10],[4,-8],[-3,3],[5,5],[-7,1],[6,-2],[2,10],[-1,-4],[7,7]]) {
     setPin(cells, cx + dx, cy + dy, false);
     setPin(cells, cx + dx + 1, cy + dy, false);
   }
+  // Crack progression — 5 stages
+  // Stage 1: 1 small crack on top
+  // Stage 2: 2 cracks visible
+  // Stage 3: cracks spread to upper half
+  // Stage 4: large chunk loosened
+  // Stage 5: piece flies off (top half mostly gone)
   if (stage >= 1) {
-    // Cracks (zigzag lines on top half)
-    for (const [x0,y0,x1,y1] of [[-7,-10,-5,-6],[-5,-6,-7,-2],[-7,-2,-3,0],[2,-12,4,-8],[4,-8,2,-4],[2,-4,5,0]]) {
+    for (const [x0,y0,x1,y1] of [[-3,-13,-1,-9],[-1,-9,-4,-6]]) {
       drawLine(cells, cx+x0, cy+y0, cx+x1, cy+y1, false);
     }
   }
   if (stage >= 2) {
-    // Big crack opening — clear chunk
-    for (let y = -16; y <= 0; y++) {
-      for (let x = -8; x <= 8; x++) {
-        const cw = 8 - Math.abs(y) / 2;
-        if (Math.abs(x) <= cw) setPin(cells, cx + x, cy + y, false);
+    for (const [x0,y0,x1,y1] of [[3,-12,5,-8],[5,-8,2,-4]]) {
+      drawLine(cells, cx+x0, cy+y0, cx+x1, cy+y1, false);
+    }
+  }
+  if (stage >= 3) {
+    for (const [x0,y0,x1,y1] of [[-7,-10,-9,-4],[-9,-4,-6,1],[6,-6,8,0],[2,-4,5,0]]) {
+      drawLine(cells, cx+x0, cy+y0, cx+x1, cy+y1, false);
+    }
+  }
+  if (stage >= 4) {
+    // Open chunk in upper-center
+    for (let y = -14; y <= -4; y++) {
+      const w = 6 - Math.abs(y+9) / 2;
+      for (let x = -w; x <= w; x++) setPin(cells, cx + x, cy + y, false);
+    }
+  }
+  if (stage >= 5) {
+    // Top half mostly gone, glowing inside
+    for (let y = -16; y <= -2; y++) {
+      for (let x = -12; x <= 12; x++) {
+        const d = (x*x)/(12*12) + (y*y)/(16*16);
+        if (d <= 1.05) setPin(cells, cx + x, cy + y, false);
       }
+    }
+    // Light rays from inside
+    for (const [dx, dy] of [[-4,-12],[0,-14],[4,-12],[-2,-10],[2,-10]]) {
+      setPin(cells, cx + dx, cy + dy);
     }
   }
 }
@@ -1659,13 +1760,14 @@ function renderHatch() {
     if (hitsEl) hitsEl.textContent = state.hatch.hits;
     if (missEl) missEl.textContent = state.hatch.missed;
   }
-  // Canvas — egg with stage based on hits
+  // Canvas — egg with stage 0-5 based on hits (1 hit per stage past the first)
   const canvas = document.getElementById('hatch-canvas');
   if (canvas && state.hatch) {
     const cells = new Uint8Array(DP_W * DP_H);
-    const stage = state.hatch.hits >= 4 ? 2 : (state.hatch.hits >= 2 ? 1 : 0);
-    drawEggSprite(cells, stage);
-    renderPadCanvas(canvas, cells, 8, '#ff9b6a');
+    const stage = Math.min(5, state.hatch.hits + 1);  // 0 hits=stage 1 visible, 4 hits=stage 5
+    const shake = state.hatch._shake || 0;
+    drawEggSprite(cells, state.hatch.hits === 0 ? 0 : stage, shake);
+    renderPadCanvas(canvas, cells, 8, state.hatch.hits >= 4 ? '#FFD84D' : '#ff9b6a');
   }
   pushHatchToDotpad();
 }
@@ -1680,7 +1782,7 @@ function startHatch() {
     activeBeatIdx: -1,
   };
   if (state.hatchTimer) clearInterval(state.hatchTimer);
-  speak('Listen to the rhythm. Press F1 or tap when each beat appears.');
+  speak(pickCopy(COPY.hatchEncouragement));
   // Start beat loop
   const beatRow = document.getElementById('beat-row');
   let beatIdx = 0;
@@ -1721,10 +1823,15 @@ function tapHatch() {
   const now = Date.now();
   const window = 350;  // ms window after beat
   const dt = now - state.hatch.lastBeat;
+  const tapBtn = document.getElementById('btn-hatch-tap');
   if (state.hatch.activeBeatIdx < 0 || dt > window) {
-    // Miss
+    // Miss — shake button + announce
     state.hatch.missed++;
     SFX.beatMiss();
+    if (tapBtn) {
+      tapBtn.classList.add('shake');
+      setTimeout(() => tapBtn.classList.remove('shake'), 400);
+    }
     speak('Miss.');
     renderHatch();
     return;
@@ -1739,9 +1846,32 @@ function tapHatch() {
   }
   state.hatch.activeBeatIdx = -1;
   SFX.beatHit();
-  // Speak progress
-  speak(`Hit! ${state.hatch.hits} of ${state.hatch.target}.`);
+  // Visual flash on tap button
+  if (tapBtn) {
+    tapBtn.classList.add('flash');
+    setTimeout(() => tapBtn.classList.remove('flash'), 250);
+  }
+  // Pulse / shake the egg sprite for tactile feel
+  state.hatch._shake = 2;
   renderHatch();
+  setTimeout(() => {
+    if (!state.hatch) return;
+    state.hatch._shake = -2;
+    renderHatch();
+  }, 80);
+  setTimeout(() => {
+    if (!state.hatch) return;
+    state.hatch._shake = 0;
+    renderHatch();
+  }, 160);
+  // Progress speech — vary by stage
+  if (state.hatch.hits === 2) {
+    speak(pickCopy(COPY.hatchMidProgress));
+  } else if (state.hatch.hits === state.hatch.target) {
+    // Final hit handled by completeHatch
+  } else {
+    speak(`${state.hatch.hits} of ${state.hatch.target}.`);
+  }
   if (state.hatch.hits >= state.hatch.target) {
     completeHatch();
   }
@@ -1750,11 +1880,29 @@ function tapHatch() {
 function completeHatch() {
   if (state.hatchTimer) { clearInterval(state.hatchTimer); state.hatchTimer = null; }
   SFX.hatchOpen();
-  speak('The egg hatches!');
+  speak(pickCopy(COPY.hatchSuccess));
+  // Final burst animation on canvas (cells flash full → empty)
+  const canvas = document.getElementById('hatch-canvas');
+  if (canvas) {
+    let burstFrame = 0;
+    const burstTimer = setInterval(() => {
+      const cells = new Uint8Array(DP_W * DP_H);
+      if (burstFrame % 2 === 0) {
+        // Full bright burst
+        for (let i = 0; i < cells.length; i++) cells[i] = 0xFF;
+      } else {
+        // Sparkle pattern
+        for (let y = 0; y < PH; y += 4) for (let x = 0; x < PW; x += 4) setPin(cells, x, y);
+      }
+      renderPadCanvas(canvas, cells, 8, '#FFD84D');
+      burstFrame++;
+      if (burstFrame > 5) clearInterval(burstTimer);
+    }, 150);
+  }
   setTimeout(() => {
     rollStarter();
     showScreen('reveal');
-  }, 1200);
+  }, 1400);
 }
 
 function pushHatchToDotpad() {
@@ -1810,7 +1958,8 @@ function renderReveal() {
     setTimeout(() => SPECIES_CRY[state.reveal.species](), 300);
   }
   setTimeout(() => {
-    speak(`Your first DotPetMon is ${sp.name}! A ${sp.type} type. ${sp.tactile}.`);
+    const name = state.trainer?.name || 'Trainer';
+    speak(pickCopy(COPY.starterIntro)(name, sp));
   }, 600);
 
   // Push to dot pad
@@ -1858,7 +2007,7 @@ function acceptStarter() {
   logEntry('care', `Starter Plains에서 모험을 시작하세요`);
   // Celebratory fanfare
   [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => _tone(f, 0.16, 'sine', 0.20), i * 120));
-  speak(`${name} joins your party. Welcome to DotPetMon!`);
+  speak(pickCopy(COPY.starterAccept)(name, sp));
   showScreen('main');
 }
 
@@ -1887,7 +2036,7 @@ function continueGame() {
     return;
   }
   SFX.pad();
-  speak(`Welcome back, ${state.trainer.name}.`);
+  speak(pickCopy(COPY.trainerReturn)(state.trainer.name));
   showScreen('main');
 }
 

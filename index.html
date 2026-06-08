@@ -868,6 +868,353 @@
     padding: 10px 14px;
     font-size: 14px;
   }
+
+  /* ============ MAIN ACTION TILES (v0.5) ============ */
+  .main-actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 10px 14px 14px;
+  }
+  @media (max-width: 540px) {
+    .main-actions { grid-template-columns: repeat(2, 1fr); }
+  }
+  .action-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 8px;
+    text-align: center;
+    min-height: 80px;
+  }
+  .action-tile .action-glyph {
+    font-size: 22px;
+    line-height: 1;
+  }
+  .action-tile .action-label {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+  }
+  .action-tile .action-sub {
+    font-size: 10px;
+    color: var(--ink-dim);
+    letter-spacing: 0.08em;
+  }
+  .action-tile.menu-btn.primary .action-sub { color: rgba(255,255,255,0.85); }
+
+  /* ============ REGION SELECT ============ */
+  .region-select-stage {
+    width: 100%;
+    max-width: 880px;
+  }
+  .region-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .region-header h2 {
+    margin: 0;
+    font-size: 22px;
+    flex: 1;
+    text-align: center;
+  }
+  .region-progress-pill {
+    background: var(--accent);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+  }
+  .menu-btn.small {
+    padding: 8px 14px;
+    font-size: 12px;
+    min-height: 36px;
+  }
+  .region-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 700px) {
+    .region-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .region-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 2px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .region-card:hover {
+    border-color: var(--cyan);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(77,196,216,0.3);
+  }
+  .region-card.selected {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent), 0 4px 16px rgba(255,122,69,0.5);
+  }
+  .region-card.locked {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background: var(--bg-deep);
+  }
+  .region-card.locked::after {
+    content: '🔒';
+    position: absolute;
+    top: 8px; right: 8px;
+    font-size: 14px;
+    opacity: 0.7;
+  }
+  .region-num {
+    font-size: 10px;
+    color: var(--ink-dim);
+    letter-spacing: 0.18em;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .region-glyph {
+    font-size: 28px;
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+  .region-name {
+    font-size: 14px;
+    font-weight: 800;
+    margin-bottom: 2px;
+    line-height: 1.2;
+  }
+  .region-name-ko {
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+  .region-level {
+    font-size: 10px;
+    color: var(--ink-dim);
+    letter-spacing: 0.06em;
+  }
+  .region-detail {
+    background: var(--bg-card);
+    border: 2px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-top: 6px;
+    text-align: center;
+  }
+  .region-detail h3 {
+    font-size: 22px;
+    color: var(--accent);
+    margin: 0 0 6px;
+  }
+  .region-mood {
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 0 14px;
+    font-style: italic;
+  }
+  .region-meta {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .region-meta b { color: var(--ink); font-weight: 800; }
+
+  /* ============ EXPLORING ============ */
+  .explore-stage {
+    width: 100%;
+    max-width: 540px;
+    text-align: center;
+  }
+  .explore-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .explore-region-name {
+    flex: 1;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .explore-steps {
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .explore-steps b { color: var(--accent); font-weight: 800; font-size: 14px; }
+  .explore-mood {
+    background: var(--bg-card);
+    border: 1.5px solid var(--line);
+    border-left: 4px solid var(--cyan);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    color: var(--ink-soft);
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    font-size: 13px;
+    text-align: left;
+  }
+  .explore-canvas-wrap {
+    background: var(--pad-bg);
+    padding: 14px;
+    border-radius: var(--radius);
+    border: 2px solid var(--cyan);
+    box-shadow: var(--glow-cyan);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    max-width: 380px;
+  }
+  #explore-canvas { width: 100%; height: auto; image-rendering: pixelated; }
+  .explore-status {
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 18px;
+    min-height: 44px;
+    padding: 10px;
+  }
+  .explore-status.alert {
+    color: var(--danger);
+    font-weight: 800;
+    animation: pulse-alert 0.6s ease-in-out 2;
+  }
+  @keyframes pulse-alert {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.4; }
+  }
+  .explore-tip {
+    margin-top: 14px;
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.06em;
+  }
+
+  /* ============ ENCOUNTER ============ */
+  .encounter-stage {
+    width: 100%;
+    max-width: 540px;
+    text-align: center;
+  }
+  .encounter-alert {
+    color: var(--danger);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.3em;
+    margin-bottom: 8px;
+    animation: pulse-alert 0.7s ease-in-out infinite;
+  }
+  #encounter-name {
+    font-size: clamp(24px, 4vw, 36px);
+    margin: 0 0 8px;
+    color: var(--accent);
+    font-weight: 900;
+  }
+  .encounter-type {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .encounter-canvas-wrap {
+    background: var(--pad-bg);
+    padding: 14px;
+    border-radius: var(--radius);
+    border: 3px solid var(--danger);
+    box-shadow: 0 0 24px rgba(232,94,78,0.5);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 14px;
+    max-width: 380px;
+  }
+  #encounter-canvas { width: 100%; height: auto; image-rendering: pixelated; }
+  .encounter-info {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px 14px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    align-items: center;
+  }
+  .encounter-stat {
+    display: contents;
+  }
+  .encounter-stat-label {
+    color: var(--ink-soft);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-align: left;
+  }
+  .encounter-stat-value {
+    font-weight: 800;
+    color: var(--ink);
+    text-align: right;
+  }
+  .encounter-hp {
+    height: 8px;
+    background: var(--bg-deep);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .encounter-hp-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--ok), var(--yellow), var(--danger));
+    border-radius: 4px;
+    width: 100%;
+    transition: width 0.3s;
+  }
+  .encounter-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .encounter-actions .menu-btn {
+    flex-direction: column;
+    padding: 14px 8px;
+    min-height: 64px;
+    font-size: 14px;
+  }
+  .encounter-actions .menu-btn small {
+    display: block;
+    font-size: 9px;
+    opacity: 0.7;
+    letter-spacing: 0.18em;
+    margin-top: 2px;
+    font-weight: 600;
+  }
+  .encounter-tip {
+    font-size: 11px;
+    color: var(--ink-dim);
+    line-height: 1.5;
+  }
 </style>
 </head>
 <body>
@@ -1010,6 +1357,90 @@
     </div>
   </section>
 
+  <!-- ============ SCREEN: REGION SELECT ============ -->
+  <section id="screen-region-select" class="full-screen" hidden>
+    <div class="region-select-stage">
+      <div class="region-header">
+        <button class="menu-btn ghost small" id="btn-region-back" type="button">← 메인</button>
+        <h2 id="region-title">탐험 지역 선택</h2>
+        <div class="region-progress-pill" id="region-progress-pill">0 / 8</div>
+      </div>
+      <div class="region-grid" id="region-grid"></div>
+      <div class="region-detail" id="region-detail" hidden>
+        <h3 id="region-detail-name">—</h3>
+        <p class="region-mood" id="region-detail-mood">—</p>
+        <div class="region-meta">
+          <span>레벨 <b id="region-detail-level">—</b></span>
+          <span>출현 종 <b id="region-detail-species">—</b></span>
+          <span>방문 <b id="region-detail-visits">0</b></span>
+        </div>
+        <div class="creation-actions">
+          <button class="menu-btn ghost" id="btn-region-cancel" type="button">취소</button>
+          <button class="menu-btn primary large" id="btn-region-go" type="button">출발 ▸</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN: EXPLORING ============ -->
+  <section id="screen-exploring" class="full-screen" hidden>
+    <div class="explore-stage">
+      <div class="explore-header">
+        <button class="menu-btn ghost small" id="btn-explore-leave" type="button">← 돌아가기</button>
+        <div class="explore-region-name" id="explore-region-name">—</div>
+        <div class="explore-steps">스텝 <b id="explore-steps">0</b></div>
+      </div>
+      <div class="explore-mood" id="explore-mood">—</div>
+      <div class="explore-canvas-wrap">
+        <canvas id="explore-canvas" aria-label="Region view"></canvas>
+      </div>
+      <div class="explore-status" id="explore-status">조용합니다... 한 걸음 더 나아가 볼까요?</div>
+      <button class="menu-btn primary large" id="btn-explore-step" type="button">
+        ▶ 한 걸음 <small>F1 · Space</small>
+      </button>
+      <div class="explore-tip">
+        F1 = 한 걸음 / F3 = 도감 보기 / F4 = 돌아가기
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN: WILD ENCOUNTER ============ -->
+  <section id="screen-encounter" class="full-screen" hidden>
+    <div class="encounter-stage">
+      <div class="encounter-alert">! 야생 등장 !</div>
+      <h2 id="encounter-name">야생 —</h2>
+      <div class="encounter-type" id="encounter-type">—</div>
+      <div class="encounter-canvas-wrap">
+        <canvas id="encounter-canvas" aria-label="Wild creature"></canvas>
+      </div>
+      <div class="encounter-info">
+        <div class="encounter-stat">
+          <span class="encounter-stat-label">레벨</span>
+          <span class="encounter-stat-value" id="encounter-level">—</span>
+        </div>
+        <div class="encounter-stat">
+          <span class="encounter-stat-label">HP</span>
+          <div class="encounter-hp">
+            <div class="encounter-hp-fill" id="encounter-hp-fill"></div>
+          </div>
+          <span class="encounter-stat-value" id="encounter-hp">—</span>
+        </div>
+        <div class="encounter-stat">
+          <span class="encounter-stat-label">도감</span>
+          <span class="encounter-stat-value" id="encounter-dex">—</span>
+        </div>
+      </div>
+      <div class="encounter-actions">
+        <button class="menu-btn primary" id="btn-enc-fight" type="button">⚔ 싸움<small>F1</small></button>
+        <button class="menu-btn" id="btn-enc-catch" type="button">⊙ 포획<small>F2</small></button>
+        <button class="menu-btn ghost" id="btn-enc-run" type="button">↩ 도망<small>F3</small></button>
+      </div>
+      <div class="encounter-tip" id="encounter-tip">
+        싸움 — 데미지 후 약해진 야생은 포획 확률 ↑ · 포획 — 즉시 시도
+      </div>
+    </div>
+  </section>
+
   <!-- ============ SCREEN: MAIN GAME (existing UI) ============ -->
   <div id="screen-main" class="stage" hidden>
     <!-- LEFT: Party slots -->
@@ -1061,6 +1492,28 @@
           <canvas class="viewport-canvas" id="vp-canvas"></canvas>
         </div>
         <div class="viewport-tactile" id="vp-tactile">파티에서 펫을 선택하세요</div>
+        <div class="main-actions">
+          <button class="menu-btn primary action-tile" id="btn-main-explore" type="button">
+            <span class="action-glyph">⛰</span>
+            <span class="action-label">탐험</span>
+            <small class="action-sub">새 지역 발견</small>
+          </button>
+          <button class="menu-btn action-tile" id="btn-main-care" type="button" disabled>
+            <span class="action-glyph">♥</span>
+            <span class="action-label">케어</span>
+            <small class="action-sub">v1.5+</small>
+          </button>
+          <button class="menu-btn action-tile" id="btn-main-dex" type="button">
+            <span class="action-glyph">✦</span>
+            <span class="action-label">도감</span>
+            <small class="action-sub" id="dex-progress">0 / 10</small>
+          </button>
+          <button class="menu-btn action-tile" id="btn-main-trade" type="button" disabled>
+            <span class="action-glyph">⇄</span>
+            <span class="action-label">트레이드</span>
+            <small class="action-sub">v1.4+</small>
+          </button>
+        </div>
       </div>
 
       <div class="bottom-row">
@@ -1161,6 +1614,48 @@ const DEFAULT_PARTY = [
 // Starter pool — 4 species randomly assigned at game start
 const STARTER_POOL = ['pibbi', 'chikapi', 'bubloo', 'mosshu'];
 
+// 8 regions, each with native species + level range + unlock threshold (dex caught count)
+const REGIONS = [
+  { id: 'starter-plains', name: 'Starter Plains', nameKo: '스타터 평원',
+    species: ['pibbi', 'mosshu'], levelMin: 3, levelMax: 8, unlockDex: 0,
+    mood: '바람이 풀잎을 스치는 소리, 따뜻한 햇살.',
+    color: '#97C459', glyph: '⊙' },
+  { id: 'whispering-forest', name: 'Whispering Forest', nameKo: '속삭이는 숲',
+    species: ['mosshu', 'nibori'], levelMin: 5, levelMax: 12, unlockDex: 2,
+    mood: '안개가 자욱하다. 멀리서 누군가 속삭이는 듯하다.',
+    color: '#5DCAA5', glyph: '✿' },
+  { id: 'ember-volcano', name: 'Ember Volcano', nameKo: '불꽃 화산',
+    species: ['chikapi', 'fangroo'], levelMin: 8, levelMax: 15, unlockDex: 4,
+    mood: '발 밑에서 열기가 올라온다. 용암 흐르는 소리.',
+    color: '#E24B4A', glyph: '▲' },
+  { id: 'mirror-lake', name: 'Mirror Lake', nameKo: '거울 호수',
+    species: ['bubloo', 'luminoa'], levelMin: 10, levelMax: 18, unlockDex: 5,
+    mood: '수면이 잔잔하다. 가끔 물고기가 튀어오른다.',
+    color: '#85B7EB', glyph: '○' },
+  { id: 'storm-plain', name: 'Storm Plain', nameKo: '폭풍 평원',
+    species: ['voltchi', 'kricko'], levelMin: 13, levelMax: 22, unlockDex: 6,
+    mood: '천둥소리. 머리카락이 곤두선다.',
+    color: '#F2C14E', glyph: '⚡' },
+  { id: 'iron-cave', name: 'Iron Cave', nameKo: '철의 동굴',
+    species: ['turtloop', 'fangroo', 'voltchi'], levelMin: 15, levelMax: 25, unlockDex: 7,
+    mood: '발자국이 메아리친다. 차가운 공기.',
+    color: '#888780', glyph: '◇' },
+  { id: 'sacred-grove', name: 'Sacred Grove', nameKo: '성스러운 숲',
+    species: ['luminoa', 'pibbi'], levelMin: 18, levelMax: 28, unlockDex: 8,
+    mood: '오래된 나무들이 빛을 낸다. 신비로운 음악.',
+    color: '#9FE1CB', glyph: '✿' },
+  { id: 'echo-sanctum', name: 'Echo Sanctum', nameKo: '메아리 신전',
+    species: ['pibbi','mosshu','voltchi','bubloo','fangroo','chikapi','turtloop','nibori','kricko','luminoa'],
+    levelMin: 25, levelMax: 40, unlockDex: 10,
+    mood: '당신의 모든 모험이 여기로 모인다.',
+    color: '#AFA9EC', glyph: '✦' },
+];
+
+function getRegion(id) { return REGIONS.find(r => r.id === id); }
+function isRegionUnlocked(region) {
+  return state.collectedTypes.size >= 0 && state.caughtCount >= region.unlockDex;
+}
+
 // ============================================================
 // VARIED COPY POOLS (v0.4.1 — rotate to avoid repetition)
 // ============================================================
@@ -1223,7 +1718,7 @@ function pickCopy(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
 const state = {
   // Screen routing
-  screen: 'title',  // 'title' | 'creation' | 'egg' | 'hatch' | 'reveal' | 'main'
+  screen: 'title',  // 'title' | 'creation' | 'egg' | 'hatch' | 'reveal' | 'main' | 'region-select' | 'exploring' | 'encounter'
 
   // Trainer profile
   trainer: null,    // { name, id, createdAt }
@@ -1233,8 +1728,15 @@ const state = {
   party: [],
   activeIdx: 0,
   collectedTypes: new Set(),
+  dexSeen: new Set(),    // species seen (encountered) in dex
+  dexCaught: new Set(),  // species caught in dex
+  caughtCount: 0,         // total captures (not unique)
   energy: { current: 20, max: 20 },
   log: [],
+
+  // Region progress
+  regionProgress: {},     // { regionId: { visits: N, encounters: N, caught: N } }
+  currentRegion: null,    // active region while exploring
 
   // Settings
   ttsOn: true,
@@ -1247,9 +1749,11 @@ const state = {
   dotpadName: '',
 
   // Transient flow state
-  hatch: null,      // { hits: 0, target: 4, lastBeat: 0, beatInterval: 900, missed: 0 }
-  reveal: null,     // { species, name }
+  hatch: null,
+  reveal: null,
   hatchTimer: null,
+  exploring: null,        // { regionId, steps, lastEncStep, encChance, encountering: false }
+  encounter: null,        // { species, level, hp, hpMax, captureAttempts }
 };
 
 function saveSettings() {
@@ -1259,6 +1763,10 @@ function saveSettings() {
       hasStarter: state.hasStarter,
       party: state.party, activeIdx: state.activeIdx,
       collectedTypes: [...state.collectedTypes],
+      dexSeen: [...state.dexSeen],
+      dexCaught: [...state.dexCaught],
+      caughtCount: state.caughtCount,
+      regionProgress: state.regionProgress,
       energy: state.energy,
       ttsOn: state.ttsOn, sfxOn: state.sfxOn,
     }));
@@ -1279,6 +1787,10 @@ function loadSettings() {
     state.party = (s.party && s.party.length) ? s.party : [];
     state.activeIdx = s.activeIdx ?? 0;
     state.collectedTypes = new Set(s.collectedTypes || []);
+    state.dexSeen = new Set(s.dexSeen || []);
+    state.dexCaught = new Set(s.dexCaught || []);
+    state.caughtCount = s.caughtCount ?? 0;
+    state.regionProgress = s.regionProgress || {};
     state.energy = s.energy || { current: 20, max: 20 };
     if (typeof s.ttsOn === 'boolean') state.ttsOn = s.ttsOn;
     if (typeof s.sfxOn === 'boolean') state.sfxOn = s.sfxOn;
@@ -1531,7 +2043,7 @@ function renderLives() {
 // ============================================================
 // SCREEN ROUTER
 // ============================================================
-const SCREENS = ['title', 'creation', 'egg', 'hatch', 'reveal', 'main'];
+const SCREENS = ['title', 'creation', 'egg', 'hatch', 'reveal', 'main', 'region-select', 'exploring', 'encounter'];
 
 function showScreen(name) {
   state.screen = name;
@@ -1541,26 +2053,15 @@ function showScreen(name) {
   }
   // Per-screen render + side effects
   switch (name) {
-    case 'title':
-      renderTitle();
-      break;
-    case 'creation':
-      renderCreation();
-      break;
-    case 'egg':
-      renderEgg();
-      break;
-    case 'hatch':
-      renderHatch();
-      setTimeout(startHatch, 400);
-      break;
-    case 'reveal':
-      renderReveal();
-      break;
-    case 'main':
-      renderMain();
-      pushDotpad();
-      break;
+    case 'title':         renderTitle(); break;
+    case 'creation':      renderCreation(); break;
+    case 'egg':           renderEgg(); break;
+    case 'hatch':         renderHatch(); setTimeout(startHatch, 400); break;
+    case 'reveal':        renderReveal(); break;
+    case 'main':          renderMain(); pushDotpad(); break;
+    case 'region-select': renderRegionSelect(); break;
+    case 'exploring':     renderExploring(); break;
+    case 'encounter':     renderEncounter(); break;
   }
   updateDotpadStatus();
 }
@@ -1572,6 +2073,9 @@ function renderMain() {
   renderBadges();
   renderLives();
   renderLog();
+  // Update dex progress label on action tile
+  const dp = document.getElementById('dex-progress');
+  if (dp) dp.textContent = `${state.dexCaught.size} / 10`;
 }
 
 // Backwards-compat: renderAll() now means re-render current screen's UI.
@@ -2042,12 +2546,497 @@ function continueGame() {
 
 function showCredits() {
   alert(
-    '닷펫몬 v0.4 BETA\n' +
+    '닷펫몬 v0.5 BETA\n' +
     'DotPetMon — 시각장애 친화 턴제 몬스터 수집 RPG\n\n' +
     '제작: Dot Inc + Claude\n' +
     '© 2026 Dot Incorporation\n\n' +
     '특별 감사: 모든 닷패드 사용자'
   );
+}
+
+// ============================================================
+// MAIN UI — ACTION TILE HANDLERS (v0.5)
+// ============================================================
+function openExplore() {
+  if (state.party.length === 0) {
+    SFX.err();
+    showToast('파티에 닷펫몬이 필요합니다');
+    return;
+  }
+  SFX.selectPet();
+  showScreen('region-select');
+}
+function openDexDetail() {
+  // Placeholder — list dex in alert until v0.6 has dedicated screen
+  const lines = ['📖 DotDex 도감'];
+  Object.keys(SPECIES).forEach(k => {
+    const sp = SPECIES[k];
+    const caught = state.dexCaught.has(k);
+    const seen = state.dexSeen.has(k);
+    const mark = caught ? '✓' : seen ? '·' : ' ';
+    lines.push(`${mark} #${sp.num} ${sp.name} (${sp.type})`);
+  });
+  lines.push('');
+  lines.push(`포획 ${state.dexCaught.size}/10 · 만남 ${state.dexSeen.size}/10`);
+  alert(lines.join('\n'));
+}
+
+// ============================================================
+// REGION SELECT (v0.5)
+// ============================================================
+let _selectedRegionId = null;
+
+function renderRegionSelect() {
+  const grid = document.getElementById('region-grid');
+  const detail = document.getElementById('region-detail');
+  const pill = document.getElementById('region-progress-pill');
+  if (!grid) return;
+  // Update pill: how many regions unlocked
+  const unlockedCount = REGIONS.filter(r => isRegionUnlocked(r)).length;
+  if (pill) pill.textContent = `${unlockedCount} / ${REGIONS.length}`;
+  // Build region cards
+  grid.innerHTML = REGIONS.map((r, idx) => {
+    const unlocked = isRegionUnlocked(r);
+    const visits = state.regionProgress[r.id]?.visits ?? 0;
+    return `
+      <div class="region-card ${unlocked ? '' : 'locked'} ${_selectedRegionId === r.id ? 'selected' : ''}"
+           data-region-id="${r.id}"
+           role="button" tabindex="0"
+           aria-label="${r.name} ${unlocked ? '' : '잠김'} 레벨 ${r.levelMin}부터 ${r.levelMax}">
+        <div class="region-num">#${idx + 1}</div>
+        <div class="region-glyph" style="color: ${unlocked ? r.color : 'var(--ink-dim)'}">${r.glyph}</div>
+        <div class="region-name">${r.name}</div>
+        <div class="region-name-ko">${r.nameKo}</div>
+        <div class="region-level">Lv ${r.levelMin}–${r.levelMax} · ${visits}회</div>
+      </div>
+    `;
+  }).join('');
+  // Bind clicks
+  grid.querySelectorAll('.region-card').forEach(card => {
+    card.addEventListener('click', () => selectRegionCard(card.dataset.regionId));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') selectRegionCard(card.dataset.regionId);
+    });
+  });
+  // Detail
+  if (_selectedRegionId && detail) {
+    const r = getRegion(_selectedRegionId);
+    if (r && isRegionUnlocked(r)) {
+      detail.hidden = false;
+      document.getElementById('region-detail-name').textContent = `${r.name} · ${r.nameKo}`;
+      document.getElementById('region-detail-name').style.color = r.color;
+      document.getElementById('region-detail-mood').textContent = `"${r.mood}"`;
+      document.getElementById('region-detail-level').textContent = `${r.levelMin}–${r.levelMax}`;
+      document.getElementById('region-detail-species').textContent =
+        r.species.length <= 5
+          ? r.species.map(s => SPECIES[s]?.name || s).join(', ')
+          : '모든 종';
+      document.getElementById('region-detail-visits').textContent =
+        state.regionProgress[r.id]?.visits ?? 0;
+    } else {
+      detail.hidden = true;
+    }
+  } else if (detail) {
+    detail.hidden = true;
+  }
+}
+
+function selectRegionCard(regionId) {
+  const r = getRegion(regionId);
+  if (!r || !isRegionUnlocked(r)) {
+    SFX.err();
+    speak(`${r?.name || 'This region'} is locked. Catch more DotPetMon to unlock.`);
+    return;
+  }
+  _selectedRegionId = regionId;
+  SFX.selectPet();
+  speak(`${r.name}. Level ${r.levelMin} to ${r.levelMax}. ${r.mood}`);
+  renderRegionSelect();
+}
+
+function goToRegion() {
+  if (!_selectedRegionId) {
+    SFX.err();
+    return;
+  }
+  const r = getRegion(_selectedRegionId);
+  if (!r || !isRegionUnlocked(r)) { SFX.err(); return; }
+  // Initialize exploration state
+  state.exploring = {
+    regionId: r.id,
+    steps: 0,
+    lastEncStep: 0,
+    encChance: 0.30,  // 30% chance per step (climbs by 5% per step without encounter, max 80%)
+  };
+  if (!state.regionProgress[r.id]) state.regionProgress[r.id] = { visits: 0, encounters: 0, caught: 0 };
+  state.regionProgress[r.id].visits++;
+  saveSettings();
+  showScreen('exploring');
+  logEntry('info', `${r.name} 진입`);
+}
+
+// ============================================================
+// EXPLORING (v0.5)
+// ============================================================
+function renderExploring() {
+  if (!state.exploring) return;
+  const r = getRegion(state.exploring.regionId);
+  if (!r) { showScreen('main'); return; }
+  document.getElementById('explore-region-name').textContent = `${r.name} · ${r.nameKo}`;
+  document.getElementById('explore-region-name').style.color = r.color;
+  document.getElementById('explore-steps').textContent = state.exploring.steps;
+  const moodEl = document.getElementById('explore-mood');
+  if (moodEl) moodEl.textContent = `"${r.mood}"`;
+  // Status text
+  const statusEl = document.getElementById('explore-status');
+  if (statusEl && !statusEl.dataset.locked) {
+    statusEl.classList.remove('alert');
+    statusEl.textContent = state.exploring.steps === 0
+      ? '주변을 둘러봅니다. 한 걸음 내디뎌 볼까요?'
+      : '조용합니다. 한 걸음 더 나아가 볼까요?';
+  }
+  // Canvas — show region's color with subtle pattern (simple placeholder)
+  const canvas = document.getElementById('explore-canvas');
+  if (canvas) {
+    const cells = new Uint8Array(DP_W * DP_H);
+    drawRegionBackdrop(cells, r);
+    renderPadCanvas(canvas, cells, 8, r.color);
+  }
+  // Push to dotpad
+  if (state.dotpadConnected && window.DotPad) {
+    try {
+      const cells = new Uint8Array(DP_W * DP_H);
+      drawRegionBackdrop(cells, r);
+      window.DotPad.sdk.displayGraphicData(bytesToHex(cells));
+      try { window.DotPad.sdk.displayTextData(`${r.name.slice(0,12)} S${state.exploring.steps}`); } catch(e){}
+    } catch(e){}
+  }
+}
+
+// Each region has a unique tactile backdrop pattern on the pad
+function drawRegionBackdrop(cells, region) {
+  switch (region.id) {
+    case 'starter-plains':
+      // Wavy grass lines
+      for (let y = 6; y < 38; y += 6) {
+        for (let x = 2; x < 58; x++) {
+          const wave = Math.sin(x / 4) * 2;
+          setPin(cells, x, Math.round(y + wave));
+        }
+      }
+      break;
+    case 'whispering-forest':
+      // Tree silhouettes (vertical lines + cluster at top)
+      for (const trunkX of [8, 18, 30, 42, 52]) {
+        for (let y = 10; y < 38; y++) setPin(cells, trunkX, y);
+        // Canopy cluster
+        for (let dy = -8; dy <= 0; dy++) {
+          for (let dx = -4; dx <= 4; dx++) {
+            if (dx*dx + dy*dy < 16) setPin(cells, trunkX + dx, 12 + dy);
+          }
+        }
+      }
+      break;
+    case 'ember-volcano':
+      // Mountain triangle + lava lines
+      for (let i = 0; i < 18; i++) {
+        for (let x = -i; x <= i; x++) setPin(cells, 30 + x, 20 - i + 18);
+      }
+      // Smoke at top
+      for (let y = 0; y < 6; y++) setPin(cells, 30 + (y % 3 - 1), y);
+      break;
+    case 'mirror-lake':
+      // Horizontal water lines
+      for (let y = 20; y < 36; y += 3) {
+        for (let x = 4; x < 56; x++) {
+          if ((x + y) % 4 === 0) setPin(cells, x, y);
+        }
+      }
+      // Mountains reflected (top half)
+      for (let i = 0; i < 12; i++) {
+        for (let x = -i; x <= i; x++) setPin(cells, 20 + x, 18 - i);
+      }
+      break;
+    case 'storm-plain':
+      // Lightning bolts + ground
+      for (const bx of [10, 30, 50]) {
+        for (const [x0,y0,x1,y1] of [[bx,2,bx+3,8],[bx+3,8,bx-1,14],[bx-1,14,bx+2,20]]) {
+          for (let t = 0; t <= 10; t++) {
+            const x = Math.round(x0 + (x1-x0)*t/10);
+            const y = Math.round(y0 + (y1-y0)*t/10);
+            setPin(cells, x, y);
+          }
+        }
+      }
+      // Ground line
+      for (let x = 0; x < 60; x++) setPin(cells, x, 36);
+      break;
+    case 'iron-cave':
+      // Stalactites/stalagmites
+      for (const x of [8, 20, 32, 44, 56]) {
+        for (let y = 0; y < 8; y++) {
+          const w = 4 - Math.floor(y / 2);
+          for (let dx = -w; dx <= w; dx++) setPin(cells, x + dx, y);
+        }
+      }
+      for (const x of [14, 26, 38, 50]) {
+        for (let y = 0; y < 10; y++) {
+          const w = 5 - Math.floor(y / 2);
+          for (let dx = -w; dx <= w; dx++) setPin(cells, x + dx, 39 - y);
+        }
+      }
+      break;
+    case 'sacred-grove':
+      // Glowing orbs scattered
+      for (const [x, y, r] of [[12,14,3],[28,10,2],[44,16,3],[20,28,2],[48,30,2],[8,30,2],[36,26,3]]) {
+        for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
+          if (dx*dx + dy*dy <= r*r) setPin(cells, x+dx, y+dy);
+        }
+      }
+      break;
+    case 'echo-sanctum':
+      // Grand columns + central altar
+      for (const cx of [8, 20, 40, 52]) {
+        for (let y = 4; y < 36; y++) setPin(cells, cx, y);
+        for (let y = 4; y < 36; y++) setPin(cells, cx+1, y);
+        for (let dx = -2; dx <= 3; dx++) setPin(cells, cx + dx, 4);
+        for (let dx = -2; dx <= 3; dx++) setPin(cells, cx + dx, 36);
+      }
+      // Central altar
+      for (let y = 24; y < 32; y++) for (let x = 26; x <= 34; x++) setPin(cells, x, y);
+      break;
+  }
+}
+
+function exploreStep() {
+  if (!state.exploring || state.screen !== 'exploring') return;
+  state.exploring.steps++;
+  SFX.selectPet();
+  const stepsSinceEnc = state.exploring.steps - state.exploring.lastEncStep;
+  // Encounter chance climbs with steps since last encounter
+  const chance = Math.min(0.85, 0.20 + stepsSinceEnc * 0.08);
+  if (Math.random() < chance) {
+    // ENCOUNTER!
+    state.exploring.lastEncStep = state.exploring.steps;
+    rollEncounter();
+    showScreen('encounter');
+    return;
+  }
+  // No encounter — flavor message
+  const statusEl = document.getElementById('explore-status');
+  if (statusEl) {
+    const flavors = [
+      '바람이 부드럽게 스칩니다.',
+      '풀잎이 흔들립니다.',
+      '먼 곳에서 작은 소리가 들립니다.',
+      '아무것도 없습니다.',
+      '잠시 멈춰 숨을 고릅니다.',
+      '발자국 소리만 들립니다.',
+    ];
+    statusEl.textContent = pickCopy(flavors);
+  }
+  renderExploring();
+}
+
+function leaveRegion() {
+  state.exploring = null;
+  state.currentRegion = null;
+  showScreen('main');
+  speak(pickCopy([
+    'Back to home base.',
+    'A safe return.',
+    'Resting at base.',
+  ]));
+}
+
+// ============================================================
+// ENCOUNTER (v0.5)
+// ============================================================
+function rollEncounter() {
+  if (!state.exploring) return;
+  const r = getRegion(state.exploring.regionId);
+  if (!r) return;
+  const speciesKey = r.species[Math.floor(Math.random() * r.species.length)];
+  const sp = SPECIES[speciesKey];
+  const level = r.levelMin + Math.floor(Math.random() * (r.levelMax - r.levelMin + 1));
+  const hpMax = 15 + Math.floor(level * 1.8);
+  state.encounter = {
+    species: speciesKey,
+    level,
+    hp: hpMax,
+    hpMax,
+    captureAttempts: 0,
+  };
+  // Mark as seen in dex
+  state.dexSeen.add(speciesKey);
+  if (state.regionProgress[r.id]) state.regionProgress[r.id].encounters++;
+  saveSettings();
+  // SFX
+  SFX.err();
+  if (SPECIES_CRY[speciesKey]) setTimeout(() => SPECIES_CRY[speciesKey](), 200);
+  // Log
+  logEntry('discover', `야생 ${sp.name} (Lv ${level}) 등장`);
+}
+
+function renderEncounter() {
+  if (!state.encounter) return;
+  const e = state.encounter;
+  const sp = SPECIES[e.species];
+  if (!sp) return;
+  const accent = getComputedStyle(document.documentElement).getPropertyValue(TYPE_COLOR[sp.type]).trim() || '#ff9b6a';
+
+  document.getElementById('encounter-name').textContent = `야생 ${sp.name}`;
+  document.getElementById('encounter-name').style.color = accent;
+  const typeEl = document.getElementById('encounter-type');
+  typeEl.textContent = (TYPE_GLYPH[sp.type] || '') + ' ' + sp.type;
+  typeEl.style.background = accent;
+  typeEl.style.color = '#0a0e1a';
+
+  const canvas = document.getElementById('encounter-canvas');
+  const cells = new Uint8Array(DP_W * DP_H);
+  sp.draw(cells);
+  renderPadCanvas(canvas, cells, 9, accent);
+
+  document.getElementById('encounter-level').textContent = `Lv ${e.level}`;
+  document.getElementById('encounter-hp').textContent = `${e.hp} / ${e.hpMax}`;
+  const hpPct = (e.hp / e.hpMax) * 100;
+  document.getElementById('encounter-hp-fill').style.width = `${hpPct}%`;
+
+  const dexStatus = state.dexCaught.has(e.species) ? '포획됨'
+                  : state.dexSeen.has(e.species) ? '만남'
+                  : '신규!';
+  document.getElementById('encounter-dex').textContent = dexStatus;
+
+  // Tip text varies by HP
+  const tipEl = document.getElementById('encounter-tip');
+  if (tipEl) {
+    if (hpPct >= 80) tipEl.textContent = '체력이 가득합니다. 싸움으로 약하게 만들면 포획이 쉬워집니다.';
+    else if (hpPct >= 40) tipEl.textContent = '약간 약해진 상태입니다. 포획 시도가 가능합니다.';
+    else if (hpPct >= 20) tipEl.textContent = '많이 약해졌습니다! 포획 확률 높음.';
+    else tipEl.textContent = '거의 쓰러질 듯합니다! 지금이 기회입니다.';
+  }
+
+  // Push to dot pad
+  if (state.dotpadConnected && window.DotPad) {
+    try {
+      window.DotPad.sdk.displayGraphicData(bytesToHex(cells));
+      try { window.DotPad.sdk.displayTextData(`WILD ${sp.name} L${e.level}`); } catch(e2){}
+    } catch(e2){}
+  }
+}
+
+// Encounter actions
+
+function encounterFight() {
+  if (!state.encounter || state.party.length === 0) return;
+  const e = state.encounter;
+  const myPet = state.party[state.activeIdx] || state.party[0];
+  // Simple damage formula stub (Battle PoC = v1.0 has full system)
+  const myAttack = 8 + myPet.level * 2;
+  const dmg = Math.max(1, myAttack - Math.floor(e.level * 1.2) + Math.floor(Math.random() * 6));
+  e.hp = Math.max(0, e.hp - dmg);
+  SFX.beatHit();
+  speak(`${myPet.name} 공격! ${dmg} 데미지.`);
+  logEntry('battle', `${myPet.name}이(가) 야생 ${SPECIES[e.species].name}에게 ${dmg} 데미지`);
+  renderEncounter();
+  if (e.hp <= 0) {
+    // Defeated — XP + small recovery
+    const xpGain = Math.max(5, e.level * 3);
+    speak(`야생 ${SPECIES[e.species].name} 쓰러졌다! ${xpGain} XP 획득.`);
+    logEntry('battle', `승리! ${xpGain} XP`);
+    setTimeout(() => {
+      state.encounter = null;
+      showScreen('exploring');
+    }, 1200);
+    return;
+  }
+  // Wild counter-attack (simplified — just speak)
+  setTimeout(() => {
+    if (!state.encounter) return;
+    const counterDmg = Math.max(1, Math.floor(e.level * 0.8) - 2 + Math.floor(Math.random() * 4));
+    myPet.hp = Math.max(0, (myPet.hp ?? myPet.hpMax ?? 20) - counterDmg);
+    SFX.beatMiss();
+    speak(`야생 ${SPECIES[e.species].name} 반격! ${counterDmg} 데미지를 받았다.`);
+    if (myPet.hp <= 0) {
+      myPet.hp = 1;  // Don't fully KO in v0.5 — just barely
+      speak(`${myPet.name}이(가) 매우 약해졌습니다. 일단 도망칩니다.`);
+      logEntry('battle', `${myPet.name} 위기 — 도망`);
+      setTimeout(encounterRun, 800);
+    }
+  }, 700);
+}
+
+function encounterCatch() {
+  if (!state.encounter) return;
+  const e = state.encounter;
+  const sp = SPECIES[e.species];
+  e.captureAttempts++;
+  // Capture chance: lower HP = better. Base 0.25, increases as HP drops.
+  const hpRatio = e.hp / e.hpMax;
+  const baseChance = 0.5 - (hpRatio * 0.35);  // 50% at 0 HP, 15% at full HP
+  // Reduce chance after multiple attempts (target gets wary)
+  const attemptPenalty = Math.max(0.5, 1 - e.captureAttempts * 0.1);
+  const chance = Math.max(0.05, baseChance * attemptPenalty);
+  SFX.pad();
+  speak(`Capture attempt...`);
+  setTimeout(() => {
+    if (Math.random() < chance) {
+      // CAPTURED!
+      SFX.hatchOpen();
+      const isNewDex = !state.dexCaught.has(e.species);
+      state.dexCaught.add(e.species);
+      state.collectedTypes.add(sp.type);
+      state.caughtCount++;
+      // Add to party if space, else discard with message
+      if (state.party.length < 6) {
+        const newPet = {
+          species: e.species,
+          name: sp.name,
+          level: e.level,
+          hp: e.hpMax,
+          hpMax: e.hpMax,
+          energy: 80,
+          bond: 50,
+          catches: 0,
+          nickname: null,
+          caughtAt: state.exploring?.regionId,
+        };
+        state.party.push(newPet);
+      } else {
+        speak(`Party is full. ${sp.name} sent to box.`);
+      }
+      const r = getRegion(state.exploring?.regionId);
+      if (r && state.regionProgress[r.id]) state.regionProgress[r.id].caught++;
+      saveSettings();
+      logEntry('discover', `${sp.name} 포획! ${isNewDex ? '도감 첫 등록!' : ''}`);
+      speak(`Caught! ${sp.name}, level ${e.level}.${isNewDex ? ' New dex entry!' : ''}`);
+      setTimeout(() => {
+        state.encounter = null;
+        showScreen('exploring');
+      }, 1500);
+    } else {
+      // FAILED
+      SFX.beatMiss();
+      speak('Escaped! The wild creature broke free.');
+      logEntry('info', `${sp.name} 포획 실패 (${Math.round(chance*100)}%)`);
+      renderEncounter();
+    }
+  }, 600);
+}
+
+function encounterRun() {
+  if (!state.encounter) return;
+  const sp = SPECIES[state.encounter.species];
+  // 90% run success
+  if (Math.random() < 0.9) {
+    SFX.pad();
+    speak(`Got away safely from ${sp.name}.`);
+    state.encounter = null;
+    showScreen('exploring');
+  } else {
+    SFX.err();
+    speak(`Could not escape from ${sp.name}!`);
+  }
 }
 
 // ============================================================
@@ -2191,6 +3180,33 @@ function onDotpadKey(device, keyCode) {
     if (keyCode === KC.KeyFunction2) { rerollStarter(); return; }
     return;
   }
+  if (state.screen === 'region-select') {
+    if (keyCode === KC.KeyFunction1) { if (_selectedRegionId) goToRegion(); return; }
+    if (keyCode === KC.KeyFunction4) { showScreen('main'); return; }
+    if (keyCode === KC.PanningLeft || keyCode === KC.PanningRight) {
+      // Cycle selection through unlocked regions
+      const unlocked = REGIONS.filter(r => isRegionUnlocked(r));
+      if (unlocked.length === 0) return;
+      const curIdx = unlocked.findIndex(r => r.id === _selectedRegionId);
+      const dir = (keyCode === KC.PanningRight) ? 1 : -1;
+      const next = (curIdx + dir + unlocked.length) % unlocked.length;
+      selectRegionCard(unlocked[next].id);
+      return;
+    }
+    return;
+  }
+  if (state.screen === 'exploring') {
+    if (keyCode === KC.KeyFunction1) { exploreStep(); return; }
+    if (keyCode === KC.KeyFunction3) { openDexDetail(); return; }
+    if (keyCode === KC.KeyFunction4) { leaveRegion(); return; }
+    return;
+  }
+  if (state.screen === 'encounter') {
+    if (keyCode === KC.KeyFunction1) { encounterFight(); return; }
+    if (keyCode === KC.KeyFunction2) { encounterCatch(); return; }
+    if (keyCode === KC.KeyFunction3) { encounterRun(); return; }
+    return;
+  }
   // 'main' screen routing
   const padToSlot = {
     [KC.KeyFunction1]: 0, [KC.KeyFunction2]: 1, [KC.KeyFunction3]: 2, [KC.KeyFunction4]: 3,
@@ -2265,12 +3281,51 @@ document.addEventListener('keydown', (e) => {
     return;
   }
 
+  if (state.screen === 'region-select') {
+    if (k === 'Escape' || k === 'F4') { showScreen('main'); e.preventDefault(); return; }
+    if (k === 'Enter' || k === 'F1' || k === ' ') { if (_selectedRegionId) goToRegion(); e.preventDefault(); return; }
+    if (k === 'ArrowLeft' || k === 'ArrowRight' || k === 'h' || k === 'l') {
+      const unlocked = REGIONS.filter(r => isRegionUnlocked(r));
+      if (unlocked.length === 0) return;
+      const curIdx = unlocked.findIndex(r => r.id === _selectedRegionId);
+      const dir = (k === 'ArrowRight' || k === 'l') ? 1 : -1;
+      const next = (curIdx + dir + unlocked.length) % unlocked.length;
+      selectRegionCard(unlocked[next].id);
+      e.preventDefault();
+      return;
+    }
+    // Number keys 1-8 select region directly
+    if (k >= '1' && k <= '8') {
+      const idx = parseInt(k) - 1;
+      if (idx < REGIONS.length) selectRegionCard(REGIONS[idx].id);
+      e.preventDefault();
+      return;
+    }
+    return;
+  }
+
+  if (state.screen === 'exploring') {
+    if (k === 'F1' || k === ' ' || k === 'Enter') { exploreStep(); e.preventDefault(); return; }
+    if (k === 'F3' || k === '3') { openDexDetail(); e.preventDefault(); return; }
+    if (k === 'F4' || k === '4' || k === 'Escape') { leaveRegion(); e.preventDefault(); return; }
+    return;
+  }
+
+  if (state.screen === 'encounter') {
+    if (k === 'F1' || k === '1') { encounterFight(); e.preventDefault(); return; }
+    if (k === 'F2' || k === '2') { encounterCatch(); e.preventDefault(); return; }
+    if (k === 'F3' || k === '3' || k === 'Escape') { encounterRun(); e.preventDefault(); return; }
+    return;
+  }
+
   // main screen
   if (k >= '1' && k <= '6') { selectSlot(parseInt(k) - 1); e.preventDefault(); return; }
   if (k === 'F1' || k === 'p') { pushPadAndAnnounce(); e.preventDefault(); return; }
   if (k === 'F4' || k === 'r') { readStats(); e.preventDefault(); return; }
   if (k === 'ArrowLeft' || k === 'h') { selectSlot((state.activeIdx - 1 + 6) % 6); e.preventDefault(); return; }
   if (k === 'ArrowRight' || k === 'l') { selectSlot((state.activeIdx + 1) % 6); e.preventDefault(); return; }
+  if (k === 'e') { openExplore(); e.preventDefault(); return; }
+  if (k === 'd') { openDexDetail(); e.preventDefault(); return; }
 });
 
 // ============================================================
@@ -2325,6 +3380,27 @@ function init() {
   // ----- REVEAL screen buttons -----
   document.getElementById('btn-accept-starter').addEventListener('click', acceptStarter);
   document.getElementById('btn-reroll').addEventListener('click', rerollStarter);
+
+  // ----- MAIN action tiles -----
+  document.getElementById('btn-main-explore').addEventListener('click', openExplore);
+  document.getElementById('btn-main-dex').addEventListener('click', openDexDetail);
+
+  // ----- REGION SELECT buttons -----
+  document.getElementById('btn-region-back').addEventListener('click', () => showScreen('main'));
+  document.getElementById('btn-region-cancel').addEventListener('click', () => {
+    _selectedRegionId = null;
+    renderRegionSelect();
+  });
+  document.getElementById('btn-region-go').addEventListener('click', goToRegion);
+
+  // ----- EXPLORING buttons -----
+  document.getElementById('btn-explore-leave').addEventListener('click', leaveRegion);
+  document.getElementById('btn-explore-step').addEventListener('click', exploreStep);
+
+  // ----- ENCOUNTER buttons -----
+  document.getElementById('btn-enc-fight').addEventListener('click', encounterFight);
+  document.getElementById('btn-enc-catch').addEventListener('click', encounterCatch);
+  document.getElementById('btn-enc-run').addEventListener('click', encounterRun);
 
   // ----- Initial routing -----
   // hatch auto-start handled inside showScreen()

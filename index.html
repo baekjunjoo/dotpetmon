@@ -468,6 +468,389 @@
   }
   .toast.show { opacity: 1; }
   .live-region { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
+  /* ============ FULL-SCREEN SCREENS (TITLE / CREATION / EGG / HATCH / REVEAL) ============ */
+  .full-screen {
+    min-height: calc(100vh - 130px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .full-screen[hidden] { display: none; }
+
+  /* ============ TITLE SCREEN ============ */
+  .title-stage {
+    text-align: center;
+    max-width: 540px;
+    width: 100%;
+    position: relative;
+    padding: 40px 20px;
+  }
+  .title-logo {
+    font-size: clamp(56px, 12vw, 120px);
+    font-weight: 900;
+    line-height: 1;
+    margin: 0 0 16px;
+    color: var(--accent);
+    text-shadow: 0 4px 0 rgba(255,122,69,0.3), 0 8px 28px rgba(255,122,69,0.4);
+    letter-spacing: 0.02em;
+    transform: rotate(-2deg);
+    display: inline-block;
+  }
+  .title-logo small {
+    display: block;
+    font-size: 16px; font-weight: 800;
+    color: var(--ink-soft);
+    letter-spacing: 0.32em;
+    margin-top: 8px;
+    transform: rotate(2deg);
+  }
+  .title-tagline {
+    color: var(--ink-soft);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    margin: 0 0 28px;
+  }
+  .title-pad-preview {
+    display: block;
+    margin: 0 auto 32px;
+    max-width: 360px;
+    width: 100%;
+    image-rendering: pixelated;
+    border-radius: var(--radius);
+    background: var(--pad-bg);
+    padding: 6px;
+    border: 2px solid var(--cyan);
+    box-shadow: var(--glow-cyan);
+  }
+  .title-menu {
+    display: flex; flex-direction: column; gap: 12px;
+    max-width: 320px; margin: 0 auto;
+  }
+  .title-footer {
+    margin-top: 32px;
+    font-size: 11px; color: var(--ink-dim);
+    letter-spacing: 0.16em;
+  }
+  .title-sparkles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .t-sparkle {
+    position: absolute;
+    width: 18px; height: 18px;
+    color: var(--purple);
+    filter: drop-shadow(0 0 8px var(--purple-glow));
+  }
+  .t-sparkle.s1 { top: 12%; left: 8%; }
+  .t-sparkle.s2 { top: 8%; right: 14%; transform: rotate(20deg); }
+  .t-sparkle.s3 { bottom: 18%; left: 12%; transform: rotate(-15deg); }
+  .t-sparkle.s4 { bottom: 12%; right: 8%; transform: rotate(30deg); }
+  .t-sparkle svg { width: 100%; height: 100%; fill: currentColor; }
+
+  /* Menu buttons (shared by title/creation/reveal) */
+  .menu-btn {
+    background: var(--bg-card);
+    border: 2px solid var(--line);
+    color: var(--ink);
+    padding: 14px 28px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    border-radius: var(--radius);
+    letter-spacing: 0.08em;
+    transition: all 0.15s;
+    min-height: 52px;
+  }
+  .menu-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .menu-btn:disabled {
+    opacity: 0.4; cursor: not-allowed;
+    background: var(--bg-deep);
+  }
+  .menu-btn.primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    box-shadow: 0 4px 14px rgba(255,122,69,0.35);
+  }
+  .menu-btn.primary:hover {
+    background: #ffac6e;
+    border-color: #ffac6e;
+    color: white;
+  }
+  .menu-btn.ghost {
+    background: transparent;
+    border-color: var(--line);
+    color: var(--ink-soft);
+  }
+  .menu-btn.large {
+    padding: 16px 36px;
+    font-size: 18px;
+  }
+  .menu-btn.tap {
+    padding: 22px 48px;
+    font-size: 24px;
+    letter-spacing: 0.18em;
+    box-shadow: 0 6px 18px rgba(255,122,69,0.5);
+  }
+  .menu-btn.tap small {
+    display: block;
+    font-size: 11px;
+    opacity: 0.85;
+    letter-spacing: 0.18em;
+    margin-top: 2px;
+  }
+  .menu-btn.tap:active {
+    transform: translateY(2px) scale(0.97);
+    box-shadow: 0 2px 8px rgba(255,122,69,0.4);
+  }
+
+  /* ============ CREATION / EGG / HATCH SHARED ============ */
+  .creation-stage, .egg-stage, .hatch-stage {
+    text-align: center;
+    max-width: 540px;
+    width: 100%;
+  }
+  .creation-step {
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.18em;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+  .creation-stage h2, .egg-stage h2, .hatch-stage h2 {
+    font-size: clamp(22px, 3.5vw, 32px);
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+  .creation-sub, .hatch-sub {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin: 0 0 24px;
+  }
+  .creation-hint {
+    margin-top: 14px;
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.08em;
+  }
+  .creation-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .name-input-wrap { margin: 28px 0 20px; }
+  #name-input, #nick-input {
+    width: 100%;
+    max-width: 320px;
+    padding: 16px 20px;
+    background: var(--bg-card);
+    border: 2px solid var(--accent);
+    color: var(--ink);
+    font-size: 18px;
+    font-family: inherit;
+    border-radius: var(--radius);
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(255,122,69,0.2);
+    outline: none;
+  }
+  #name-input:focus, #nick-input:focus {
+    border-color: #ffac6e;
+    box-shadow: 0 0 0 4px rgba(255,122,69,0.2);
+  }
+  .name-hint {
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.06em;
+  }
+
+  /* ============ EGG SCREEN ============ */
+  .egg-narration {
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.7;
+    margin: 0 0 28px;
+    padding: 20px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--line);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius);
+    text-align: left;
+    min-height: 100px;
+  }
+  .egg-display {
+    background: var(--pad-bg);
+    padding: 16px;
+    border-radius: var(--radius);
+    border: 2px solid var(--cyan);
+    box-shadow: var(--glow-cyan);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+    max-width: 360px;
+  }
+  #egg-canvas {
+    width: 100%; height: auto; image-rendering: pixelated;
+  }
+
+  /* ============ HATCH MINIGAME ============ */
+  .hatch-canvas-wrap {
+    background: var(--pad-bg);
+    padding: 16px;
+    border-radius: var(--radius);
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 24px rgba(255,122,69,0.3);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 18px;
+    max-width: 380px;
+  }
+  #hatch-canvas {
+    width: 100%; height: auto; image-rendering: pixelated;
+  }
+  .beat-row {
+    display: flex; gap: 18px;
+    justify-content: center;
+    margin: 12px 0;
+  }
+  .beat-dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--bg-deep);
+    border: 2px solid var(--line);
+    transition: all 0.15s;
+  }
+  .beat-dot.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 14px var(--accent);
+    transform: scale(1.4);
+  }
+  .beat-dot.hit {
+    background: var(--ok);
+    border-color: var(--ok);
+    box-shadow: 0 0 12px var(--ok);
+  }
+  .beat-dot.miss {
+    background: var(--danger);
+    border-color: var(--danger);
+    opacity: 0.6;
+  }
+  .hatch-progress {
+    font-size: 28px;
+    letter-spacing: 0.4em;
+    color: var(--accent);
+    margin: 10px 0 16px;
+    font-family: 'JetBrains Mono', monospace;
+    text-shadow: 0 0 8px rgba(255,122,69,0.5);
+  }
+  .hatch-stats {
+    display: flex; gap: 24px;
+    justify-content: center;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .hatch-stats b { color: var(--accent); }
+
+  /* ============ STARTER REVEAL ============ */
+  .reveal-stage {
+    text-align: center;
+    max-width: 540px;
+    width: 100%;
+    position: relative;
+    padding: 20px;
+  }
+  .reveal-burst {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .r-sparkle {
+    position: absolute;
+    width: 24px; height: 24px;
+    color: var(--yellow);
+    filter: drop-shadow(0 0 12px var(--yellow));
+    animation: r-twinkle 2s ease-in-out infinite;
+  }
+  .r-sparkle.s1 { top: 8%; left: 16%; }
+  .r-sparkle.s2 { top: 28%; right: 12%; animation-delay: 0.6s; }
+  .r-sparkle.s3 { bottom: 30%; left: 8%; animation-delay: 1.2s; }
+  .r-sparkle svg { width: 100%; height: 100%; fill: currentColor; }
+  @keyframes r-twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50%      { opacity: 1.0; transform: scale(1.2) rotate(15deg); }
+  }
+  .reveal-eyebrow {
+    color: var(--ink-soft);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    margin: 0 0 6px;
+    text-transform: uppercase;
+  }
+  .reveal-name {
+    font-size: clamp(36px, 7vw, 64px);
+    margin: 0 0 8px;
+    color: var(--accent);
+    font-weight: 900;
+    text-shadow: 0 4px 0 rgba(255,122,69,0.25);
+    letter-spacing: 0.02em;
+  }
+  .reveal-type {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .reveal-canvas-wrap {
+    background: var(--pad-bg);
+    padding: 16px;
+    border-radius: var(--radius);
+    border: 3px solid var(--accent);
+    box-shadow: 0 0 30px rgba(255,122,69,0.5);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    max-width: 420px;
+  }
+  #reveal-canvas { width: 100%; height: auto; image-rendering: pixelated; }
+  .reveal-tactile {
+    background: var(--bg-card);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    color: var(--ink-soft);
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 0 0 18px;
+  }
+  .reveal-nickname-row {
+    display: flex; align-items: center; gap: 12px;
+    justify-content: center;
+    margin: 0 0 20px;
+    flex-wrap: wrap;
+  }
+  .reveal-nickname-row label {
+    font-size: 12px;
+    color: var(--ink-soft);
+    letter-spacing: 0.08em;
+  }
+  .reveal-nickname-row #nick-input {
+    max-width: 200px;
+    padding: 10px 14px;
+    font-size: 14px;
+  }
 </style>
 </head>
 <body>
@@ -494,7 +877,124 @@
 </header>
 
 <main id="main-content">
-  <div class="stage">
+
+  <!-- ============ SCREEN: TITLE ============ -->
+  <section id="screen-title" class="full-screen" hidden>
+    <div class="title-stage">
+      <div class="title-sparkles">
+        <div class="t-sparkle s1"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
+        <div class="t-sparkle s2"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
+        <div class="t-sparkle s3"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
+        <div class="t-sparkle s4"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
+      </div>
+      <h1 class="title-logo">닷펫몬<small>DOTPETMON</small></h1>
+      <p class="title-tagline">시각장애 친화 턴제 몬스터 수집 RPG</p>
+      <canvas class="title-pad-preview" id="title-pad" aria-hidden="true"></canvas>
+      <div class="title-menu">
+        <button class="menu-btn primary" id="btn-new-game" type="button">새 게임</button>
+        <button class="menu-btn" id="btn-continue" type="button" disabled>이어하기</button>
+        <button class="menu-btn" id="btn-credits" type="button">크레딧</button>
+      </div>
+      <div class="title-footer">© 2026 Dot Incorporation · v0.4 BETA</div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN: TRAINER CREATION ============ -->
+  <section id="screen-creation" class="full-screen" hidden>
+    <div class="creation-stage">
+      <div class="creation-step">STEP 1 / 3</div>
+      <h2>당신의 이름을 알려주세요</h2>
+      <p class="creation-sub">트레이너 이름을 입력하세요. 닷펫몬들이 부를 이름입니다.</p>
+      <div class="name-input-wrap">
+        <input type="text" id="name-input" maxlength="12" placeholder="이름 입력" autocomplete="off" />
+        <div class="name-hint">최대 12자 · 한글 / 영문 / 숫자</div>
+      </div>
+      <div class="creation-actions">
+        <button class="menu-btn ghost" id="btn-name-back" type="button">← 뒤로</button>
+        <button class="menu-btn primary" id="btn-name-submit" type="button">다음 →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN: EGG RECEIPT ============ -->
+  <section id="screen-egg" class="full-screen" hidden>
+    <div class="egg-stage">
+      <div class="creation-step">STEP 2 / 3</div>
+      <p class="egg-narration" id="egg-narration">...</p>
+      <div class="egg-display">
+        <canvas id="egg-canvas" aria-label="Egg"></canvas>
+      </div>
+      <div class="creation-actions">
+        <button class="menu-btn primary large" id="btn-egg-continue" type="button">계속 ▸</button>
+      </div>
+      <div class="creation-hint">Enter 또는 F1로 진행</div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN: EGG HATCH MINIGAME ============ -->
+  <section id="screen-hatch" class="full-screen" hidden>
+    <div class="hatch-stage">
+      <div class="creation-step">STEP 3 / 3 · 부화 미니게임</div>
+      <h2 id="hatch-title">리듬에 맞춰 F1을 누르세요</h2>
+      <p class="hatch-sub" id="hatch-sub">박자에 맞춰 알을 깨워주세요</p>
+
+      <div class="hatch-canvas-wrap">
+        <canvas id="hatch-canvas" aria-label="Hatching egg"></canvas>
+      </div>
+
+      <div class="beat-row" id="beat-row" aria-label="Rhythm beats">
+        <div class="beat-dot" data-i="0"></div>
+        <div class="beat-dot" data-i="1"></div>
+        <div class="beat-dot" data-i="2"></div>
+        <div class="beat-dot" data-i="3"></div>
+      </div>
+
+      <div class="hatch-progress" id="hatch-progress">○ ○ ○ ○</div>
+
+      <button class="menu-btn primary tap" id="btn-hatch-tap" type="button" aria-label="Tap to hatch (F1)">
+        TAP <small>F1 · Space</small>
+      </button>
+
+      <div class="hatch-stats">
+        <span>성공: <b id="hatch-hits">0</b> / 4</span>
+        <span>놓침: <b id="hatch-miss">0</b></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN: STARTER REVEAL ============ -->
+  <section id="screen-reveal" class="full-screen" hidden>
+    <div class="reveal-stage">
+      <div class="reveal-burst">
+        <div class="r-sparkle s1"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
+        <div class="r-sparkle s2"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
+        <div class="r-sparkle s3"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
+      </div>
+      <p class="reveal-eyebrow">알에서 부화한 첫 닷펫몬</p>
+      <h1 id="reveal-name" class="reveal-name">—</h1>
+      <div class="reveal-type" id="reveal-type">—</div>
+
+      <div class="reveal-canvas-wrap">
+        <canvas id="reveal-canvas" aria-label="Your starter"></canvas>
+      </div>
+
+      <p class="reveal-tactile" id="reveal-tactile">—</p>
+
+      <div class="reveal-nickname-row">
+        <label for="nick-input">애칭 (선택)</label>
+        <input type="text" id="nick-input" maxlength="10" placeholder="기본 이름 사용" />
+      </div>
+
+      <div class="creation-actions">
+        <button class="menu-btn ghost" id="btn-reroll" type="button">↻ 다시 부화</button>
+        <button class="menu-btn primary large" id="btn-accept-starter" type="button">이 친구와 시작하기 ▸</button>
+      </div>
+      <div class="creation-hint">다시 부화는 오프닝에 한 번만 가능합니다</div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN: MAIN GAME (existing UI) ============ -->
+  <div id="screen-main" class="stage" hidden>
     <!-- LEFT: Party slots -->
     <aside class="left-col" role="region" aria-label="Party">
       <div class="party-slot" data-slot="0">
@@ -641,23 +1141,45 @@ const DEFAULT_PARTY = [
   { species: 'luminoa', name: 'Lumi',   level: 14, hp: 48, hpMax: 48, energy: 88, bond: 92, catches: 9 },
 ];
 
+// Starter pool — 4 species randomly assigned at game start
+const STARTER_POOL = ['pibbi', 'chikapi', 'bubloo', 'mosshu'];
+
 const state = {
+  // Screen routing
+  screen: 'title',  // 'title' | 'creation' | 'egg' | 'hatch' | 'reveal' | 'main'
+
+  // Trainer profile
+  trainer: null,    // { name, id, createdAt }
+  hasStarter: false,
+
+  // Game data
   party: [],
   activeIdx: 0,
-  collectedTypes: new Set(['Light', 'Nature', 'Electric', 'Water', 'Fire', 'Spirit']),
-  energy: { current: 14, max: 20 },
+  collectedTypes: new Set(),
+  energy: { current: 20, max: 20 },
   log: [],
+
+  // Settings
   ttsOn: true,
   sfxOn: true,
+
+  // Dot Pad
   dotpadConnected: false,
   dotpadDevice: null,
   dotpadDevices: [],
   dotpadName: '',
+
+  // Transient flow state
+  hatch: null,      // { hits: 0, target: 4, lastBeat: 0, beatInterval: 900, missed: 0 }
+  reveal: null,     // { species, name }
+  hatchTimer: null,
 };
 
 function saveSettings() {
   try {
     localStorage.setItem(SAVE_KEY, JSON.stringify({
+      trainer: state.trainer,
+      hasStarter: state.hasStarter,
       party: state.party, activeIdx: state.activeIdx,
       collectedTypes: [...state.collectedTypes],
       energy: state.energy,
@@ -669,19 +1191,34 @@ function loadSettings() {
   try {
     const raw = localStorage.getItem(SAVE_KEY);
     if (!raw) {
-      state.party = DEFAULT_PARTY.map(p => ({...p}));
+      state.trainer = null;
+      state.hasStarter = false;
+      state.party = [];
       return;
     }
     const s = JSON.parse(raw);
-    state.party = (s.party && s.party.length) ? s.party : DEFAULT_PARTY.map(p => ({...p}));
+    state.trainer = s.trainer || null;
+    state.hasStarter = !!s.hasStarter;
+    state.party = (s.party && s.party.length) ? s.party : [];
     state.activeIdx = s.activeIdx ?? 0;
-    state.collectedTypes = new Set(s.collectedTypes || ['Light', 'Nature', 'Electric', 'Water', 'Fire', 'Spirit']);
-    state.energy = s.energy || { current: 14, max: 20 };
+    state.collectedTypes = new Set(s.collectedTypes || []);
+    state.energy = s.energy || { current: 20, max: 20 };
     if (typeof s.ttsOn === 'boolean') state.ttsOn = s.ttsOn;
     if (typeof s.sfxOn === 'boolean') state.sfxOn = s.sfxOn;
   } catch(e) {
-    state.party = DEFAULT_PARTY.map(p => ({...p}));
+    state.trainer = null;
+    state.hasStarter = false;
+    state.party = [];
   }
+}
+function hasSavedGame() {
+  return state.trainer && state.hasStarter;
+}
+function generateTrainerId() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let id = '';
+  for (let i = 0; i < 6; i++) id += chars[Math.floor(Math.random() * chars.length)];
+  return id;
 }
 
 // ============================================================
@@ -757,6 +1294,13 @@ const SFX = {
   selectPet: () => _tone(880, 0.05, 'sine', 0.10),
   pad: () => { [523, 880].forEach((f,i) => setTimeout(() => _tone(f, 0.06, 'sine', 0.12), i * 80)); },
   err: () => { _tone(330, 0.06, 'square', 0.14); setTimeout(() => _tone(220, 0.10, 'square', 0.14), 50); },
+  beatPulse: () => _tone(440, 0.05, 'sine', 0.10),
+  beatHit:   () => { [659, 880, 1100].forEach((f,i) => setTimeout(() => _tone(f, 0.05, 'sine', 0.14), i * 30)); },
+  beatMiss:  () => { _tone(220, 0.10, 'sawtooth', 0.12); },
+  hatchOpen: () => {
+    [262, 330, 392, 523, 659, 784, 1047, 1319].forEach((f, i) =>
+      setTimeout(() => _tone(f, 0.12, 'sine', 0.18), i * 100));
+  },
 };
 
 // ============================================================
@@ -907,15 +1451,454 @@ function renderLives() {
   el.innerHTML = html;
 }
 
-function renderAll() {
+// ============================================================
+// SCREEN ROUTER
+// ============================================================
+const SCREENS = ['title', 'creation', 'egg', 'hatch', 'reveal', 'main'];
+
+function showScreen(name) {
+  state.screen = name;
+  for (const s of SCREENS) {
+    const el = document.getElementById('screen-' + s);
+    if (el) el.hidden = (s !== name);
+  }
+  // Per-screen render + side effects
+  switch (name) {
+    case 'title':
+      renderTitle();
+      break;
+    case 'creation':
+      renderCreation();
+      break;
+    case 'egg':
+      renderEgg();
+      break;
+    case 'hatch':
+      renderHatch();
+      setTimeout(startHatch, 400);
+      break;
+    case 'reveal':
+      renderReveal();
+      break;
+    case 'main':
+      renderMain();
+      pushDotpad();
+      break;
+  }
+  updateDotpadStatus();
+}
+
+function renderMain() {
   renderPartySlots();
   renderViewport();
   renderStats();
   renderBadges();
   renderLives();
   renderLog();
-  updateDotpadStatus();
-  pushDotpad();
+}
+
+// Backwards-compat: renderAll() now means re-render current screen's UI.
+function renderAll() {
+  if (state.screen === 'main') renderMain();
+  else if (state.screen === 'title') renderTitle();
+  else if (state.screen === 'reveal') renderReveal();
+  else if (state.screen === 'hatch') renderHatch();
+}
+
+// ============================================================
+// TITLE SCREEN
+// ============================================================
+function renderTitle() {
+  // Continue button only if saved game
+  const btnContinue = document.getElementById('btn-continue');
+  if (btnContinue) {
+    btnContinue.disabled = !hasSavedGame();
+    if (hasSavedGame()) {
+      btnContinue.textContent = `이어하기 · ${state.trainer.name}`;
+    } else {
+      btnContinue.textContent = '이어하기';
+    }
+  }
+  // Render a little teaser sprite on title pad preview — random one of 10
+  const canvas = document.getElementById('title-pad');
+  if (canvas) {
+    const keys = Object.keys(SPECIES);
+    const key = keys[Math.floor(Math.random() * keys.length)];
+    const cells = new Uint8Array(DP_W * DP_H);
+    SPECIES[key].draw(cells);
+    renderPadCanvas(canvas, cells, 5, '#ff9b6a');
+  }
+}
+
+// ============================================================
+// CREATION SCREEN
+// ============================================================
+function renderCreation() {
+  const input = document.getElementById('name-input');
+  if (input) {
+    input.value = state.trainer?.name || '';
+    setTimeout(() => input.focus(), 80);
+  }
+}
+
+function submitTrainerName() {
+  const input = document.getElementById('name-input');
+  const name = (input?.value || '').trim();
+  if (!name) {
+    SFX.err();
+    speak('Please enter your name.');
+    input?.focus();
+    return;
+  }
+  if (!state.trainer) {
+    state.trainer = { name, id: generateTrainerId(), createdAt: Date.now() };
+  } else {
+    state.trainer.name = name;
+  }
+  SFX.selectPet();
+  speak(`Welcome, ${name}. Let's begin your DotPetMon journey.`);
+  saveSettings();
+  showScreen('egg');
+}
+
+// ============================================================
+// EGG RECEIPT SCREEN
+// ============================================================
+function renderEgg() {
+  // Narration
+  const narr = document.getElementById('egg-narration');
+  if (narr) {
+    const name = state.trainer?.name || '트레이너';
+    narr.textContent =
+      `"${name}, 이 알을 받아주세요. 마을 어른들이 오래전부터 ` +
+      `소중히 지켜온 것이에요. 안에 어떤 닷펫몬이 있는지는 아무도 모릅니다. ` +
+      `당신과 함께 깨어날 첫 친구가 되어줄 거예요."`;
+  }
+  // Egg illustration on canvas
+  const canvas = document.getElementById('egg-canvas');
+  if (canvas) {
+    const cells = new Uint8Array(DP_W * DP_H);
+    drawEggSprite(cells, 0);  // stage 0 = intact
+    renderPadCanvas(canvas, cells, 8, '#ffd84d');
+  }
+  setTimeout(() => speak('A village elder hands you a mysterious egg. Press F1 or Enter to continue.'), 300);
+}
+
+function eggContinue() {
+  SFX.pad();
+  showScreen('hatch');
+}
+
+// Egg sprite drawn directly to cells (stage 0=intact, 1=cracking, 2=open)
+function drawEggSprite(cells, stage) {
+  const cx = 30, cy = 22;
+  // Oval egg
+  for (let y = -16; y <= 16; y++) {
+    for (let x = -12; x <= 12; x++) {
+      const d = (x*x)/(12*12) + (y*y)/(16*16);
+      if (d <= 1.05) setPin(cells, cx + x, cy + y);
+    }
+  }
+  // Speckles (always visible)
+  for (const [dx, dy] of [[-6,-10],[4,-8],[-3,3],[5,5],[-7,1],[6,-2],[2,10]]) {
+    setPin(cells, cx + dx, cy + dy, false);
+    setPin(cells, cx + dx + 1, cy + dy, false);
+  }
+  if (stage >= 1) {
+    // Cracks (zigzag lines on top half)
+    for (const [x0,y0,x1,y1] of [[-7,-10,-5,-6],[-5,-6,-7,-2],[-7,-2,-3,0],[2,-12,4,-8],[4,-8,2,-4],[2,-4,5,0]]) {
+      drawLine(cells, cx+x0, cy+y0, cx+x1, cy+y1, false);
+    }
+  }
+  if (stage >= 2) {
+    // Big crack opening — clear chunk
+    for (let y = -16; y <= 0; y++) {
+      for (let x = -8; x <= 8; x++) {
+        const cw = 8 - Math.abs(y) / 2;
+        if (Math.abs(x) <= cw) setPin(cells, cx + x, cy + y, false);
+      }
+    }
+  }
+}
+function drawLine(c, x0, y0, x1, y1, on=true) {
+  const dx = Math.abs(x1-x0), dy = Math.abs(y1-y0);
+  const sx = x0<x1?1:-1, sy = y0<y1?1:-1;
+  let err = dx-dy, x = x0, y = y0;
+  while (true) {
+    setPin(c, x, y, on);
+    if (x===x1 && y===y1) break;
+    const e2 = 2*err;
+    if (e2 > -dy) { err -= dy; x += sx; }
+    if (e2 < dx) { err += dx; y += sy; }
+  }
+}
+
+// ============================================================
+// HATCH MINIGAME
+// ============================================================
+function renderHatch() {
+  // Beat dots
+  const beatRow = document.getElementById('beat-row');
+  if (beatRow && state.hatch) {
+    const dots = beatRow.querySelectorAll('.beat-dot');
+    dots.forEach((d, i) => {
+      d.classList.toggle('hit', i < state.hatch.hits);
+    });
+  }
+  // Progress text
+  const progressEl = document.getElementById('hatch-progress');
+  if (progressEl && state.hatch) {
+    const filled = '●'.repeat(state.hatch.hits);
+    const empty = '○'.repeat(state.hatch.target - state.hatch.hits);
+    progressEl.textContent = filled + ' ' + empty;
+  }
+  // Stats
+  if (state.hatch) {
+    const hitsEl = document.getElementById('hatch-hits');
+    const missEl = document.getElementById('hatch-miss');
+    if (hitsEl) hitsEl.textContent = state.hatch.hits;
+    if (missEl) missEl.textContent = state.hatch.missed;
+  }
+  // Canvas — egg with stage based on hits
+  const canvas = document.getElementById('hatch-canvas');
+  if (canvas && state.hatch) {
+    const cells = new Uint8Array(DP_W * DP_H);
+    const stage = state.hatch.hits >= 4 ? 2 : (state.hatch.hits >= 2 ? 1 : 0);
+    drawEggSprite(cells, stage);
+    renderPadCanvas(canvas, cells, 8, '#ff9b6a');
+  }
+  pushHatchToDotpad();
+}
+
+function startHatch() {
+  state.hatch = {
+    hits: 0,
+    target: 4,
+    missed: 0,
+    lastBeat: 0,
+    beatInterval: 900,  // ms between beats
+    activeBeatIdx: -1,
+  };
+  if (state.hatchTimer) clearInterval(state.hatchTimer);
+  speak('Listen to the rhythm. Press F1 or tap when each beat appears.');
+  // Start beat loop
+  const beatRow = document.getElementById('beat-row');
+  let beatIdx = 0;
+  const advanceBeat = () => {
+    if (!state.hatch || state.screen !== 'hatch') {
+      if (state.hatchTimer) { clearInterval(state.hatchTimer); state.hatchTimer = null; }
+      return;
+    }
+    // Mark previous as missed if active
+    if (state.hatch.activeBeatIdx >= 0) {
+      state.hatch.missed++;
+      const prev = beatRow?.querySelector(`.beat-dot[data-i="${state.hatch.activeBeatIdx}"]`);
+      if (prev) {
+        prev.classList.add('miss');
+        setTimeout(() => prev.classList.remove('miss', 'active'), 300);
+      }
+      SFX.beatMiss();
+    }
+    // Activate next
+    beatIdx = (beatIdx + 1) % 4;
+    state.hatch.activeBeatIdx = beatIdx;
+    state.hatch.lastBeat = Date.now();
+    const cur = beatRow?.querySelector(`.beat-dot[data-i="${beatIdx}"]`);
+    if (cur) {
+      cur.classList.remove('miss');
+      cur.classList.add('active');
+    }
+    SFX.beatPulse();
+  };
+  state.hatchTimer = setInterval(advanceBeat, state.hatch.beatInterval);
+  advanceBeat();  // first beat immediately
+  renderHatch();
+}
+
+function tapHatch() {
+  if (!state.hatch || state.screen !== 'hatch') return;
+  if (state.hatch.hits >= state.hatch.target) return;
+  const now = Date.now();
+  const window = 350;  // ms window after beat
+  const dt = now - state.hatch.lastBeat;
+  if (state.hatch.activeBeatIdx < 0 || dt > window) {
+    // Miss
+    state.hatch.missed++;
+    SFX.beatMiss();
+    speak('Miss.');
+    renderHatch();
+    return;
+  }
+  // Hit!
+  state.hatch.hits++;
+  const beatRow = document.getElementById('beat-row');
+  const dot = beatRow?.querySelector(`.beat-dot[data-i="${state.hatch.activeBeatIdx}"]`);
+  if (dot) {
+    dot.classList.remove('active');
+    dot.classList.add('hit');
+  }
+  state.hatch.activeBeatIdx = -1;
+  SFX.beatHit();
+  // Speak progress
+  speak(`Hit! ${state.hatch.hits} of ${state.hatch.target}.`);
+  renderHatch();
+  if (state.hatch.hits >= state.hatch.target) {
+    completeHatch();
+  }
+}
+
+function completeHatch() {
+  if (state.hatchTimer) { clearInterval(state.hatchTimer); state.hatchTimer = null; }
+  SFX.hatchOpen();
+  speak('The egg hatches!');
+  setTimeout(() => {
+    rollStarter();
+    showScreen('reveal');
+  }, 1200);
+}
+
+function pushHatchToDotpad() {
+  if (!state.dotpadConnected || !window.DotPad || !state.hatch) return;
+  try {
+    const cells = new Uint8Array(DP_W * DP_H);
+    const stage = state.hatch.hits >= 4 ? 2 : (state.hatch.hits >= 2 ? 1 : 0);
+    drawEggSprite(cells, stage);
+    window.DotPad.sdk.displayGraphicData(bytesToHex(cells));
+    try { window.DotPad.sdk.displayTextData(`EGG ${state.hatch.hits}/${state.hatch.target}`); } catch(e){}
+  } catch(e){}
+}
+
+// ============================================================
+// STARTER REVEAL
+// ============================================================
+function rollStarter() {
+  const species = STARTER_POOL[Math.floor(Math.random() * STARTER_POOL.length)];
+  const spec = SPECIES[species];
+  state.reveal = {
+    species,
+    defaultName: spec.name,
+  };
+}
+
+function renderReveal() {
+  if (!state.reveal) rollStarter();
+  const sp = SPECIES[state.reveal.species];
+  if (!sp) return;
+  const accent = getComputedStyle(document.documentElement).getPropertyValue(TYPE_COLOR[sp.type]).trim() || '#ff9b6a';
+
+  document.getElementById('reveal-name').textContent = sp.name;
+  document.getElementById('reveal-name').style.color = accent;
+  document.getElementById('reveal-name').style.textShadow = `0 4px 0 ${accent}40`;
+
+  const typeEl = document.getElementById('reveal-type');
+  typeEl.textContent = (TYPE_GLYPH[sp.type] || '') + ' ' + sp.type;
+  typeEl.style.background = accent;
+  typeEl.style.color = '#0a0e1a';
+
+  const canvas = document.getElementById('reveal-canvas');
+  const cells = new Uint8Array(DP_W * DP_H);
+  sp.draw(cells);
+  renderPadCanvas(canvas, cells, 10, accent);
+
+  document.getElementById('reveal-tactile').innerHTML =
+    `<b style="color: ${accent};">촉각</b> ${sp.tactile} · <b style="color: ${accent};">표면</b> ${sp.surface} · <b style="color: ${accent};">움직임</b> ${sp.motion}`;
+
+  document.getElementById('nick-input').value = '';
+  document.getElementById('nick-input').placeholder = sp.name;
+
+  if (SPECIES_CRY[state.reveal.species]) {
+    setTimeout(() => SPECIES_CRY[state.reveal.species](), 300);
+  }
+  setTimeout(() => {
+    speak(`Your first DotPetMon is ${sp.name}! A ${sp.type} type. ${sp.tactile}.`);
+  }, 600);
+
+  // Push to dot pad
+  if (state.dotpadConnected && window.DotPad) {
+    try {
+      window.DotPad.sdk.displayGraphicData(bytesToHex(cells));
+      try { window.DotPad.sdk.displayTextData(`${sp.name} L5`); } catch(e){}
+    } catch(e){}
+  }
+}
+
+function rerollStarter() {
+  if (!confirm('정말 다시 부화하시겠어요? 다른 스타터가 나옵니다. (오프닝에 한 번만 가능)')) return;
+  SFX.pad();
+  rollStarter();
+  renderReveal();
+}
+
+function acceptStarter() {
+  if (!state.reveal) return;
+  const sp = SPECIES[state.reveal.species];
+  const nick = (document.getElementById('nick-input')?.value || '').trim();
+  const name = nick || sp.name;
+  // Add as first party member
+  const starter = {
+    species: state.reveal.species,
+    name: name,
+    level: 5,
+    hp: 22, hpMax: 22,
+    energy: 100,
+    bond: 60,
+    catches: 0,
+    nickname: nick || null,
+  };
+  state.party = [starter];
+  state.activeIdx = 0;
+  state.collectedTypes = new Set([sp.type]);
+  state.hasStarter = true;
+  state.reveal = null;
+  saveSettings();
+  // Initial log entries
+  state.log = [];
+  logEntry('discover', `${name}이(가) 부화했습니다! ${sp.type} 타입`);
+  logEntry('info', `트레이너 ${state.trainer.name} (ID: ${state.trainer.id})`);
+  logEntry('care', `Starter Plains에서 모험을 시작하세요`);
+  // Celebratory fanfare
+  [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => _tone(f, 0.16, 'sine', 0.20), i * 120));
+  speak(`${name} joins your party. Welcome to DotPetMon!`);
+  showScreen('main');
+}
+
+// ============================================================
+// TITLE MENU ACTIONS
+// ============================================================
+function newGame() {
+  // Reset all game data
+  state.trainer = null;
+  state.hasStarter = false;
+  state.party = [];
+  state.activeIdx = 0;
+  state.collectedTypes = new Set();
+  state.energy = { current: 20, max: 20 };
+  state.log = [];
+  state.hatch = null;
+  state.reveal = null;
+  saveSettings();
+  SFX.selectPet();
+  showScreen('creation');
+}
+
+function continueGame() {
+  if (!hasSavedGame()) {
+    SFX.err();
+    return;
+  }
+  SFX.pad();
+  speak(`Welcome back, ${state.trainer.name}.`);
+  showScreen('main');
+}
+
+function showCredits() {
+  alert(
+    '닷펫몬 v0.4 BETA\n' +
+    'DotPetMon — 시각장애 친화 턴제 몬스터 수집 RPG\n\n' +
+    '제작: Dot Inc + Claude\n' +
+    '© 2026 Dot Incorporation\n\n' +
+    '특별 감사: 모든 닷패드 사용자'
+  );
 }
 
 // ============================================================
@@ -1036,6 +2019,30 @@ function onDotpadMessage(device, code) {
 function onDotpadKey(device, keyCode) {
   if (!window.DotPad) return;
   const KC = window.DotPad.KeyCodes;
+  // Per-screen routing
+  if (state.screen === 'title') {
+    if (keyCode === KC.KeyFunction1) { newGame(); return; }
+    if (keyCode === KC.KeyFunction2) { if (hasSavedGame()) continueGame(); else SFX.err(); return; }
+    return;
+  }
+  if (state.screen === 'creation') {
+    if (keyCode === KC.KeyFunction1) { submitTrainerName(); return; }
+    return;
+  }
+  if (state.screen === 'egg') {
+    if (keyCode === KC.KeyFunction1) { eggContinue(); return; }
+    return;
+  }
+  if (state.screen === 'hatch') {
+    if (keyCode === KC.KeyFunction1) { tapHatch(); return; }
+    return;
+  }
+  if (state.screen === 'reveal') {
+    if (keyCode === KC.KeyFunction1) { acceptStarter(); return; }
+    if (keyCode === KC.KeyFunction2) { rerollStarter(); return; }
+    return;
+  }
+  // 'main' screen routing
   const padToSlot = {
     [KC.KeyFunction1]: 0, [KC.KeyFunction2]: 1, [KC.KeyFunction3]: 2, [KC.KeyFunction4]: 3,
   };
@@ -1070,11 +2077,46 @@ function showToast(msg) {
 }
 
 // ============================================================
-// KEYBOARD
+// KEYBOARD (per-screen routing)
 // ============================================================
 document.addEventListener('keydown', (e) => {
-  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  // Allow name/nickname input typing
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+    if (e.key === 'Enter' && state.screen === 'creation') { submitTrainerName(); e.preventDefault(); }
+    if (e.key === 'Enter' && state.screen === 'reveal') { acceptStarter(); e.preventDefault(); }
+    return;
+  }
   const k = e.key;
+
+  if (state.screen === 'title') {
+    if (k === 'Enter' || k === '1' || k === 'F1') { newGame(); e.preventDefault(); return; }
+    if (k === '2' || k === 'F2') { if (hasSavedGame()) continueGame(); else SFX.err(); e.preventDefault(); return; }
+    if (k === '3' || k === 'F3') { showCredits(); e.preventDefault(); return; }
+    return;
+  }
+
+  if (state.screen === 'creation') {
+    if (k === 'Escape') { showScreen('title'); e.preventDefault(); return; }
+    return;
+  }
+
+  if (state.screen === 'egg') {
+    if (k === 'Enter' || k === ' ' || k === 'F1') { eggContinue(); e.preventDefault(); return; }
+    return;
+  }
+
+  if (state.screen === 'hatch') {
+    if (k === 'F1' || k === ' ' || k === 'Enter') { tapHatch(); e.preventDefault(); return; }
+    return;
+  }
+
+  if (state.screen === 'reveal') {
+    if (k === 'F1' || k === 'Enter') { acceptStarter(); e.preventDefault(); return; }
+    if (k === 'F2' || k === 'r') { rerollStarter(); e.preventDefault(); return; }
+    return;
+  }
+
+  // main screen
   if (k >= '1' && k <= '6') { selectSlot(parseInt(k) - 1); e.preventDefault(); return; }
   if (k === 'F1' || k === 'p') { pushPadAndAnnounce(); e.preventDefault(); return; }
   if (k === 'F4' || k === 'r') { readStats(); e.preventDefault(); return; }
@@ -1088,12 +2130,12 @@ document.addEventListener('keydown', (e) => {
 function init() {
   loadSettings();
 
-  // Party slot clicks
+  // ----- Party slot clicks (main screen) -----
   document.querySelectorAll('.party-slot').forEach((slot) => {
     slot.addEventListener('click', () => selectSlot(parseInt(slot.dataset.slot)));
   });
 
-  // Header buttons
+  // ----- Header buttons -----
   document.getElementById('btn-dotpad').addEventListener('click', openPopup);
   document.getElementById('dpd-ble').addEventListener('click', connectBle);
   document.getElementById('dpd-usb').addEventListener('click', connectUsb);
@@ -1116,12 +2158,28 @@ function init() {
     saveSettings();
   });
 
-  // Initial render
-  if (state.log.length === 0) {
-    logEntry('info', '닷펫몬 v0.3 시작');
-    logEntry('care', '오늘의 일일 챌린지: 야생 3마리 만나기');
-  }
-  renderAll();
+  // ----- TITLE screen buttons -----
+  document.getElementById('btn-new-game').addEventListener('click', newGame);
+  document.getElementById('btn-continue').addEventListener('click', continueGame);
+  document.getElementById('btn-credits').addEventListener('click', showCredits);
+
+  // ----- CREATION screen buttons -----
+  document.getElementById('btn-name-submit').addEventListener('click', submitTrainerName);
+  document.getElementById('btn-name-back').addEventListener('click', () => showScreen('title'));
+
+  // ----- EGG screen buttons -----
+  document.getElementById('btn-egg-continue').addEventListener('click', eggContinue);
+
+  // ----- HATCH screen buttons -----
+  document.getElementById('btn-hatch-tap').addEventListener('click', tapHatch);
+
+  // ----- REVEAL screen buttons -----
+  document.getElementById('btn-accept-starter').addEventListener('click', acceptStarter);
+  document.getElementById('btn-reroll').addEventListener('click', rerollStarter);
+
+  // ----- Initial routing -----
+  // hatch auto-start handled inside showScreen()
+  showScreen('title');
 }
 
 init();

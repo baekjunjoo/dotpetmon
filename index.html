@@ -479,7 +479,450 @@
   }
   .full-screen[hidden] { display: none; }
 
-  /* ============ TITLE SCREEN ============ */
+  /* ============ TITLE SCREEN (v0.5.1 — Pokemon Vortex inspired) ============ */
+  .vortex-page {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .vortex-subnav {
+    display: flex; gap: 16px;
+    justify-content: flex-end;
+    padding: 6px 0;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .subnav-link {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.15s;
+  }
+  .subnav-link:hover {
+    color: var(--accent);
+    background: rgba(255,122,69,0.1);
+  }
+
+  .vortex-nav {
+    display: flex; gap: 4px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
+    padding: 4px;
+    margin-bottom: 18px;
+    overflow-x: auto;
+  }
+  .vortex-nav-btn {
+    background: transparent;
+    border: none;
+    color: var(--ink-soft);
+    padding: 12px 20px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all 0.12s;
+    flex: 1;
+    min-width: 80px;
+  }
+  .vortex-nav-btn:hover {
+    color: var(--ink);
+    background: var(--bg-soft);
+  }
+  .vortex-nav-btn.active {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 2px 8px rgba(255,122,69,0.4);
+  }
+
+  .vortex-hero {
+    position: relative;
+    background: linear-gradient(135deg, rgba(77,196,216,0.12), rgba(175,169,236,0.12));
+    border: 2px solid var(--cyan);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--glow-cyan);
+    overflow: hidden;
+  }
+  .vortex-hero-sparkles {
+    position: absolute; inset: 0; pointer-events: none;
+  }
+  .vortex-hero-content {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  @media (max-width: 780px) {
+    .vortex-hero-content { grid-template-columns: 1fr; }
+    .vortex-hero-pad { order: -1; }
+  }
+  .vortex-hero-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.24em;
+    color: var(--accent);
+    background: rgba(255,122,69,0.18);
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  .vortex-logo {
+    font-size: clamp(40px, 7vw, 72px);
+    font-weight: 900;
+    line-height: 1;
+    margin: 0 0 16px;
+    color: var(--accent);
+    text-shadow: 0 4px 0 rgba(255,122,69,0.25);
+    letter-spacing: 0.01em;
+  }
+  .vortex-logo span {
+    display: block;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--ink-soft);
+    letter-spacing: 0.32em;
+    margin-top: 6px;
+  }
+  .vortex-hero-blurb {
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 0 0 20px;
+  }
+  .vortex-hero-blurb b {
+    color: var(--accent);
+    font-weight: 800;
+  }
+  .vortex-cta-row {
+    display: flex; gap: 12px;
+    flex-wrap: wrap;
+  }
+  .vortex-cta-btn {
+    background: var(--bg-card);
+    border: 2px solid var(--line);
+    color: var(--ink);
+    padding: 14px 24px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    border-radius: var(--radius);
+    letter-spacing: 0.04em;
+    transition: all 0.15s;
+    text-align: left;
+    min-width: 180px;
+  }
+  .vortex-cta-btn small {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--ink-dim);
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+  .vortex-cta-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .vortex-cta-btn.primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    box-shadow: 0 4px 14px rgba(255,122,69,0.35);
+  }
+  .vortex-cta-btn.primary small {
+    color: rgba(255,255,255,0.85);
+  }
+  .vortex-cta-btn.primary:hover {
+    background: #ffac6e;
+    border-color: #ffac6e;
+    color: white;
+  }
+  .vortex-cta-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .vortex-hero-pad {
+    background: var(--pad-bg);
+    border-radius: var(--radius);
+    padding: 12px;
+    border: 2px solid var(--purple);
+    box-shadow: var(--glow-purple);
+    text-align: center;
+  }
+  .vortex-hero-pad .pad-label {
+    font-size: 10px;
+    color: var(--purple);
+    letter-spacing: 0.16em;
+    font-weight: 800;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .vortex-hero-pad canvas {
+    width: 100%; height: auto;
+    image-rendering: pixelated;
+  }
+  .vortex-hero-pad .pad-caption {
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: 0.08em;
+  }
+
+  /* SECTION HEADERS */
+  .vortex-section {
+    background: var(--bg-card);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    margin-bottom: 20px;
+  }
+  .vortex-section-header {
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  .vortex-section-header h2 {
+    font-size: clamp(18px, 3vw, 24px);
+    margin: 0 0 6px;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+  .vortex-section-header p {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* STARTER GRID — 5×2 */
+  .vortex-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  @media (max-width: 780px) {
+    .vortex-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .vortex-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .vortex-species-card {
+    background: var(--bg-soft);
+    border: 2px solid var(--line);
+    border-radius: var(--radius);
+    padding: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    position: relative;
+  }
+  .vortex-species-card:hover {
+    border-color: var(--cyan);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(77,196,216,0.3);
+  }
+  .vortex-species-card.starter {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent), 0 4px 12px rgba(255,122,69,0.25);
+  }
+  .vortex-species-card.starter::before {
+    content: '★ STARTER';
+    position: absolute;
+    top: 4px; right: 4px;
+    font-size: 8px;
+    font-weight: 800;
+    color: var(--accent);
+    background: rgba(255,122,69,0.18);
+    padding: 2px 6px;
+    border-radius: 999px;
+    letter-spacing: 0.08em;
+  }
+  .vortex-species-card.selected {
+    border-color: var(--accent);
+    background: rgba(255,122,69,0.1);
+    box-shadow: 0 0 0 2px var(--accent);
+    transform: translateY(-2px);
+  }
+  .vortex-species-card canvas {
+    width: 100%; height: auto;
+    image-rendering: pixelated;
+    background: var(--pad-bg);
+    border-radius: var(--radius-sm);
+    margin-bottom: 6px;
+  }
+  .vortex-species-num {
+    font-size: 9px;
+    color: var(--ink-dim);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.06em;
+  }
+  .vortex-species-name {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--ink);
+    margin-top: 2px;
+    line-height: 1.2;
+  }
+  .vortex-species-type {
+    font-size: 9px;
+    margin-top: 2px;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+  }
+
+  /* DETAIL PANEL (shown on click) */
+  .vortex-detail {
+    margin-top: 16px;
+    background: var(--bg-soft);
+    border: 2px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 16px;
+    align-items: center;
+  }
+  @media (max-width: 560px) {
+    .vortex-detail { grid-template-columns: 1fr; }
+  }
+  .vortex-detail-canvas {
+    width: 100%; height: auto;
+    image-rendering: pixelated;
+    background: var(--pad-bg);
+    border-radius: var(--radius);
+    padding: 6px;
+  }
+  .vortex-detail-row {
+    display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .vortex-detail-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-dim);
+    font-weight: 800;
+  }
+  .vortex-detail-name {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--accent);
+  }
+  .vortex-detail-type {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .vortex-detail-tactile {
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 6px;
+  }
+  .vortex-detail-surface {
+    font-size: 11px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  /* FEATURES STRIP */
+  .vortex-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 700px) {
+    .vortex-features { grid-template-columns: 1fr; }
+  }
+  .vortex-feature {
+    background: var(--bg-card);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px 16px;
+    text-align: center;
+  }
+  .vortex-feature-glyph {
+    font-size: 28px;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .vortex-feature h3 {
+    font-size: 15px;
+    color: var(--ink);
+    margin: 0 0 6px;
+    font-weight: 800;
+  }
+  .vortex-feature p {
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* FOOTER */
+  .vortex-footer {
+    text-align: center;
+    padding: 20px 12px;
+    border-top: 1px solid var(--line);
+    color: var(--ink-dim);
+  }
+  .vortex-footer-links {
+    display: flex; gap: 8px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 12px;
+  }
+  .vortex-footer-links a, .footer-link-btn {
+    color: var(--ink-soft);
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.15s;
+    letter-spacing: 0.04em;
+  }
+  .vortex-footer-links a:hover, .footer-link-btn:hover {
+    color: var(--accent);
+    background: rgba(255,122,69,0.1);
+  }
+  .vortex-footer-copy {
+    font-size: 11px;
+    line-height: 1.7;
+    letter-spacing: 0.06em;
+  }
+  .vortex-footer-copy small {
+    font-size: 10px;
+    color: var(--ink-dim);
+  }
+
+  /* Title sparkles repositioned for hero */
+  .vortex-hero-sparkles .t-sparkle.s1 { top: 12%; left: 6%; }
+  .vortex-hero-sparkles .t-sparkle.s2 { top: 8%; right: 8%; transform: rotate(20deg); }
+  .vortex-hero-sparkles .t-sparkle.s3 { bottom: 20%; left: 8%; transform: rotate(-15deg); }
+  .vortex-hero-sparkles .t-sparkle.s4 { bottom: 12%; right: 12%; transform: rotate(30deg); }
+
+  /* Legacy classes still used elsewhere */
   .title-stage {
     text-align: center;
     max-width: 540px;
@@ -1242,24 +1685,117 @@
 
 <main id="main-content">
 
-  <!-- ============ SCREEN: TITLE ============ -->
+  <!-- ============ SCREEN: TITLE (v0.5.1 — Pokemon Vortex inspired) ============ -->
   <section id="screen-title" class="full-screen" hidden>
-    <div class="title-stage">
-      <div class="title-sparkles">
-        <div class="t-sparkle s1"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
-        <div class="t-sparkle s2"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
-        <div class="t-sparkle s3"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
-        <div class="t-sparkle s4"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
+    <div class="vortex-page">
+
+      <!-- Top sub-nav (Vortex pattern: external links row) -->
+      <nav class="vortex-subnav" aria-label="외부 링크">
+        <a class="subnav-link" href="https://github.com/baekjunjoo/dotpetmon" target="_blank" rel="noopener">GitHub</a>
+        <a class="subnav-link" href="#" id="link-changelog">Changelog</a>
+        <a class="subnav-link" href="#" id="link-dex-public">도감</a>
+      </nav>
+
+      <!-- Main nav -->
+      <nav class="vortex-nav" aria-label="메인 메뉴">
+        <button class="vortex-nav-btn active" data-nav="home" type="button">HOME</button>
+        <button class="vortex-nav-btn" data-nav="play" id="vortex-play-nav" type="button">PLAY</button>
+        <button class="vortex-nav-btn" data-nav="dex" type="button">DEX</button>
+        <button class="vortex-nav-btn" data-nav="about" type="button">ABOUT</button>
+      </nav>
+
+      <!-- HERO: large banner with CTA -->
+      <div class="vortex-hero">
+        <div class="vortex-hero-sparkles">
+          <div class="t-sparkle s1"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
+          <div class="t-sparkle s2"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
+          <div class="t-sparkle s3"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
+          <div class="t-sparkle s4"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
+        </div>
+        <div class="vortex-hero-content">
+          <div class="vortex-hero-text">
+            <div class="vortex-hero-tag">DOT ARCADE · BETA</div>
+            <h1 class="vortex-logo">닷펫몬 <span>DOTPETMON</span></h1>
+            <p class="vortex-hero-blurb">
+              세계 최초 <b>시각장애 친화 턴제 몬스터 수집 RPG</b>.
+              닷패드 위 촉각 시그너처로 10종의 닷펫몬을 만나고,
+              알에서 부화한 첫 친구와 8개 지역을 모험하세요.
+              <b>100% 무료</b>.
+            </p>
+            <div class="vortex-cta-row">
+              <button class="vortex-cta-btn primary" id="btn-new-game" type="button">
+                ▶ 새 게임 시작
+                <small>알 부화 + 랜덤 스타터</small>
+              </button>
+              <button class="vortex-cta-btn" id="btn-continue" type="button" disabled>
+                ▷ 이어하기
+                <small id="continue-sub">저장 없음</small>
+              </button>
+            </div>
+          </div>
+          <div class="vortex-hero-pad">
+            <div class="pad-label">실시간 닷패드 미리보기</div>
+            <canvas id="title-pad" aria-hidden="true"></canvas>
+            <div class="pad-caption" id="title-pad-caption">랜덤 종</div>
+          </div>
+        </div>
       </div>
-      <h1 class="title-logo">닷펫몬<small>DOTPETMON</small></h1>
-      <p class="title-tagline">시각장애 친화 턴제 몬스터 수집 RPG</p>
-      <canvas class="title-pad-preview" id="title-pad" aria-hidden="true"></canvas>
-      <div class="title-menu">
-        <button class="menu-btn primary" id="btn-new-game" type="button">새 게임</button>
-        <button class="menu-btn" id="btn-continue" type="button" disabled>이어하기</button>
-        <button class="menu-btn" id="btn-credits" type="button">크레딧</button>
+
+      <!-- STARTER GRID: 10 species pixel sprites in 5×2 -->
+      <div class="vortex-section">
+        <div class="vortex-section-header">
+          <h2>만나게 될 닷펫몬 10종</h2>
+          <p>★ 표시 4종은 스타터 풀 — 알 부화 시 랜덤 1마리. 나머지 6종은 야생에서.</p>
+        </div>
+        <div class="vortex-grid" id="vortex-grid"></div>
+        <div class="vortex-detail" id="vortex-detail" hidden>
+          <canvas class="vortex-detail-canvas" id="vortex-detail-canvas"></canvas>
+          <div class="vortex-detail-meta">
+            <div class="vortex-detail-row">
+              <span class="vortex-detail-num" id="vortex-d-num">#01</span>
+              <span class="vortex-detail-name" id="vortex-d-name">—</span>
+              <span class="vortex-detail-type" id="vortex-d-type">—</span>
+            </div>
+            <div class="vortex-detail-tactile" id="vortex-d-tactile">—</div>
+            <div class="vortex-detail-surface" id="vortex-d-surface">—</div>
+          </div>
+        </div>
       </div>
-      <div class="title-footer">© 2026 Dot Incorporation · v0.4 BETA</div>
+
+      <!-- INFO STRIPS: feature highlights -->
+      <div class="vortex-features">
+        <div class="vortex-feature">
+          <div class="vortex-feature-glyph">⊙</div>
+          <h3>촉각 정체성</h3>
+          <p>각 종은 60×40 핀 위 고유 시그너처. 손끝으로 인식하는 새 종 = 핵심 보상.</p>
+        </div>
+        <div class="vortex-feature">
+          <div class="vortex-feature-glyph">♥</div>
+          <h3>케어 = 힘</h3>
+          <p>잘 키운 펫일수록 강함. DotPet 케어 스탯이 배틀 데미지/명중률/크리에 직결.</p>
+        </div>
+        <div class="vortex-feature">
+          <div class="vortex-feature-glyph">⇄</div>
+          <h3>사회적 연결</h3>
+          <p>친구와 트레이드. 받은 펫의 촉각을 손끝으로 처음 만지는 순간 = 핵심 감동.</p>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <footer class="vortex-footer">
+        <div class="vortex-footer-links">
+          <a href="https://github.com/baekjunjoo/dotpetmon" target="_blank" rel="noopener">GitHub</a>
+          <span>·</span>
+          <button type="button" id="btn-credits" class="footer-link-btn">Credits</button>
+          <span>·</span>
+          <button type="button" class="footer-link-btn" id="link-reset">Reset Save</button>
+        </div>
+        <div class="vortex-footer-copy">
+          © 2026 Dot Incorporation · DotPetMon v0.5 BETA<br>
+          <small>닌텐도/Game Freak 포켓몬 IP 사용 안 함. 메커니즘 영감만 받은 오리지널 작품.</small>
+        </div>
+      </footer>
+
     </div>
   </section>
 
@@ -2051,6 +2587,8 @@ function showScreen(name) {
     const el = document.getElementById('screen-' + s);
     if (el) el.hidden = (s !== name);
   }
+  // Stop title pad cycle if leaving title
+  if (name !== 'title' && typeof stopTitlePadCycle === 'function') stopTitlePadCycle();
   // Per-screen render + side effects
   switch (name) {
     case 'title':         renderTitle(); break;
@@ -2087,28 +2625,161 @@ function renderAll() {
 }
 
 // ============================================================
-// TITLE SCREEN
+// TITLE SCREEN (v0.5.1 — Pokemon Vortex inspired)
 // ============================================================
+let _titleSelectedSpecies = null;
+let _titlePadCycleTimer = null;
+
 function renderTitle() {
-  // Continue button only if saved game
+  // Continue button state
   const btnContinue = document.getElementById('btn-continue');
+  const continueSub = document.getElementById('continue-sub');
   if (btnContinue) {
     btnContinue.disabled = !hasSavedGame();
-    if (hasSavedGame()) {
-      btnContinue.textContent = `이어하기 · ${state.trainer.name}`;
-    } else {
-      btnContinue.textContent = '이어하기';
+    if (hasSavedGame() && continueSub) {
+      btnContinue.querySelector(':not(small)') || (btnContinue.firstChild.textContent = '▷ 이어하기');
+      continueSub.textContent = `${state.trainer.name} · 도감 ${state.dexCaught.size}/10`;
+    } else if (continueSub) {
+      continueSub.textContent = '저장 없음';
     }
   }
-  // Render a little teaser sprite on title pad preview — random one of 10
-  const canvas = document.getElementById('title-pad');
+  // Render 10-species grid
+  const grid = document.getElementById('vortex-grid');
+  if (grid) {
+    grid.innerHTML = Object.keys(SPECIES).map(key => {
+      const sp = SPECIES[key];
+      const isStarter = STARTER_POOL.includes(key);
+      const isSelected = _titleSelectedSpecies === key;
+      return `
+        <div class="vortex-species-card ${isStarter ? 'starter' : ''} ${isSelected ? 'selected' : ''}"
+             data-species="${key}"
+             role="button" tabindex="0"
+             aria-label="#${sp.num} ${sp.name} ${sp.type} 타입${isStarter ? ' 스타터 후보' : ''}">
+          <canvas data-grid-canvas="${key}"></canvas>
+          <div class="vortex-species-num">#${String(sp.num).padStart(2, '0')}</div>
+          <div class="vortex-species-name">${sp.name}</div>
+          <div class="vortex-species-type" style="color: var(${TYPE_COLOR[sp.type]});">${TYPE_GLYPH[sp.type]} ${sp.type}</div>
+        </div>
+      `;
+    }).join('');
+    // Render each grid canvas
+    grid.querySelectorAll('canvas[data-grid-canvas]').forEach(c => {
+      const key = c.dataset.gridCanvas;
+      const sp = SPECIES[key];
+      const cells = new Uint8Array(DP_W * DP_H);
+      sp.draw(cells);
+      const accent = getComputedStyle(document.documentElement).getPropertyValue(TYPE_COLOR[sp.type]).trim() || '#ff9b6a';
+      renderPadCanvas(c, cells, 2, accent);
+    });
+    // Click handlers
+    grid.querySelectorAll('.vortex-species-card').forEach(card => {
+      card.addEventListener('click', () => selectTitleSpecies(card.dataset.species));
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          selectTitleSpecies(card.dataset.species);
+          e.preventDefault();
+        }
+      });
+    });
+  }
+  // Detail panel
+  renderTitleDetail();
+  // Cycling preview canvas on hero
+  startTitlePadCycle();
+}
+
+function renderTitleDetail() {
+  const detail = document.getElementById('vortex-detail');
+  if (!detail) return;
+  if (!_titleSelectedSpecies) {
+    detail.hidden = true;
+    return;
+  }
+  detail.hidden = false;
+  const sp = SPECIES[_titleSelectedSpecies];
+  if (!sp) return;
+  const accent = getComputedStyle(document.documentElement).getPropertyValue(TYPE_COLOR[sp.type]).trim() || '#ff9b6a';
+  document.getElementById('vortex-d-num').textContent = `#${String(sp.num).padStart(2, '0')}`;
+  document.getElementById('vortex-d-name').textContent = sp.name;
+  document.getElementById('vortex-d-name').style.color = accent;
+  const typeEl = document.getElementById('vortex-d-type');
+  typeEl.textContent = (TYPE_GLYPH[sp.type] || '') + ' ' + sp.type;
+  typeEl.style.background = accent;
+  typeEl.style.color = '#0a0e1a';
+  document.getElementById('vortex-d-tactile').textContent = '촉각: ' + sp.tactile;
+  document.getElementById('vortex-d-surface').textContent = '표면: ' + sp.surface + ' · 움직임: ' + sp.motion;
+  // Detail canvas (large)
+  const canvas = document.getElementById('vortex-detail-canvas');
   if (canvas) {
+    const cells = new Uint8Array(DP_W * DP_H);
+    sp.draw(cells);
+    renderPadCanvas(canvas, cells, 5, accent);
+  }
+}
+
+function selectTitleSpecies(key) {
+  if (!SPECIES[key]) return;
+  _titleSelectedSpecies = (_titleSelectedSpecies === key) ? null : key;
+  SFX.selectPet();
+  if (_titleSelectedSpecies && SPECIES_CRY[key]) {
+    setTimeout(() => SPECIES_CRY[key](), 100);
+  }
+  const sp = SPECIES[key];
+  if (_titleSelectedSpecies) {
+    const isStarter = STARTER_POOL.includes(key);
+    speak(`${sp.name}, ${sp.type} type. ${isStarter ? 'Starter candidate.' : 'Found in the wild.'} ${sp.tactile}.`);
+    // Show on hero preview pad immediately
+    const heroPad = document.getElementById('title-pad');
+    if (heroPad) {
+      const cells = new Uint8Array(DP_W * DP_H);
+      sp.draw(cells);
+      const accent = getComputedStyle(document.documentElement).getPropertyValue(TYPE_COLOR[sp.type]).trim() || '#ff9b6a';
+      renderPadCanvas(heroPad, cells, 5, accent);
+      document.getElementById('title-pad-caption').textContent = `${sp.name} · ${sp.type}`;
+      // Push to actual Dot Pad if connected
+      if (state.dotpadConnected && window.DotPad) {
+        try {
+          window.DotPad.sdk.displayGraphicData(bytesToHex(cells));
+          try { window.DotPad.sdk.displayTextData(sp.name); } catch(e){}
+        } catch(e){}
+      }
+    }
+    // Pause cycle while one is selected
+    stopTitlePadCycle();
+  } else {
+    startTitlePadCycle();
+  }
+  renderTitle();
+}
+
+function startTitlePadCycle() {
+  if (_titlePadCycleTimer) return;
+  if (_titleSelectedSpecies) return;
+  const cycle = () => {
+    if (state.screen !== 'title' || _titleSelectedSpecies) return;
     const keys = Object.keys(SPECIES);
     const key = keys[Math.floor(Math.random() * keys.length)];
+    const sp = SPECIES[key];
     const cells = new Uint8Array(DP_W * DP_H);
-    SPECIES[key].draw(cells);
-    renderPadCanvas(canvas, cells, 5, '#ff9b6a');
-  }
+    sp.draw(cells);
+    const accent = getComputedStyle(document.documentElement).getPropertyValue(TYPE_COLOR[sp.type]).trim() || '#ff9b6a';
+    const heroPad = document.getElementById('title-pad');
+    const caption = document.getElementById('title-pad-caption');
+    if (heroPad) renderPadCanvas(heroPad, cells, 5, accent);
+    if (caption) caption.textContent = `${sp.name} · ${sp.type}`;
+    if (state.dotpadConnected && window.DotPad) {
+      try {
+        window.DotPad.sdk.displayGraphicData(bytesToHex(cells));
+        try { window.DotPad.sdk.displayTextData(sp.name); } catch(e){}
+      } catch(e){}
+    }
+  };
+  cycle();
+  _titlePadCycleTimer = setInterval(cycle, 3000);
+}
+function stopTitlePadCycle() {
+  if (_titlePadCycleTimer) clearInterval(_titlePadCycleTimer);
+  _titlePadCycleTimer = null;
 }
 
 // ============================================================
@@ -3366,6 +4037,58 @@ function init() {
   document.getElementById('btn-new-game').addEventListener('click', newGame);
   document.getElementById('btn-continue').addEventListener('click', continueGame);
   document.getElementById('btn-credits').addEventListener('click', showCredits);
+
+  // Vortex top nav (single-page — just scroll-like behavior or quick action)
+  document.querySelectorAll('.vortex-nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const action = btn.dataset.nav;
+      document.querySelectorAll('.vortex-nav-btn').forEach(b => b.classList.toggle('active', b === btn));
+      if (action === 'play') {
+        if (hasSavedGame()) continueGame();
+        else newGame();
+      } else if (action === 'dex') {
+        openDexDetail();
+      } else if (action === 'about') {
+        showCredits();
+      }
+      // home = stay on title
+    });
+  });
+  // Sub-nav and footer link buttons
+  document.getElementById('link-changelog')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    alert(
+      'Changelog (recent):\\n\\n' +
+      'v0.5.1 — 타이틀 화면 Pokemon Vortex 스타일 리디자인\\n' +
+      'v0.5   — 8 지역 시스템 + 탐험 + 야생 인카운트\\n' +
+      'v0.4.1 — 인사 다양화 + 부화 애니메이션 강화\\n' +
+      'v0.4   — 게임 시작 플로우 (타이틀 → 트레이너 → 알 부화 → 스타터)\\n' +
+      'v0.3   — UI 셸 프로토타입\\n' +
+      'v0.2.1 — 10종 스프라이트 충실도 개선\\n' +
+      'v0.2   — 10종 캐릭터 도트 스프라이트 디자인\\n' +
+      'v0.1   — GDD 초안'
+    );
+  });
+  document.getElementById('link-dex-public')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    openDexDetail();
+  });
+  document.getElementById('link-reset')?.addEventListener('click', () => {
+    if (!confirm('정말 모든 저장 데이터를 삭제하시겠어요?\\n트레이너, 파티, 도감, 지역 진척 모두 사라집니다.')) return;
+    try { localStorage.removeItem(SAVE_KEY); } catch(e){}
+    state.trainer = null;
+    state.hasStarter = false;
+    state.party = [];
+    state.activeIdx = 0;
+    state.collectedTypes = new Set();
+    state.dexSeen = new Set();
+    state.dexCaught = new Set();
+    state.caughtCount = 0;
+    state.regionProgress = {};
+    state.log = [];
+    showToast('저장 데이터 초기화 완료');
+    renderTitle();
+  });
 
   // ----- CREATION screen buttons -----
   document.getElementById('btn-name-submit').addEventListener('click', submitTrainerName);

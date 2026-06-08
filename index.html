@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>닷펫몬 · DotPetMon</title>
+<style>
+  :root {
+    --bg-app:      #0a0e1a;
+    --bg-card:     #18223a;
+    --bg-soft:     #1f2c4a;
+    --bg-deep:     #060912;
+    --line:        #2e3e5e;
+    --line-soft:   #1b2438;
+    --ink:         #e9eef7;
+    --ink-soft:    #aab5cc;
+    --ink-dim:     #6c7791;
+
+    --pad-on:      #ff9b6a;
+    --pad-off:     #2a2f3f;
+    --pad-bg:      #0e1421;
+
+    --cyan:        #4dc4d8;
+    --cyan-glow:   rgba(77, 196, 216, 0.55);
+    --purple:      #AFA9EC;
+    --purple-glow: rgba(175, 169, 236, 0.5);
+    --yellow:      #f2c14e;
+
+    --accent:      #ff7a45;
+    --ok:          #6dd99a;
+    --danger:      #e85e4e;
+
+    --t-light:     #FAC775;
+    --t-nature:    #97C459;
+    --t-electric:  #F2C14E;
+    --t-water:     #85B7EB;
+    --t-earth:     #D85A30;
+    --t-fire:      #E24B4A;
+    --t-metal:     #888780;
+    --t-dream:     #AFA9EC;
+    --t-sound:     #F4C0D1;
+    --t-spirit:    #9FE1CB;
+
+    --radius:      10px;
+    --radius-sm:   6px;
+    --radius-lg:   16px;
+    --shadow:      0 4px 14px rgba(0,0,0,0.5);
+    --shadow-lg:   0 8px 24px rgba(0,0,0,0.65);
+    --glow-cyan:   0 0 18px var(--cyan-glow), inset 0 0 0 2px var(--cyan);
+    --glow-purple: 0 0 16px var(--purple-glow), inset 0 0 0 2px var(--purple);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg-app); color: var(--ink); font-family: 'Trebuchet MS', system-ui, sans-serif; }
+  body { min-height: 100vh; overflow-x: hidden; }
+  .skip-link { position: absolute; top: -40px; left: 0; background: var(--accent); color: white; padding: 8px 14px; z-index: 1000; }
+  .skip-link:focus { top: 0; }
+
+  /* ============ HEADER ============ */
+  .lab-header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 250;
+    background: rgba(10,14,26,0.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+    display: flex; flex-direction: column;
+    padding: 8px 20px 0;
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+  .lab-header-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; width: 100%; }
+  .brand-row { display: inline-flex; align-items: center; gap: 8px; }
+  .brand { font-size: 13px; letter-spacing: 0.16em; color: var(--ink); font-weight: 800; }
+  .brand b { color: var(--accent); }
+  .beta-badge {
+    display: inline-flex; align-items: center; padding: 3px 8px;
+    font-size: 9px; font-weight: 800; letter-spacing: 0.18em;
+    color: var(--accent);
+    background: rgba(255,122,69,0.14);
+    border: 1px solid rgba(255,122,69,0.5);
+    border-radius: 999px; line-height: 1; text-transform: uppercase;
+  }
+  .controls { display: flex; gap: 6px; align-items: center; }
+  .icon-btn {
+    background: var(--bg-card); border: 1.5px solid var(--line);
+    color: var(--ink); font-size: 12px; padding: 9px 14px;
+    cursor: pointer; font-family: inherit; letter-spacing: 0.04em;
+    border-radius: 999px; font-weight: 700;
+    min-height: 40px; min-width: 40px;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .icon-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .icon-btn.connected { background: var(--ok); color: var(--bg-app); border-color: var(--ok); }
+  .lab-keymap {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: 6px 10px; padding: 6px 0;
+    margin-top: 6px;
+    border-top: 1px dashed var(--line);
+    font-size: 11px; color: var(--ink-soft); line-height: 1.2;
+  }
+  .km-label { color: var(--accent); font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; font-size: 10px; margin-right: 4px; }
+  .km { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+  .lab-keymap kbd {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 22px; height: 22px; padding: 0 6px;
+    background: var(--bg-app); border: 1px solid var(--line);
+    border-bottom-width: 2px; border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700; color: var(--accent);
+  }
+  @media (max-width: 700px) {
+    .lab-keymap { display: none; }
+  }
+
+  /* ============ MAIN LAYOUT ============ */
+  main {
+    max-width: 1280px; margin: 0 auto;
+    padding: 100px 16px 24px;
+  }
+  .stage {
+    display: grid;
+    grid-template-columns: 120px 1fr 280px;
+    grid-template-rows: 1fr;
+    gap: 14px;
+    min-height: calc(100vh - 130px);
+  }
+  @media (max-width: 1100px) {
+    .stage { grid-template-columns: 100px 1fr 240px; gap: 10px; }
+  }
+  @media (max-width: 900px) {
+    .stage { grid-template-columns: 90px 1fr; }
+    .right-col { display: none; }
+  }
+  @media (max-width: 600px) {
+    .stage { grid-template-columns: 1fr; }
+    .left-col { display: none; }
+  }
+
+  /* ============ PARTY (LEFT) ============ */
+  .left-col {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .party-slot {
+    position: relative;
+    background: linear-gradient(180deg, rgba(77,196,216,0.08), rgba(175,169,236,0.10));
+    border: 2px solid var(--line);
+    border-radius: var(--radius);
+    aspect-ratio: 1;
+    padding: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .party-slot::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: var(--radius);
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.08), transparent 60%);
+    pointer-events: none;
+  }
+  .party-slot:hover { border-color: var(--cyan); box-shadow: 0 0 12px var(--cyan-glow); }
+  .party-slot.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 18px rgba(255,122,69,0.5), inset 0 0 0 1px var(--accent);
+    transform: scale(1.02);
+  }
+  .party-slot.empty {
+    background: var(--bg-deep);
+    border-style: dashed;
+    opacity: 0.5;
+  }
+  .party-slot canvas { width: 100%; height: 100%; image-rendering: pixelated; pointer-events: none; }
+  .party-label {
+    position: absolute; bottom: -10px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: white;
+    font-size: 10px; font-weight: 800;
+    padding: 2px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    z-index: 2;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+  .party-slot.empty .party-label { background: var(--ink-dim); }
+  .party-num {
+    position: absolute; top: 4px; left: 6px;
+    font-size: 10px; font-weight: 800;
+    color: var(--ink-soft);
+    z-index: 2;
+  }
+
+  /* ============ CENTER ============ */
+  .center-col {
+    display: flex; flex-direction: column; gap: 12px;
+    min-width: 0;
+  }
+  .viewport-frame {
+    position: relative;
+    flex: 1;
+    background: var(--pad-bg);
+    border-radius: var(--radius-lg);
+    padding: 10px;
+    border: 2px solid var(--cyan);
+    box-shadow: var(--glow-cyan), 0 6px 24px rgba(77,196,216,0.18);
+    overflow: hidden;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+  }
+  .viewport-frame::before {
+    content: ''; position: absolute; top: -3px; left: -3px; right: -3px; bottom: -3px;
+    background: linear-gradient(135deg, var(--cyan) 0%, var(--purple) 50%, var(--cyan) 100%);
+    border-radius: var(--radius-lg);
+    z-index: -1;
+    opacity: 0.4;
+  }
+  .viewport-canvas-wrap {
+    flex: 1;
+    background: var(--pad-bg);
+    border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    padding: 8px;
+    min-height: 220px;
+  }
+  .viewport-canvas {
+    width: 100%; height: auto;
+    max-width: 540px;
+    image-rendering: pixelated;
+  }
+  .viewport-info-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 14px 4px;
+    color: var(--ink);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+  .viewport-info-bar .info-name {
+    font-size: 18px; font-weight: 800;
+  }
+  .viewport-info-bar .info-type {
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .viewport-tactile {
+    padding: 6px 14px 10px;
+    color: var(--ink-soft);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .sparkle {
+    position: absolute;
+    width: 14px; height: 14px;
+    color: var(--purple);
+    pointer-events: none;
+    z-index: 3;
+  }
+  .sparkle.s1 { top: -8px; left: 14%; transform: rotate(15deg); }
+  .sparkle.s2 { top: -10px; right: 10%; transform: rotate(-25deg); }
+  .sparkle.s3 { bottom: -10px; left: 30%; transform: rotate(45deg); }
+  .sparkle.s4 { bottom: -8px; right: 18%; transform: rotate(-10deg); }
+  .sparkle svg { width: 100%; height: 100%; fill: currentColor; filter: drop-shadow(0 0 6px var(--purple-glow)); }
+
+  /* Bottom info bars (Medallas + Vidas + Logo) */
+  .bottom-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 12px; align-items: center;
+  }
+  @media (max-width: 800px) {
+    .bottom-row { grid-template-columns: 1fr; gap: 8px; }
+    .bottom-row .game-logo { order: -1; justify-self: center; }
+  }
+  .info-band {
+    background: var(--bg-card);
+    border: 2px solid var(--line);
+    border-radius: var(--radius);
+    padding: 8px 14px;
+    position: relative;
+  }
+  .info-band-label {
+    position: absolute; top: -10px; left: 14px;
+    background: var(--accent);
+    color: white;
+    font-size: 10px; font-weight: 800;
+    padding: 2px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.08em;
+  }
+  .badges-row, .lives-row {
+    display: flex; gap: 6px; align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .type-badge {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--bg-app);
+    transition: all 0.2s;
+    cursor: help;
+    position: relative;
+  }
+  .type-badge.locked {
+    background: var(--bg-deep);
+    color: var(--ink-dim);
+    border: 1.5px solid var(--line);
+  }
+  .type-badge:not(.locked) {
+    box-shadow: 0 0 8px currentColor;
+    color: var(--bg-app);
+  }
+  .heart {
+    width: 18px; height: 18px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--danger);
+  }
+  .heart.empty { color: var(--ink-dim); opacity: 0.4; }
+  .heart svg { width: 100%; height: 100%; fill: currentColor; }
+
+  .game-logo {
+    text-align: center;
+    padding: 8px 18px;
+    background: linear-gradient(135deg, var(--accent), #ffac6e);
+    border-radius: var(--radius);
+    color: white;
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: 0.16em;
+    box-shadow: 0 4px 16px rgba(255,122,69,0.5);
+    border: 2px solid white;
+    white-space: nowrap;
+  }
+  .game-logo small {
+    display: block;
+    font-size: 9px;
+    opacity: 0.9;
+    letter-spacing: 0.3em;
+    margin-top: 2px;
+  }
+
+  /* ============ RIGHT COL ============ */
+  .right-col {
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .right-panel {
+    background: var(--bg-card);
+    border: 2px solid var(--purple);
+    border-radius: var(--radius);
+    padding: 12px;
+    box-shadow: var(--glow-purple);
+    position: relative;
+  }
+  .right-panel.stats { flex-shrink: 0; }
+  .right-panel.log { flex: 1; display: flex; flex-direction: column; min-height: 200px; }
+  .right-panel-label {
+    position: absolute; top: -10px; left: 14px;
+    background: var(--accent);
+    color: white;
+    font-size: 10px; font-weight: 800;
+    padding: 2px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.08em;
+    z-index: 2;
+  }
+  .stat-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 4px 0;
+    font-size: 12px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-row .label { color: var(--ink-soft); }
+  .stat-row .value { color: var(--ink); font-weight: 700; }
+  .stat-bar {
+    flex: 1; height: 6px;
+    background: var(--bg-deep);
+    border-radius: 3px;
+    margin: 0 8px;
+    overflow: hidden;
+  }
+  .stat-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--yellow));
+    border-radius: 3px;
+    transition: width 0.3s;
+  }
+  .log-list {
+    flex: 1;
+    overflow-y: auto;
+    margin-top: 6px;
+    padding-right: 4px;
+    max-height: 280px;
+  }
+  .log-entry {
+    font-size: 11px; color: var(--ink-soft);
+    padding: 4px 0;
+    border-bottom: 1px dashed var(--line-soft);
+    line-height: 1.5;
+  }
+  .log-entry .ts {
+    color: var(--ink-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    margin-right: 6px;
+  }
+  .log-entry .kind {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 1px 6px;
+    border-radius: 999px;
+    margin-right: 6px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .log-entry .kind.info { background: rgba(133,183,235,0.18); color: var(--t-water); }
+  .log-entry .kind.care { background: rgba(151,196,89,0.18); color: var(--t-nature); }
+  .log-entry .kind.battle { background: rgba(226,75,74,0.18); color: var(--t-fire); }
+  .log-entry .kind.discover { background: rgba(175,169,236,0.18); color: var(--purple); }
+
+  /* ============ POPUPS / OVERLAYS ============ */
+  .dotpad-popup {
+    position: fixed; top: 110px; right: 16px;
+    background: var(--bg-card); border: 2px solid var(--accent);
+    padding: 16px; border-radius: var(--radius);
+    min-width: 240px; z-index: 400;
+    display: none; box-shadow: var(--shadow-lg);
+  }
+  .dotpad-popup.open { display: block; }
+  .dotpad-popup-title {
+    font-size: 11px; letter-spacing: 0.12em;
+    color: var(--accent); font-weight: 800;
+    margin-bottom: 10px; text-transform: uppercase;
+  }
+  .dotpad-popup-btn {
+    display: block; width: 100%;
+    background: var(--bg-soft); border: 1.5px solid var(--line);
+    color: var(--ink);
+    padding: 10px 12px; font-size: 13px; cursor: pointer;
+    font-family: inherit; margin-bottom: 6px;
+    text-align: left;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+  }
+  .dotpad-popup-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .dotpad-popup-btn.danger:hover { border-color: var(--danger); color: var(--danger); }
+  .dotpad-popup-hint {
+    font-size: 10px;
+    color: var(--ink-dim);
+    margin-top: 6px; line-height: 1.4;
+  }
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--bg-card); border: 2px solid var(--accent);
+    color: var(--ink); padding: 12px 20px;
+    border-radius: var(--radius);
+    font-size: 13px; font-weight: 700;
+    z-index: 999;
+    box-shadow: var(--shadow-lg);
+    opacity: 0; transition: opacity 0.25s;
+    pointer-events: none; max-width: 90vw; text-align: center;
+  }
+  .toast.show { opacity: 1; }
+  .live-region { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header class="lab-header" role="banner">
+  <div class="lab-header-top">
+    <div class="brand-row">
+      <div class="brand">DOT <b>ARCADE</b></div>
+      <span class="beta-badge">BETA</span>
+    </div>
+    <div class="controls" role="toolbar" aria-label="App controls">
+      <button class="icon-btn" id="btn-dotpad" type="button" aria-label="Connect Dot Pad">PAD</button>
+      <button class="icon-btn active" id="btn-voice" type="button" aria-pressed="true" aria-label="Toggle voice">Voice</button>
+      <button class="icon-btn active" id="btn-sfx" type="button" aria-pressed="true" aria-label="Toggle sound effects">FX</button>
+    </div>
+  </div>
+  <div class="lab-keymap" role="region" aria-label="Dot Pad key map">
+    <span class="km-label">Party</span>
+    <span class="km"><kbd>1</kbd>~<kbd>6</kbd> Select</span>
+    <span class="km"><kbd>F1</kbd> Pad Push</span>
+    <span class="km"><kbd>F4</kbd> Read Stats</span>
+  </div>
+</header>
+
+<main id="main-content">
+  <div class="stage">
+    <!-- LEFT: Party slots -->
+    <aside class="left-col" role="region" aria-label="Party">
+      <div class="party-slot" data-slot="0">
+        <div class="party-num">1</div>
+        <canvas data-slot-canvas="0"></canvas>
+        <div class="party-label">—</div>
+      </div>
+      <div class="party-slot" data-slot="1">
+        <div class="party-num">2</div>
+        <canvas data-slot-canvas="1"></canvas>
+        <div class="party-label">—</div>
+      </div>
+      <div class="party-slot" data-slot="2">
+        <div class="party-num">3</div>
+        <canvas data-slot-canvas="2"></canvas>
+        <div class="party-label">—</div>
+      </div>
+      <div class="party-slot" data-slot="3">
+        <div class="party-num">4</div>
+        <canvas data-slot-canvas="3"></canvas>
+        <div class="party-label">—</div>
+      </div>
+      <div class="party-slot" data-slot="4">
+        <div class="party-num">5</div>
+        <canvas data-slot-canvas="4"></canvas>
+        <div class="party-label">—</div>
+      </div>
+      <div class="party-slot" data-slot="5">
+        <div class="party-num">6</div>
+        <canvas data-slot-canvas="5"></canvas>
+        <div class="party-label">—</div>
+      </div>
+    </aside>
+
+    <!-- CENTER: Viewport + bottom bars -->
+    <section class="center-col">
+      <div class="viewport-frame">
+        <div class="sparkle s1"><svg viewBox="0 0 16 16"><path d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
+        <div class="sparkle s2"><svg viewBox="0 0 16 16"><path d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
+        <div class="sparkle s3"><svg viewBox="0 0 16 16"><path d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
+        <div class="sparkle s4"><svg viewBox="0 0 16 16"><path d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
+        <div class="viewport-info-bar">
+          <div class="info-name" id="vp-name">—</div>
+          <div class="info-type" id="vp-type" style="background: var(--bg-soft); color: var(--ink-soft);">—</div>
+        </div>
+        <div class="viewport-canvas-wrap">
+          <canvas class="viewport-canvas" id="vp-canvas"></canvas>
+        </div>
+        <div class="viewport-tactile" id="vp-tactile">파티에서 펫을 선택하세요</div>
+      </div>
+
+      <div class="bottom-row">
+        <div class="info-band">
+          <div class="info-band-label">DEX 도감</div>
+          <div class="badges-row" id="badges-row"></div>
+        </div>
+        <div class="game-logo">
+          닷펫몬
+          <small>DOTPETMON</small>
+        </div>
+        <div class="info-band">
+          <div class="info-band-label">ENERGY 에너지</div>
+          <div class="lives-row" id="lives-row"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: Stats + Log -->
+    <aside class="right-col">
+      <div class="right-panel stats">
+        <div class="right-panel-label">STATS 상태</div>
+        <div id="stats-list">
+          <div class="stat-row"><span class="label">레벨</span><span class="value" id="s-level">—</span></div>
+          <div class="stat-row"><span class="label">HP</span><div class="stat-bar"><div class="stat-bar-fill" id="s-hp-bar" style="width: 0%"></div></div><span class="value" id="s-hp">—</span></div>
+          <div class="stat-row"><span class="label">Energy</span><div class="stat-bar"><div class="stat-bar-fill" id="s-en-bar" style="width: 0%"></div></div><span class="value" id="s-en">—</span></div>
+          <div class="stat-row"><span class="label">Bond</span><div class="stat-bar"><div class="stat-bar-fill" id="s-bond-bar" style="width: 0%"></div></div><span class="value" id="s-bond">—</span></div>
+          <div class="stat-row"><span class="label">포획</span><span class="value" id="s-catch">—</span></div>
+        </div>
+      </div>
+      <div class="right-panel log">
+        <div class="right-panel-label">LOG 활동</div>
+        <div class="log-list" id="log-list"></div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<div class="dotpad-popup" id="dotpad-popup" role="dialog" aria-labelledby="dpd-title">
+  <div class="dotpad-popup-title" id="dpd-title">Connect Dot Pad</div>
+  <button class="dotpad-popup-btn" id="dpd-ble" type="button">📶 Bluetooth</button>
+  <button class="dotpad-popup-btn" id="dpd-usb" type="button">🔗 USB</button>
+  <button class="dotpad-popup-btn danger" id="dpd-disc" type="button" hidden>Disconnect</button>
+  <div class="dotpad-popup-hint">Chrome/Edge desktop · HTTPS required</div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="live-region" id="live-region" aria-live="polite" aria-atomic="true"></div>
+
+<script type="module">
+  try {
+    const { DotPadSDK, DotPadScanner, DisplayMode, DataCodes, KeyCodes }
+      = await import('./dotpad-sdk/DotPadSDK-3.0.0.js');
+    window.DotPad = {
+      sdk: new DotPadSDK(),
+      scanner: new DotPadScanner(),
+      DisplayMode, DataCodes, KeyCodes,
+    };
+    console.log('[DotPetMon] Dot Pad SDK loaded');
+  } catch (err) {
+    window._dotpadLoadError = err.message || String(err);
+    console.warn('[DotPetMon] SDK load failed:', err);
+  }
+</script>
+
+<script type="module">
+import {
+  drawSpecies, SPECIES, bytesToHex, setPin
+} from './assets/species_sprites.js';
+
+const DP_W = 30, DP_H = 10, PW = 60, PH = 40;
+
+// ============================================================
+// STATE
+// ============================================================
+const SAVE_KEY = 'dotpetmon:save:v1';
+
+const TYPE_COLOR = {
+  Light: '--t-light', Nature: '--t-nature', Electric: '--t-electric',
+  Water: '--t-water', Earth: '--t-earth', Fire: '--t-fire',
+  Metal: '--t-metal', Dream: '--t-dream', Sound: '--t-sound', Spirit: '--t-spirit',
+};
+const TYPE_GLYPH = {
+  Light: '✦', Nature: '❀', Electric: '⚡', Water: '○', Earth: '◆',
+  Fire: '▲', Metal: '◇', Dream: '☾', Sound: '♪', Spirit: '✿',
+};
+
+// Mock default party (6 starter pets)
+const DEFAULT_PARTY = [
+  { species: 'chikapi', name: 'Chiko',  level: 12, hp: 32, hpMax: 38, energy: 78, bond: 65, catches: 7 },
+  { species: 'bubloo',  name: 'Boobi',  level: 10, hp: 40, hpMax: 42, energy: 60, bond: 80, catches: 4 },
+  { species: 'pibbi',   name: 'Pibz',   level: 8,  hp: 22, hpMax: 28, energy: 90, bond: 55, catches: 2 },
+  { species: 'mosshu',  name: 'Mossy',  level: 11, hp: 35, hpMax: 36, energy: 45, bond: 72, catches: 5 },
+  { species: 'voltchi', name: 'Volt',   level: 9,  hp: 18, hpMax: 30, energy: 35, bond: 40, catches: 3 },
+  { species: 'luminoa', name: 'Lumi',   level: 14, hp: 48, hpMax: 48, energy: 88, bond: 92, catches: 9 },
+];
+
+const state = {
+  party: [],
+  activeIdx: 0,
+  collectedTypes: new Set(['Light', 'Nature', 'Electric', 'Water', 'Fire', 'Spirit']),
+  energy: { current: 14, max: 20 },
+  log: [],
+  ttsOn: true,
+  sfxOn: true,
+  dotpadConnected: false,
+  dotpadDevice: null,
+  dotpadDevices: [],
+  dotpadName: '',
+};
+
+function saveSettings() {
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify({
+      party: state.party, activeIdx: state.activeIdx,
+      collectedTypes: [...state.collectedTypes],
+      energy: state.energy,
+      ttsOn: state.ttsOn, sfxOn: state.sfxOn,
+    }));
+  } catch(e){}
+}
+function loadSettings() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) {
+      state.party = DEFAULT_PARTY.map(p => ({...p}));
+      return;
+    }
+    const s = JSON.parse(raw);
+    state.party = (s.party && s.party.length) ? s.party : DEFAULT_PARTY.map(p => ({...p}));
+    state.activeIdx = s.activeIdx ?? 0;
+    state.collectedTypes = new Set(s.collectedTypes || ['Light', 'Nature', 'Electric', 'Water', 'Fire', 'Spirit']);
+    state.energy = s.energy || { current: 14, max: 20 };
+    if (typeof s.ttsOn === 'boolean') state.ttsOn = s.ttsOn;
+    if (typeof s.sfxOn === 'boolean') state.sfxOn = s.sfxOn;
+  } catch(e) {
+    state.party = DEFAULT_PARTY.map(p => ({...p}));
+  }
+}
+
+// ============================================================
+// TTS + SFX (Dot Arcade standard)
+// ============================================================
+let _preferredVoiceEn = null;
+function _loadVoices() {
+  if (!window.speechSynthesis) return;
+  const voices = speechSynthesis.getVoices();
+  const en = voices.filter(v => v.lang && v.lang.startsWith('en'));
+  const isLow = (n) => /albert|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|junior|pipe organ|trinoids|whisper|zarvox|bad news|kathy/i.test(n);
+  _preferredVoiceEn =
+    en.find(v => /Google US English/i.test(v.name)) ||
+    en.find(v => /^(Samantha|Ava|Alex|Karen|Allison|Susan|Tessa)$/i.test(v.name) && v.lang === 'en-US') ||
+    en.find(v => /^(Samantha|Ava|Alex|Karen|Allison|Susan|Tessa)/i.test(v.name)) ||
+    en.find(v => /Aria|Jenny|Guy|Davis|Sara|Emma/i.test(v.name) && /Neural|Online/i.test(v.name)) ||
+    en.find(v => v.lang === 'en-US' && v.default && !isLow(v.name)) ||
+    en.find(v => v.lang === 'en-US' && !isLow(v.name)) ||
+    en.find(v => !isLow(v.name)) || en[0];
+}
+if (window.speechSynthesis) {
+  speechSynthesis.onvoiceschanged = _loadVoices;
+  _loadVoices();
+}
+function speak(text) {
+  if (!state.ttsOn || !window.speechSynthesis) return;
+  try {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US'; u.rate = 1.0; u.pitch = 1.0;
+    if (_preferredVoiceEn) u.voice = _preferredVoiceEn;
+    setTimeout(() => { try { window.speechSynthesis.speak(u); } catch(e){} }, 0);
+  } catch(e){}
+}
+function stopSpeak() { try { window.speechSynthesis.cancel(); } catch(e){} }
+
+let _audioCtx = null;
+function _audio() {
+  if (!_audioCtx) {
+    try { _audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) { return null; }
+  }
+  if (_audioCtx.state === 'suspended') _audioCtx.resume().catch(()=>{});
+  return _audioCtx;
+}
+function _tone(freq, dur, type='sine', vol=0.14) {
+  if (!state.sfxOn) return;
+  const ctx = _audio(); if (!ctx) return;
+  const t = ctx.currentTime;
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+  o.type = type; o.frequency.setValueAtTime(freq, t);
+  g.gain.setValueAtTime(0, t);
+  g.gain.linearRampToValueAtTime(vol, t + 0.005);
+  g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+  o.connect(g).connect(ctx.destination);
+  o.start(t); o.stop(t + dur + 0.02);
+}
+
+// Per-species signature cry (1-2s)
+const SPECIES_CRY = {
+  pibbi:    () => { [880, 1320, 1760].forEach((f, i) => setTimeout(() => _tone(f, 0.08, 'sine', 0.16), i * 90)); },
+  mosshu:   () => { [392, 440, 392].forEach((f, i) => setTimeout(() => _tone(f, 0.20, 'triangle', 0.14), i * 200)); },
+  voltchi:  () => { [880, 1100, 1320, 1100].forEach((f, i) => setTimeout(() => _tone(f, 0.05, 'square', 0.14), i * 60)); },
+  bubloo:   () => { [262, 330, 392].forEach((f, i) => setTimeout(() => _tone(f, 0.18, 'sine', 0.16), i * 150)); },
+  fangroo:  () => { [220, 165].forEach((f, i) => setTimeout(() => _tone(f, 0.18, 'sawtooth', 0.18), i * 200)); },
+  chikapi:  () => { [523, 659, 784, 659].forEach((f, i) => setTimeout(() => _tone(f, 0.10, 'sawtooth', 0.16), i * 100)); },
+  turtloop: () => { [165, 220, 165].forEach((f, i) => setTimeout(() => _tone(f, 0.25, 'square', 0.14), i * 250)); },
+  nibori:   () => { [440, 392, 349].forEach((f, i) => setTimeout(() => _tone(f, 0.25, 'sine', 0.12), i * 220)); },
+  kricko:   () => { [1320, 1320, 1320, 1760, 1320].forEach((f, i) => setTimeout(() => _tone(f, 0.05, 'triangle', 0.14), i * 70)); },
+  luminoa:  () => { [659, 880, 1100, 1320, 1760].forEach((f, i) => setTimeout(() => _tone(f, 0.15, 'sine', 0.14), i * 120)); },
+};
+const SFX = {
+  selectPet: () => _tone(880, 0.05, 'sine', 0.10),
+  pad: () => { [523, 880].forEach((f,i) => setTimeout(() => _tone(f, 0.06, 'sine', 0.12), i * 80)); },
+  err: () => { _tone(330, 0.06, 'square', 0.14); setTimeout(() => _tone(220, 0.10, 'square', 0.14), 50); },
+};
+
+// ============================================================
+// LOG
+// ============================================================
+function fmtTime(d = new Date()) {
+  return d.toTimeString().slice(0, 5);
+}
+function logEntry(kind, text) {
+  state.log.unshift({ ts: fmtTime(), kind, text });
+  if (state.log.length > 50) state.log.pop();
+  renderLog();
+}
+
+function renderLog() {
+  const el = document.getElementById('log-list');
+  if (!el) return;
+  if (state.log.length === 0) {
+    el.innerHTML = '<div class="log-entry" style="color: var(--ink-dim); text-align: center;">활동이 여기에 표시됩니다</div>';
+    return;
+  }
+  el.innerHTML = state.log.map(e =>
+    `<div class="log-entry"><span class="ts">${e.ts}</span><span class="kind ${e.kind}">${e.kind}</span>${e.text}</div>`
+  ).join('');
+}
+
+// ============================================================
+// RENDER — pad sprite to canvas
+// ============================================================
+function renderPadCanvas(canvas, cells, pxSize, accent = '#ff9b6a') {
+  const W = PW * pxSize, H = PH * pxSize;
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#0e1421';
+  ctx.fillRect(0, 0, W, H);
+  for (let y = 0; y < PH; y++) {
+    for (let x = 0; x < PW; x++) {
+      const cc = x >> 1, cr = y >> 2, sx = x & 1, sy = y & 3;
+      const bit = (sx === 0) ? [0,1,2,6][sy] : [3,4,5,7][sy];
+      const on = (cells[cr * DP_W + cc] >> bit) & 1;
+      ctx.fillStyle = on ? accent : '#2a2f3f';
+      ctx.beginPath();
+      ctx.arc(x * pxSize + pxSize / 2, y * pxSize + pxSize / 2, pxSize * (on ? 0.42 : 0.18), 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+}
+
+function renderPartySlots() {
+  for (let i = 0; i < 6; i++) {
+    const slot = document.querySelector(`.party-slot[data-slot="${i}"]`);
+    const canvas = document.querySelector(`canvas[data-slot-canvas="${i}"]`);
+    const labelEl = slot.querySelector('.party-label');
+    const pet = state.party[i];
+    if (!pet) {
+      slot.classList.add('empty');
+      slot.classList.remove('active');
+      labelEl.textContent = '비어있음';
+      canvas.width = 0; canvas.height = 0;
+      continue;
+    }
+    slot.classList.remove('empty');
+    slot.classList.toggle('active', i === state.activeIdx);
+    const spec = SPECIES[pet.species];
+    const accent = spec ? getComputedStyle(document.documentElement).getPropertyValue(TYPE_COLOR[spec.type]).trim() || '#ff9b6a' : '#ff9b6a';
+    const cells = new Uint8Array(DP_W * DP_H);
+    if (spec) spec.draw(cells);
+    renderPadCanvas(canvas, cells, 2, accent);
+    labelEl.textContent = pet.name + ' · L' + pet.level;
+  }
+}
+
+function renderViewport() {
+  const pet = state.party[state.activeIdx];
+  const canvas = document.getElementById('vp-canvas');
+  const nameEl = document.getElementById('vp-name');
+  const typeEl = document.getElementById('vp-type');
+  const tactEl = document.getElementById('vp-tactile');
+  if (!pet) {
+    nameEl.textContent = '—';
+    typeEl.textContent = '—';
+    typeEl.style.background = 'var(--bg-soft)';
+    typeEl.style.color = 'var(--ink-soft)';
+    tactEl.textContent = '파티에서 펫을 선택하세요';
+    canvas.width = 0; canvas.height = 0;
+    return;
+  }
+  const spec = SPECIES[pet.species];
+  const accent = spec ? getComputedStyle(document.documentElement).getPropertyValue(TYPE_COLOR[spec.type]).trim() : '#ff9b6a';
+  const cells = new Uint8Array(DP_W * DP_H);
+  if (spec) spec.draw(cells);
+  renderPadCanvas(canvas, cells, 9, accent);
+  nameEl.textContent = pet.name + ' (' + spec.name + ')';
+  typeEl.textContent = (TYPE_GLYPH[spec.type] || '') + ' ' + spec.type;
+  typeEl.style.background = accent;
+  typeEl.style.color = '#0a0e1a';
+  tactEl.innerHTML =
+    '<b style="color: ' + accent + ';">촉각 시그너처</b>: ' + spec.tactile +
+    ' · <b style="color: ' + accent + ';">표면</b>: ' + spec.surface +
+    ' · <b style="color: ' + accent + ';">움직임</b>: ' + spec.motion;
+}
+
+function renderStats() {
+  const pet = state.party[state.activeIdx];
+  if (!pet) {
+    document.getElementById('s-level').textContent = '—';
+    document.getElementById('s-hp').textContent = '—';
+    document.getElementById('s-en').textContent = '—';
+    document.getElementById('s-bond').textContent = '—';
+    document.getElementById('s-catch').textContent = '—';
+    document.getElementById('s-hp-bar').style.width = '0%';
+    document.getElementById('s-en-bar').style.width = '0%';
+    document.getElementById('s-bond-bar').style.width = '0%';
+    return;
+  }
+  document.getElementById('s-level').textContent = 'L' + pet.level;
+  document.getElementById('s-hp').textContent = pet.hp + ' / ' + pet.hpMax;
+  document.getElementById('s-en').textContent = pet.energy + '%';
+  document.getElementById('s-bond').textContent = pet.bond + '%';
+  document.getElementById('s-catch').textContent = pet.catches;
+  document.getElementById('s-hp-bar').style.width = (pet.hp / pet.hpMax * 100) + '%';
+  document.getElementById('s-en-bar').style.width = pet.energy + '%';
+  document.getElementById('s-bond-bar').style.width = pet.bond + '%';
+}
+
+function renderBadges() {
+  const el = document.getElementById('badges-row');
+  if (!el) return;
+  const types = Object.keys(TYPE_COLOR);
+  el.innerHTML = types.map(t => {
+    const collected = state.collectedTypes.has(t);
+    const color = collected ? `var(${TYPE_COLOR[t]})` : 'transparent';
+    const glyph = TYPE_GLYPH[t] || '?';
+    return `<div class="type-badge ${collected ? '' : 'locked'}" style="${collected ? `background: ${color};` : ''}" title="${t}${collected ? '' : ' (미발견)'}" aria-label="${t}${collected ? '' : ' (locked)'}">${glyph}</div>`;
+  }).join('');
+}
+
+function renderLives() {
+  const el = document.getElementById('lives-row');
+  if (!el) return;
+  const max = state.energy.max;
+  const cur = state.energy.current;
+  let html = '';
+  for (let i = 0; i < max; i++) {
+    const filled = i < cur;
+    html += `<span class="heart ${filled ? '' : 'empty'}"><svg viewBox="0 0 16 14"><path d="M8 13 L1 6 Q1 2 4 2 Q6 2 8 4 Q10 2 12 2 Q15 2 15 6 Z"/></svg></span>`;
+  }
+  el.innerHTML = html;
+}
+
+function renderAll() {
+  renderPartySlots();
+  renderViewport();
+  renderStats();
+  renderBadges();
+  renderLives();
+  renderLog();
+  updateDotpadStatus();
+  pushDotpad();
+}
+
+// ============================================================
+// INTERACTION
+// ============================================================
+function selectSlot(i) {
+  if (i < 0 || i >= 6 || !state.party[i]) {
+    SFX.err();
+    return;
+  }
+  state.activeIdx = i;
+  saveSettings();
+  SFX.selectPet();
+  const pet = state.party[i];
+  const spec = SPECIES[pet.species];
+  if (spec) {
+    if (SPECIES_CRY[pet.species]) SPECIES_CRY[pet.species]();
+    speak(`${pet.name}, level ${pet.level}, ${spec.type} type.`);
+    logEntry('info', `${pet.name} 선택 (${spec.name}, L${pet.level})`);
+  }
+  renderAll();
+}
+
+function pushPadAndAnnounce() {
+  if (!state.dotpadConnected) {
+    SFX.err();
+    showToast('Dot Pad가 연결되지 않았습니다');
+    return;
+  }
+  pushDotpad();
+  SFX.pad();
+  const pet = state.party[state.activeIdx];
+  if (pet) {
+    const spec = SPECIES[pet.species];
+    logEntry('discover', `${pet.name}을 패드에 표시 — ${spec.tactile}`);
+  }
+}
+
+function readStats() {
+  const pet = state.party[state.activeIdx];
+  if (!pet) return;
+  const spec = SPECIES[pet.species];
+  speak(`${pet.name}. ${spec.type} type. Level ${pet.level}. H P ${pet.hp} of ${pet.hpMax}. Energy ${pet.energy} percent. Bond ${pet.bond} percent.`);
+}
+
+// ============================================================
+// DOT PAD INTEGRATION
+// ============================================================
+function dotpadAvailable() { return !!window.DotPad && !!window.DotPad.sdk; }
+
+function pushDotpad() {
+  if (!state.dotpadConnected || !window.DotPad) return;
+  const pet = state.party[state.activeIdx];
+  if (!pet) return;
+  const spec = SPECIES[pet.species];
+  if (!spec) return;
+  try {
+    const cells = new Uint8Array(DP_W * DP_H);
+    spec.draw(cells);
+    window.DotPad.sdk.displayGraphicData(bytesToHex(cells));
+    try { window.DotPad.sdk.displayTextData(pet.name + ' L' + pet.level); } catch(e){}
+  } catch(e) { console.warn('[pad] push failed:', e); }
+}
+
+async function connectBle() {
+  if (!dotpadAvailable()) { showToast('Dot Pad SDK 로드 실패'); return; }
+  try {
+    window.DotPad.sdk.setCallBack(onDotpadMessage, onDotpadKey);
+    const device = await window.DotPad.scanner.startBleScan();
+    if (!device) return;
+    state.dotpadName = device.name || 'Dot Pad';
+    const dot = await window.DotPad.sdk.connectBleDevice(device);
+    if (!dot) throw new Error('connectBleDevice returned null');
+    closePopup();
+  } catch(e) { console.warn('[ble] failed:', e); showToast('연결 실패: ' + (e.message || e)); }
+}
+async function connectUsb() {
+  if (!dotpadAvailable()) { showToast('Dot Pad SDK 로드 실패'); return; }
+  try {
+    window.DotPad.sdk.setCallBack(onDotpadMessage, onDotpadKey);
+    const port = await window.DotPad.scanner.startUsbScan();
+    if (!port) return;
+    state.dotpadName = 'USB Dot Pad';
+    const dot = await window.DotPad.sdk.connectUsbDevice(port);
+    if (!dot) throw new Error('connectUsbDevice returned null');
+    closePopup();
+  } catch(e) { console.warn('[usb] failed:', e); showToast('연결 실패: ' + (e.message || e)); }
+}
+function disconnectDot() {
+  if (!dotpadAvailable()) return;
+  try { window.DotPad.sdk.disconnect(); } catch(e){}
+  state.dotpadDevices = [];
+  state.dotpadConnected = false;
+  state.dotpadDevice = null;
+  state.dotpadName = '';
+  updateDotpadStatus();
+}
+function onDotpadMessage(device, code) {
+  if (!window.DotPad) return;
+  const DC = window.DotPad.DataCodes;
+  if (code === DC.Connected) {
+    if (!state.dotpadDevices.includes(device)) state.dotpadDevices.push(device);
+    state.dotpadConnected = true;
+    state.dotpadDevice = state.dotpadDevices[0];
+    state.dotpadName = device.connectDevice?.name || state.dotpadName || 'Dot Pad';
+    updateDotpadStatus();
+    showToast('Dot Pad 연결됨: ' + state.dotpadName);
+    logEntry('info', `Dot Pad 연결: ${state.dotpadName}`);
+    setTimeout(pushDotpad, 300);
+  } else if (code === DC.Disconnected) {
+    state.dotpadDevices = state.dotpadDevices.filter(d => d !== device);
+    state.dotpadConnected = state.dotpadDevices.length > 0;
+    state.dotpadDevice = state.dotpadDevices[0] || null;
+    updateDotpadStatus();
+    showToast('Dot Pad 연결 해제');
+  }
+}
+function onDotpadKey(device, keyCode) {
+  if (!window.DotPad) return;
+  const KC = window.DotPad.KeyCodes;
+  const padToSlot = {
+    [KC.KeyFunction1]: 0, [KC.KeyFunction2]: 1, [KC.KeyFunction3]: 2, [KC.KeyFunction4]: 3,
+  };
+  if (keyCode in padToSlot) { selectSlot(padToSlot[keyCode]); return; }
+  if (keyCode === KC.PanningLeft) { selectSlot((state.activeIdx - 1 + 6) % 6); return; }
+  if (keyCode === KC.PanningRight) { selectSlot((state.activeIdx + 1) % 6); return; }
+  if (keyCode === KC.PanningAll) { readStats(); return; }
+}
+function updateDotpadStatus() {
+  const btn = document.getElementById('btn-dotpad');
+  if (!btn) return;
+  if (state.dotpadDevices.length > 0) {
+    btn.classList.add('connected');
+    btn.textContent = '● PAD';
+    document.getElementById('dpd-disc').hidden = false;
+  } else {
+    btn.classList.remove('connected');
+    btn.textContent = 'PAD';
+    document.getElementById('dpd-disc').hidden = true;
+  }
+}
+function openPopup() { document.getElementById('dotpad-popup').classList.add('open'); }
+function closePopup() { document.getElementById('dotpad-popup').classList.remove('open'); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._h);
+  t._h = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ============================================================
+// KEYBOARD
+// ============================================================
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  const k = e.key;
+  if (k >= '1' && k <= '6') { selectSlot(parseInt(k) - 1); e.preventDefault(); return; }
+  if (k === 'F1' || k === 'p') { pushPadAndAnnounce(); e.preventDefault(); return; }
+  if (k === 'F4' || k === 'r') { readStats(); e.preventDefault(); return; }
+  if (k === 'ArrowLeft' || k === 'h') { selectSlot((state.activeIdx - 1 + 6) % 6); e.preventDefault(); return; }
+  if (k === 'ArrowRight' || k === 'l') { selectSlot((state.activeIdx + 1) % 6); e.preventDefault(); return; }
+});
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  loadSettings();
+
+  // Party slot clicks
+  document.querySelectorAll('.party-slot').forEach((slot) => {
+    slot.addEventListener('click', () => selectSlot(parseInt(slot.dataset.slot)));
+  });
+
+  // Header buttons
+  document.getElementById('btn-dotpad').addEventListener('click', openPopup);
+  document.getElementById('dpd-ble').addEventListener('click', connectBle);
+  document.getElementById('dpd-usb').addEventListener('click', connectUsb);
+  document.getElementById('dpd-disc').addEventListener('click', () => { disconnectDot(); closePopup(); });
+  document.addEventListener('click', (e) => {
+    const popup = document.getElementById('dotpad-popup');
+    if (popup.classList.contains('open') && !popup.contains(e.target) && e.target.id !== 'btn-dotpad') {
+      closePopup();
+    }
+  });
+  document.getElementById('btn-voice').addEventListener('click', () => {
+    state.ttsOn = !state.ttsOn;
+    if (!state.ttsOn) stopSpeak();
+    document.getElementById('btn-voice').classList.toggle('active', state.ttsOn);
+    saveSettings();
+  });
+  document.getElementById('btn-sfx').addEventListener('click', () => {
+    state.sfxOn = !state.sfxOn;
+    document.getElementById('btn-sfx').classList.toggle('active', state.sfxOn);
+    saveSettings();
+  });
+
+  // Initial render
+  if (state.log.length === 0) {
+    logEntry('info', '닷펫몬 v0.3 시작');
+    logEntry('care', '오늘의 일일 챌린지: 야생 3마리 만나기');
+  }
+  renderAll();
+}
+
+init();
+</script>
+</body>
+</html>

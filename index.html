@@ -56,6 +56,8 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--bg-app); color: var(--ink); font-family: 'Trebuchet MS', system-ui, sans-serif; }
   body { min-height: 100vh; overflow-x: hidden; }
+  /* Force HTML hidden attribute to override any display rule */
+  [hidden] { display: none !important; }
   .skip-link { position: absolute; top: -40px; left: 0; background: var(--accent); color: white; padding: 8px 14px; z-index: 1000; }
   .skip-link:focus { top: 0; }
 

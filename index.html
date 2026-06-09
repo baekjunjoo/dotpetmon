@@ -479,7 +479,161 @@
   }
   .full-screen[hidden] { display: none; }
 
-  /* ============ TITLE SCREEN (v0.5.1 — Pokemon Vortex inspired) ============ */
+  /* ============ TITLE SCREEN — SKY HERO (v0.7.2) ============ */
+  .title-fullscreen {
+    padding: 0 !important;
+    flex-direction: column;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+  }
+  .title-sky-hero {
+    position: relative;
+    width: 100%;
+    min-height: calc(100vh - 90px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .title-sky-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    user-select: none;
+    pointer-events: none;
+  }
+  .title-sky-hero::after {
+    /* soft white wash at bottom for text legibility */
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 30%;
+    background: linear-gradient(180deg, transparent, rgba(255,255,255,0.4));
+    z-index: 1;
+    pointer-events: none;
+  }
+  .title-sky-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+  .title-sky-logo {
+    max-width: 460px;
+    width: 80%;
+    height: auto;
+    filter: drop-shadow(0 12px 28px rgba(60, 50, 30, 0.35));
+    animation: title-logo-float 4s ease-in-out infinite;
+  }
+  @keyframes title-logo-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+  }
+  .title-sky-tagline {
+    margin: 0;
+    color: #2D2A24;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-shadow: 0 2px 4px rgba(255,255,255,0.8);
+    background: rgba(255,255,255,0.7);
+    padding: 6px 16px;
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
+  }
+  .title-sky-buttons {
+    display: flex;
+    gap: 18px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .title-img-btn {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    transition: transform 0.16s cubic-bezier(0.23, 1, 0.32, 1);
+    filter: drop-shadow(0 8px 16px rgba(60, 50, 30, 0.3));
+  }
+  .title-img-btn:hover:not(:disabled) {
+    transform: translateY(-3px) scale(1.03);
+    filter: drop-shadow(0 12px 22px rgba(60, 50, 30, 0.4));
+  }
+  .title-img-btn:active:not(:disabled) {
+    transform: translateY(1px) scale(0.97);
+    transition-duration: 100ms;
+  }
+  .title-img-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    filter: drop-shadow(0 4px 8px rgba(60, 50, 30, 0.2)) grayscale(0.3);
+  }
+  .title-img-btn img {
+    width: 240px;
+    height: auto;
+    max-width: 100%;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+  }
+  @media (max-width: 640px) {
+    .title-img-btn img { width: 200px; }
+    .title-sky-logo { width: 70%; }
+  }
+  .title-img-btn-sub {
+    font-size: 11px;
+    color: #2D2A24;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    background: rgba(255,255,255,0.8);
+    padding: 3px 10px;
+    border-radius: 999px;
+    backdrop-filter: blur(2px);
+  }
+  .title-sky-footer {
+    margin-top: 14px;
+  }
+  .title-sky-scroll {
+    color: #2D2A24;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    background: rgba(255,255,255,0.75);
+    padding: 8px 18px;
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(60,50,30,0.1);
+    transition: all 0.18s ease-out;
+    display: inline-block;
+    animation: scroll-hint 2.4s ease-in-out infinite;
+  }
+  .title-sky-scroll:hover {
+    background: white;
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+  @keyframes scroll-hint {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(4px); }
+  }
+
+  /* ============ TITLE SCREEN (v0.5.1 — Pokemon Vortex inspired, below sky hero) ============ */
   .vortex-page {
     width: 100%;
     max-width: 1080px;
@@ -1995,9 +2149,31 @@
 
 <main id="main-content">
 
-  <!-- ============ SCREEN: TITLE (v0.5.1 — Pokemon Vortex inspired) ============ -->
-  <section id="screen-title" class="full-screen" hidden>
-    <div class="vortex-page">
+  <!-- ============ SCREEN: TITLE (v0.7.2 — Sky hero with image logo + buttons) ============ -->
+  <section id="screen-title" class="full-screen title-fullscreen" hidden>
+    <!-- New hero: sky background + centered logo + image buttons -->
+    <div class="title-sky-hero" id="title-sky-hero">
+      <img class="title-sky-bg" src="assets/illustrations/keyart/title-bg-sky.png" alt="" aria-hidden="true" />
+      <div class="title-sky-content">
+        <img class="title-sky-logo" src="assets/illustrations/keyart/title-logo.png" alt="DOTPETMON — Monster Collection RPG" />
+        <p class="title-sky-tagline">시각장애 친화 턴제 몬스터 수집 RPG · 100% 무료</p>
+        <div class="title-sky-buttons">
+          <button class="title-img-btn" id="btn-new-game" type="button" aria-label="새 게임 시작">
+            <img src="assets/illustrations/ui/btn-new-game.png" alt="" aria-hidden="true" />
+            <span class="title-img-btn-sub">알 부화 + 랜덤 스타터</span>
+          </button>
+          <button class="title-img-btn" id="btn-continue" type="button" aria-label="이어하기" disabled>
+            <img src="assets/illustrations/ui/btn-continue.png" alt="" aria-hidden="true" />
+            <span class="title-img-btn-sub" id="continue-sub">저장 없음</span>
+          </button>
+        </div>
+        <div class="title-sky-footer">
+          <a href="#below" class="title-sky-scroll" id="link-scroll-down">↓ 닷펫몬 10종 보기</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="vortex-page" id="below">
 
       <!-- Top sub-nav (Vortex pattern: external links row) -->
       <nav class="vortex-subnav" aria-label="외부 링크">
@@ -2014,45 +2190,7 @@
         <button class="vortex-nav-btn" data-nav="about" type="button">ABOUT</button>
       </nav>
 
-      <!-- HERO: large banner with CTA -->
-      <div class="vortex-hero">
-        <div class="vortex-hero-sparkles">
-          <div class="t-sparkle s1"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
-          <div class="t-sparkle s2"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
-          <div class="t-sparkle s3"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
-          <div class="t-sparkle s4"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
-        </div>
-        <div class="vortex-hero-content">
-          <div class="vortex-hero-text">
-            <div class="vortex-hero-tag">DOT ARCADE · BETA</div>
-            <h1 class="vortex-logo">닷펫몬 <span>DOTPETMON</span></h1>
-            <p class="vortex-hero-blurb">
-              세계 최초 <b>시각장애 친화 턴제 몬스터 수집 RPG</b>.
-              닷패드 위 촉각 시그너처로 10종의 닷펫몬을 만나고,
-              알에서 부화한 첫 친구와 8개 지역을 모험하세요.
-              <b>100% 무료</b>.
-            </p>
-            <div class="vortex-cta-row">
-              <button class="vortex-cta-btn primary" id="btn-new-game" type="button">
-                ▶ 새 게임 시작
-                <small>알 부화 + 랜덤 스타터</small>
-              </button>
-              <button class="vortex-cta-btn" id="btn-continue" type="button" disabled>
-                ▷ 이어하기
-                <small id="continue-sub">저장 없음</small>
-              </button>
-            </div>
-          </div>
-          <div class="vortex-hero-trainer">
-            <img src="assets/illustrations/trainer/hero.png" alt="DotPetMon 트레이너 캐릭터" id="vortex-hero-trainer-img" />
-            <div class="vortex-hero-pad" style="margin-top: 12px;">
-              <div class="pad-label">실시간 닷패드 미리보기</div>
-              <canvas id="title-pad" aria-hidden="true"></canvas>
-              <div class="pad-caption" id="title-pad-caption">랜덤 종</div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- HERO removed — replaced by sky hero above. Pixel pad preview shown in starter grid cards instead. -->
 
       <!-- STARTER GRID: 10 species pixel sprites in 5×2 -->
       <div class="vortex-section">
@@ -2507,6 +2645,12 @@ const ART = {
     egg:        'assets/illustrations/ui/egg.png',
     eggStages:  'assets/illustrations/ui/egg-stages.png',
     typeBadges: 'assets/illustrations/ui/type-badges.png',
+    btnNew:     'assets/illustrations/ui/btn-new-game.png',
+    btnContinue:'assets/illustrations/ui/btn-continue.png',
+  },
+  keyart: {
+    titleBg:   'assets/illustrations/keyart/title-bg-sky.png',
+    titleLogo: 'assets/illustrations/keyart/title-logo.png',
   },
   region: (id) => `assets/illustrations/regions/${id}.png`,
   battleStage: (id) => `assets/illustrations/battle-stages/${id}.png`,
@@ -3047,15 +3191,16 @@ let _titleSelectedSpecies = null;
 let _titlePadCycleTimer = null;
 
 function renderTitle() {
-  // Continue button state
+  // Continue button state (sky hero version — only sub-label changes; image is fixed)
   const btnContinue = document.getElementById('btn-continue');
   const continueSub = document.getElementById('continue-sub');
   if (btnContinue) {
     btnContinue.disabled = !hasSavedGame();
-    if (hasSavedGame() && continueSub) {
-      btnContinue.querySelector(':not(small)') || (btnContinue.firstChild.textContent = '▷ 이어하기');
+  }
+  if (continueSub) {
+    if (hasSavedGame()) {
       continueSub.textContent = `${state.trainer.name} · 도감 ${state.dexCaught.size}/10`;
-    } else if (continueSub) {
+    } else {
       continueSub.textContent = '저장 없음';
     }
   }

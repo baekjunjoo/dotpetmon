@@ -922,6 +922,314 @@
   .vortex-hero-sparkles .t-sparkle.s3 { bottom: 20%; left: 8%; transform: rotate(-15deg); }
   .vortex-hero-sparkles .t-sparkle.s4 { bottom: 12%; right: 12%; transform: rotate(30deg); }
 
+  /* ============ ILLUSTRATION LAYER (v0.7) ============ */
+  /* Co-play visual: illustration is primary for sighted users,
+     dot pad pixel preview is PiP overlay for accessibility context */
+
+  .illust {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  .illust-frame {
+    position: relative;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  /* Pixel PiP in corner — shows the Dot Pad equivalent */
+  .pixel-pip {
+    position: absolute;
+    bottom: 6px; right: 6px;
+    width: 60px; height: 40px;
+    background: var(--pad-bg);
+    border-radius: 4px;
+    padding: 2px;
+    border: 1.5px solid var(--cyan);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .pixel-pip canvas {
+    width: 100%; height: 100%;
+    image-rendering: pixelated;
+  }
+  .pixel-pip-label {
+    position: absolute;
+    bottom: -14px; right: 0;
+    font-size: 8px;
+    color: var(--cyan);
+    letter-spacing: 0.1em;
+    font-weight: 800;
+  }
+
+  /* Species card on vortex grid — now uses illustration */
+  .vortex-species-card .species-art {
+    width: 100%;
+    aspect-ratio: 1/1;
+    background: var(--pad-bg);
+    border-radius: var(--radius-sm);
+    margin-bottom: 6px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .vortex-species-card .species-art img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+  }
+  .vortex-species-card .pixel-pip {
+    width: 36px; height: 24px;
+    bottom: 4px; right: 4px;
+  }
+
+  /* Vortex hero — illustrated trainer */
+  .vortex-hero-trainer {
+    position: relative;
+    text-align: center;
+  }
+  .vortex-hero-trainer img {
+    max-width: 100%;
+    max-height: 380px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 12px 24px rgba(0,0,0,0.4));
+  }
+
+  /* Viewport — large species illustration with pixel PiP */
+  .viewport-illust-wrap {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    padding: 16px;
+    background: var(--pad-bg);
+    border-radius: var(--radius);
+    min-height: 220px;
+  }
+  .viewport-illust {
+    max-width: 100%;
+    max-height: 320px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  /* Encounter — wild illustration */
+  .encounter-illust-wrap {
+    position: relative;
+    background: var(--pad-bg);
+    padding: 12px;
+    border-radius: var(--radius);
+    border: 3px solid var(--danger);
+    box-shadow: 0 0 24px rgba(232,94,78,0.5);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 14px;
+    max-width: 420px;
+    min-height: 240px;
+  }
+  .encounter-illust {
+    max-width: 100%;
+    max-height: 320px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  /* Region illustrated background for exploring */
+  .explore-region-bg {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    max-width: 540px;
+    background-size: cover;
+    background-position: center;
+    border-radius: var(--radius);
+    border: 2px solid var(--cyan);
+    box-shadow: var(--glow-cyan);
+    overflow: hidden;
+    margin: 0 auto 16px;
+  }
+  .explore-region-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(10,14,26,0.75) 100%);
+    pointer-events: none;
+  }
+  .explore-region-pixel-pip {
+    position: absolute;
+    bottom: 8px; right: 8px;
+    width: 80px; height: 54px;
+    background: var(--pad-bg);
+    border-radius: 4px;
+    padding: 3px;
+    border: 1.5px solid var(--cyan);
+    z-index: 2;
+  }
+  .explore-region-pixel-pip canvas {
+    width: 100%; height: 100%;
+    image-rendering: pixelated;
+  }
+
+  /* Hatch — illustrated egg */
+  .hatch-illust-wrap {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    padding: 16px;
+    background: var(--pad-bg);
+    border-radius: var(--radius);
+    margin: 0 auto 16px;
+    max-width: 380px;
+    min-height: 240px;
+  }
+  .hatch-illust {
+    max-width: 100%;
+    max-height: 280px;
+    height: auto;
+    object-fit: contain;
+  }
+  /* Shake animation for hatch hits */
+  .hatch-illust.shake {
+    animation: hatch-shake 0.18s ease-out;
+  }
+  @keyframes hatch-shake {
+    0%, 100% { transform: translateX(0) rotate(0); }
+    25% { transform: translateX(-4px) rotate(-2deg); }
+    75% { transform: translateX(4px) rotate(2deg); }
+  }
+  .hatch-illust.burst {
+    animation: hatch-burst 0.6s ease-out;
+  }
+  @keyframes hatch-burst {
+    0%, 100% { transform: scale(1); filter: brightness(1); }
+    50%      { transform: scale(1.2); filter: brightness(1.8); }
+  }
+
+  /* Reveal — big illustration */
+  .reveal-illust-wrap {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    background: var(--pad-bg);
+    border-radius: var(--radius);
+    border: 3px solid var(--accent);
+    box-shadow: 0 0 30px rgba(255,122,69,0.5);
+    margin: 0 auto 20px;
+    max-width: 460px;
+    min-height: 300px;
+  }
+  .reveal-illust {
+    max-width: 100%;
+    max-height: 360px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  /* Party slot — illustration small (replaces canvas) */
+  .party-slot .slot-illust {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+  }
+
+  /* DEX overlay screen */
+  .dex-overlay {
+    position: fixed; inset: 0;
+    background: rgba(10,14,26,0.94);
+    z-index: 600;
+    display: none;
+    overflow-y: auto;
+    padding: 20px;
+  }
+  .dex-overlay.open { display: block; }
+  .dex-container {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .dex-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--line);
+  }
+  .dex-header h2 {
+    flex: 1;
+    margin: 0;
+    font-size: 22px;
+    color: var(--accent);
+  }
+  .dex-progress {
+    background: var(--accent);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+  }
+  .dex-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 780px) { .dex-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 480px) { .dex-grid { grid-template-columns: repeat(2, 1fr); } }
+  .dex-entry {
+    background: var(--bg-card);
+    border: 2px solid var(--line);
+    border-radius: var(--radius);
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .dex-entry:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .dex-entry.unseen {
+    opacity: 0.4;
+    background: var(--bg-deep);
+  }
+  .dex-entry.seen { opacity: 0.7; }
+  .dex-entry.caught {
+    border-color: var(--ok);
+    box-shadow: 0 0 0 1px var(--ok);
+  }
+  .dex-entry-art {
+    width: 100%; aspect-ratio: 1/1;
+    background: var(--pad-bg);
+    border-radius: var(--radius-sm);
+    margin-bottom: 6px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .dex-entry-art img { width: 100%; height: 100%; object-fit: contain; }
+  .dex-entry-art .silhouette {
+    width: 70%; height: 70%; object-fit: contain;
+    filter: brightness(0) invert(0.15);
+  }
+  .dex-entry-name {
+    font-size: 12px;
+    font-weight: 800;
+  }
+  .dex-entry-num {
+    font-size: 10px;
+    color: var(--ink-dim);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .dex-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: var(--bg-card);
+    border: 2px solid var(--line);
+    color: var(--ink);
+    width: 40px; height: 40px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 800;
+  }
+  .dex-close:hover { border-color: var(--danger); color: var(--danger); }
+
   /* Legacy classes still used elsewhere */
   .title-stage {
     text-align: center;
@@ -1733,10 +2041,13 @@
               </button>
             </div>
           </div>
-          <div class="vortex-hero-pad">
-            <div class="pad-label">실시간 닷패드 미리보기</div>
-            <canvas id="title-pad" aria-hidden="true"></canvas>
-            <div class="pad-caption" id="title-pad-caption">랜덤 종</div>
+          <div class="vortex-hero-trainer">
+            <img src="assets/illustrations/trainer/hero.png" alt="DotPetMon 트레이너 캐릭터" id="vortex-hero-trainer-img" />
+            <div class="vortex-hero-pad" style="margin-top: 12px;">
+              <div class="pad-label">실시간 닷패드 미리보기</div>
+              <canvas id="title-pad" aria-hidden="true"></canvas>
+              <div class="pad-caption" id="title-pad-caption">랜덤 종</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1838,8 +2149,12 @@
       <h2 id="hatch-title">리듬에 맞춰 F1을 누르세요</h2>
       <p class="hatch-sub" id="hatch-sub">박자에 맞춰 알을 깨워주세요</p>
 
-      <div class="hatch-canvas-wrap">
-        <canvas id="hatch-canvas" aria-label="Hatching egg"></canvas>
+      <div class="hatch-illust-wrap">
+        <img class="hatch-illust" id="hatch-illust" src="assets/illustrations/ui/egg.png" alt="Hatching egg" />
+        <div class="pixel-pip" id="hatch-pixel-pip">
+          <canvas id="hatch-canvas"></canvas>
+          <div class="pixel-pip-label">PAD</div>
+        </div>
       </div>
 
       <div class="beat-row" id="beat-row" aria-label="Rhythm beats">
@@ -1874,8 +2189,12 @@
       <h1 id="reveal-name" class="reveal-name">—</h1>
       <div class="reveal-type" id="reveal-type">—</div>
 
-      <div class="reveal-canvas-wrap">
-        <canvas id="reveal-canvas" aria-label="Your starter"></canvas>
+      <div class="reveal-illust-wrap">
+        <img class="reveal-illust" id="reveal-illust" alt="Your starter" />
+        <div class="pixel-pip" id="reveal-pixel-pip">
+          <canvas id="reveal-canvas"></canvas>
+          <div class="pixel-pip-label">PAD</div>
+        </div>
       </div>
 
       <p class="reveal-tactile" id="reveal-tactile">—</p>
@@ -1927,8 +2246,10 @@
         <div class="explore-steps">스텝 <b id="explore-steps">0</b></div>
       </div>
       <div class="explore-mood" id="explore-mood">—</div>
-      <div class="explore-canvas-wrap">
-        <canvas id="explore-canvas" aria-label="Region view"></canvas>
+      <div class="explore-region-bg" id="explore-region-bg" role="img" aria-label="Region environment">
+        <div class="explore-region-pixel-pip">
+          <canvas id="explore-canvas"></canvas>
+        </div>
       </div>
       <div class="explore-status" id="explore-status">조용합니다... 한 걸음 더 나아가 볼까요?</div>
       <button class="menu-btn primary large" id="btn-explore-step" type="button">
@@ -1946,8 +2267,12 @@
       <div class="encounter-alert">! 야생 등장 !</div>
       <h2 id="encounter-name">야생 —</h2>
       <div class="encounter-type" id="encounter-type">—</div>
-      <div class="encounter-canvas-wrap">
-        <canvas id="encounter-canvas" aria-label="Wild creature"></canvas>
+      <div class="encounter-illust-wrap">
+        <img class="encounter-illust" id="encounter-illust" alt="Wild creature" />
+        <div class="pixel-pip" id="enc-pixel-pip">
+          <canvas id="encounter-canvas"></canvas>
+          <div class="pixel-pip-label">PAD</div>
+        </div>
       </div>
       <div class="encounter-info">
         <div class="encounter-stat">
@@ -2024,8 +2349,12 @@
           <div class="info-name" id="vp-name">—</div>
           <div class="info-type" id="vp-type" style="background: var(--bg-soft); color: var(--ink-soft);">—</div>
         </div>
-        <div class="viewport-canvas-wrap">
-          <canvas class="viewport-canvas" id="vp-canvas"></canvas>
+        <div class="viewport-illust-wrap">
+          <img class="viewport-illust" id="vp-illust" alt="활성 펫 일러스트" />
+          <div class="pixel-pip" id="vp-pixel-pip">
+            <canvas id="vp-canvas"></canvas>
+            <div class="pixel-pip-label">PAD</div>
+          </div>
         </div>
         <div class="viewport-tactile" id="vp-tactile">파티에서 펫을 선택하세요</div>
         <div class="main-actions">
@@ -2099,6 +2428,18 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="live-region" id="live-region" aria-live="polite" aria-atomic="true"></div>
 
+<!-- DEX overlay (v0.7) -->
+<div class="dex-overlay" id="dex-overlay" role="dialog" aria-label="DotDex 도감">
+  <button class="dex-close" id="dex-close" type="button" aria-label="닫기">×</button>
+  <div class="dex-container">
+    <div class="dex-header">
+      <h2>📖 DotDex 도감</h2>
+      <div class="dex-progress" id="dex-overlay-progress">0 / 10</div>
+    </div>
+    <div class="dex-grid" id="dex-grid"></div>
+  </div>
+</div>
+
 <script type="module">
   try {
     const { DotPadSDK, DotPadScanner, DisplayMode, DataCodes, KeyCodes }
@@ -2149,6 +2490,62 @@ const DEFAULT_PARTY = [
 
 // Starter pool — 4 species randomly assigned at game start
 const STARTER_POOL = ['pibbi', 'chikapi', 'bubloo', 'mosshu'];
+
+// ============================================================
+// ILLUSTRATION ASSETS (v0.7 — co-play visual layer)
+// ============================================================
+const ART = {
+  species: (key) => `assets/illustrations/species/${key}.png`,
+  trainer: {
+    hero:     'assets/illustrations/trainer/hero.png',
+    action:   'assets/illustrations/trainer/action.png',
+    headshot: 'assets/illustrations/trainer/headshot.png',
+  },
+  ui: {
+    egg:        'assets/illustrations/ui/egg.png',
+    eggStages:  'assets/illustrations/ui/egg-stages.png',
+    typeBadges: 'assets/illustrations/ui/type-badges.png',
+  },
+  region: (id) => `assets/illustrations/regions/${id}.png`,
+  battleStage: (id) => `assets/illustrations/battle-stages/${id}.png`,
+};
+
+// Type → battle stage mapping (which environment fits each region/type)
+const REGION_TO_STAGE = {
+  'starter-plains':     'grass',
+  'whispering-forest':  'grass',
+  'ember-volcano':      'volcano',
+  'mirror-lake':        'grass',
+  'storm-plain':        'grass',
+  'iron-cave':          'cave',
+  'sacred-grove':       'temple',
+  'echo-sanctum':       'temple',
+};
+
+// Type → badge sprite-sheet position (5×2 grid in type-badges.png)
+// Each badge is 1/5 width × 1/2 height. Order matches grid row-major:
+// Row 1: Light, Nature, Electric, Water, Earth
+// Row 2: Fire, Metal, Dream, Sound, Spirit
+const TYPE_BADGE_POS = {
+  Light:    { x: 0, y: 0 },
+  Nature:   { x: 1, y: 0 },
+  Electric: { x: 2, y: 0 },
+  Water:    { x: 3, y: 0 },
+  Earth:    { x: 4, y: 0 },
+  Fire:     { x: 0, y: 1 },
+  Metal:    { x: 1, y: 1 },
+  Dream:    { x: 2, y: 1 },
+  Sound:    { x: 3, y: 1 },
+  Spirit:   { x: 4, y: 1 },
+};
+function typeBadgeStyle(typeName, size = 28) {
+  const pos = TYPE_BADGE_POS[typeName];
+  if (!pos) return '';
+  return `width:${size}px;height:${size}px;background-image:url('${ART.ui.typeBadges}');` +
+         `background-size:${size * 5}px ${size * 2}px;` +
+         `background-position:-${pos.x * size}px -${pos.y * size}px;` +
+         `display:inline-block;background-repeat:no-repeat;`;
+}
 
 // 8 regions, each with native species + level range + unlock threshold (dex caught count)
 const REGIONS = [
@@ -2480,20 +2877,28 @@ function renderPartySlots() {
     const canvas = document.querySelector(`canvas[data-slot-canvas="${i}"]`);
     const labelEl = slot.querySelector('.party-label');
     const pet = state.party[i];
+    // Remove any previous illust img from slot
+    const oldImg = slot.querySelector('.slot-illust');
+    if (oldImg) oldImg.remove();
     if (!pet) {
       slot.classList.add('empty');
       slot.classList.remove('active');
       labelEl.textContent = '비어있음';
-      canvas.width = 0; canvas.height = 0;
+      if (canvas) { canvas.width = 0; canvas.height = 0; canvas.style.display = ''; }
       continue;
     }
     slot.classList.remove('empty');
     slot.classList.toggle('active', i === state.activeIdx);
     const spec = SPECIES[pet.species];
-    const accent = spec ? getComputedStyle(document.documentElement).getPropertyValue(TYPE_COLOR[spec.type]).trim() || '#ff9b6a' : '#ff9b6a';
-    const cells = new Uint8Array(DP_W * DP_H);
-    if (spec) spec.draw(cells);
-    renderPadCanvas(canvas, cells, 2, accent);
+    // Use illustration as primary, hide pixel canvas
+    if (spec) {
+      const img = document.createElement('img');
+      img.className = 'slot-illust';
+      img.src = ART.species(pet.species);
+      img.alt = `${pet.name} ${spec.name}`;
+      slot.insertBefore(img, canvas);
+      if (canvas) canvas.style.display = 'none';
+    }
     labelEl.textContent = pet.name + ' · L' + pet.level;
   }
 }
@@ -2501,6 +2906,7 @@ function renderPartySlots() {
 function renderViewport() {
   const pet = state.party[state.activeIdx];
   const canvas = document.getElementById('vp-canvas');
+  const illust = document.getElementById('vp-illust');
   const nameEl = document.getElementById('vp-name');
   const typeEl = document.getElementById('vp-type');
   const tactEl = document.getElementById('vp-tactile');
@@ -2510,14 +2916,22 @@ function renderViewport() {
     typeEl.style.background = 'var(--bg-soft)';
     typeEl.style.color = 'var(--ink-soft)';
     tactEl.textContent = '파티에서 펫을 선택하세요';
-    canvas.width = 0; canvas.height = 0;
+    if (canvas) { canvas.width = 0; canvas.height = 0; }
+    if (illust) { illust.style.display = 'none'; }
     return;
   }
   const spec = SPECIES[pet.species];
   const accent = spec ? getComputedStyle(document.documentElement).getPropertyValue(TYPE_COLOR[spec.type]).trim() : '#ff9b6a';
+  // Illustration (primary)
+  if (illust) {
+    illust.style.display = '';
+    illust.src = ART.species(pet.species);
+    illust.alt = `${pet.name} (${spec.name}) illustration`;
+  }
+  // Pixel PiP (Dot Pad mirror)
   const cells = new Uint8Array(DP_W * DP_H);
   if (spec) spec.draw(cells);
-  renderPadCanvas(canvas, cells, 9, accent);
+  if (canvas) renderPadCanvas(canvas, cells, 1, accent);
   nameEl.textContent = pet.name + ' (' + spec.name + ')';
   typeEl.textContent = (TYPE_GLYPH[spec.type] || '') + ' ' + spec.type;
   typeEl.style.background = accent;
@@ -2655,21 +3069,26 @@ function renderTitle() {
              data-species="${key}"
              role="button" tabindex="0"
              aria-label="#${sp.num} ${sp.name} ${sp.type} 타입${isStarter ? ' 스타터 후보' : ''}">
-          <canvas data-grid-canvas="${key}"></canvas>
+          <div class="species-art">
+            <img src="${ART.species(key)}" alt="${sp.name} illustration" loading="lazy" />
+            <div class="pixel-pip">
+              <canvas data-grid-canvas="${key}"></canvas>
+            </div>
+          </div>
           <div class="vortex-species-num">#${String(sp.num).padStart(2, '0')}</div>
           <div class="vortex-species-name">${sp.name}</div>
           <div class="vortex-species-type" style="color: var(${TYPE_COLOR[sp.type]});">${TYPE_GLYPH[sp.type]} ${sp.type}</div>
         </div>
       `;
     }).join('');
-    // Render each grid canvas
+    // Render each grid pixel PiP
     grid.querySelectorAll('canvas[data-grid-canvas]').forEach(c => {
       const key = c.dataset.gridCanvas;
       const sp = SPECIES[key];
       const cells = new Uint8Array(DP_W * DP_H);
       sp.draw(cells);
       const accent = getComputedStyle(document.documentElement).getPropertyValue(TYPE_COLOR[sp.type]).trim() || '#ff9b6a';
-      renderPadCanvas(c, cells, 2, accent);
+      renderPadCanvas(c, cells, 1, accent);
     });
     // Click handlers
     grid.querySelectorAll('.vortex-species-card').forEach(card => {
@@ -2939,10 +3358,16 @@ function renderHatch() {
   const canvas = document.getElementById('hatch-canvas');
   if (canvas && state.hatch) {
     const cells = new Uint8Array(DP_W * DP_H);
-    const stage = Math.min(5, state.hatch.hits + 1);  // 0 hits=stage 1 visible, 4 hits=stage 5
+    const stage = Math.min(5, state.hatch.hits + 1);
     const shake = state.hatch._shake || 0;
     drawEggSprite(cells, state.hatch.hits === 0 ? 0 : stage, shake);
-    renderPadCanvas(canvas, cells, 8, state.hatch.hits >= 4 ? '#FFD84D' : '#ff9b6a');
+    renderPadCanvas(canvas, cells, 1, state.hatch.hits >= 4 ? '#FFD84D' : '#ff9b6a');
+  }
+  // Illustration — single egg with shake on hit (egg-stages.png slicing optional later)
+  const illust = document.getElementById('hatch-illust');
+  if (illust && state.hatch) {
+    illust.src = ART.ui.egg;
+    // Shake class is added/removed by tapHatch directly
   }
   pushHatchToDotpad();
 }
@@ -3026,9 +3451,16 @@ function tapHatch() {
     tapBtn.classList.add('flash');
     setTimeout(() => tapBtn.classList.remove('flash'), 250);
   }
-  // Pulse / shake the egg sprite for tactile feel
+  // Pulse / shake the egg sprite for tactile feel (both pixel + illust)
   state.hatch._shake = 2;
   renderHatch();
+  const illustEl = document.getElementById('hatch-illust');
+  if (illustEl) {
+    illustEl.classList.remove('shake');
+    void illustEl.offsetWidth;
+    illustEl.classList.add('shake');
+    setTimeout(() => illustEl.classList.remove('shake'), 200);
+  }
   setTimeout(() => {
     if (!state.hatch) return;
     state.hatch._shake = -2;
@@ -3056,7 +3488,14 @@ function completeHatch() {
   if (state.hatchTimer) { clearInterval(state.hatchTimer); state.hatchTimer = null; }
   SFX.hatchOpen();
   speak(pickCopy(COPY.hatchSuccess));
-  // Final burst animation on canvas (cells flash full → empty)
+  // Burst the illustration
+  const illustEl = document.getElementById('hatch-illust');
+  if (illustEl) {
+    illustEl.classList.remove('shake');
+    illustEl.classList.add('burst');
+    setTimeout(() => illustEl.classList.remove('burst'), 700);
+  }
+  // Final burst animation on pixel canvas (cells flash full → empty)
   const canvas = document.getElementById('hatch-canvas');
   if (canvas) {
     let burstFrame = 0;
@@ -3119,9 +3558,11 @@ function renderReveal() {
   typeEl.style.color = '#0a0e1a';
 
   const canvas = document.getElementById('reveal-canvas');
+  const illust = document.getElementById('reveal-illust');
   const cells = new Uint8Array(DP_W * DP_H);
   sp.draw(cells);
-  renderPadCanvas(canvas, cells, 10, accent);
+  if (canvas) renderPadCanvas(canvas, cells, 1, accent);
+  if (illust) illust.src = ART.species(state.reveal.species);
 
   document.getElementById('reveal-tactile').innerHTML =
     `<b style="color: ${accent};">촉각</b> ${sp.tactile} · <b style="color: ${accent};">표면</b> ${sp.surface} · <b style="color: ${accent};">움직임</b> ${sp.motion}`;
@@ -3238,18 +3679,61 @@ function openExplore() {
   showScreen('region-select');
 }
 function openDexDetail() {
-  // Placeholder — list dex in alert until v0.6 has dedicated screen
-  const lines = ['📖 DotDex 도감'];
-  Object.keys(SPECIES).forEach(k => {
-    const sp = SPECIES[k];
-    const caught = state.dexCaught.has(k);
-    const seen = state.dexSeen.has(k);
-    const mark = caught ? '✓' : seen ? '·' : ' ';
-    lines.push(`${mark} #${sp.num} ${sp.name} (${sp.type})`);
-  });
-  lines.push('');
-  lines.push(`포획 ${state.dexCaught.size}/10 · 만남 ${state.dexSeen.size}/10`);
-  alert(lines.join('\n'));
+  const overlay = document.getElementById('dex-overlay');
+  if (!overlay) return;
+  // Build grid
+  const grid = document.getElementById('dex-grid');
+  if (grid) {
+    grid.innerHTML = Object.keys(SPECIES).map(k => {
+      const sp = SPECIES[k];
+      const caught = state.dexCaught.has(k);
+      const seen = state.dexSeen.has(k);
+      const cls = caught ? 'caught' : seen ? 'seen' : 'unseen';
+      const img = (caught || seen)
+        ? `<img src="${ART.species(k)}" alt="${sp.name}" class="${seen && !caught ? 'silhouette' : ''}" />`
+        : `<div style="color: var(--ink-dim); font-size: 32px;">?</div>`;
+      const label = caught ? sp.name : seen ? sp.name + ' ?' : '???';
+      return `
+        <div class="dex-entry ${cls}" data-species="${k}" role="button" tabindex="0">
+          <div class="dex-entry-art">${img}</div>
+          <div class="dex-entry-num">#${String(sp.num).padStart(2, '0')}</div>
+          <div class="dex-entry-name">${label}</div>
+        </div>
+      `;
+    }).join('');
+    // Click handlers — speak species info
+    grid.querySelectorAll('.dex-entry').forEach(el => {
+      el.addEventListener('click', () => {
+        const k = el.dataset.species;
+        const sp = SPECIES[k];
+        const caught = state.dexCaught.has(k);
+        const seen = state.dexSeen.has(k);
+        if (!seen) {
+          SFX.err();
+          speak('Unknown DotPetMon. Find it in the wild first.');
+          return;
+        }
+        if (SPECIES_CRY[k]) SPECIES_CRY[k]();
+        speak(`${sp.name}, ${sp.type} type. ${sp.tactile}.`);
+        // Push to dot pad
+        if (state.dotpadConnected && window.DotPad) {
+          try {
+            const cells = new Uint8Array(DP_W * DP_H);
+            sp.draw(cells);
+            window.DotPad.sdk.displayGraphicData(bytesToHex(cells));
+            try { window.DotPad.sdk.displayTextData(sp.name); } catch(e){}
+          } catch(e){}
+        }
+      });
+    });
+  }
+  // Progress label
+  const prog = document.getElementById('dex-overlay-progress');
+  if (prog) prog.textContent = `포획 ${state.dexCaught.size} / 10 · 만남 ${state.dexSeen.size} / 10`;
+  overlay.classList.add('open');
+}
+function closeDexDetail() {
+  document.getElementById('dex-overlay')?.classList.remove('open');
 }
 
 // ============================================================
@@ -3366,12 +3850,15 @@ function renderExploring() {
       ? '주변을 둘러봅니다. 한 걸음 내디뎌 볼까요?'
       : '조용합니다. 한 걸음 더 나아가 볼까요?';
   }
-  // Canvas — show region's color with subtle pattern (simple placeholder)
+  // Illustrated region background
+  const bg = document.getElementById('explore-region-bg');
+  if (bg) bg.style.backgroundImage = `url('${ART.region(r.id)}')`;
+  // Pixel PiP showing Dot Pad backdrop
   const canvas = document.getElementById('explore-canvas');
   if (canvas) {
     const cells = new Uint8Array(DP_W * DP_H);
     drawRegionBackdrop(cells, r);
-    renderPadCanvas(canvas, cells, 8, r.color);
+    renderPadCanvas(canvas, cells, 1, r.color);
   }
   // Push to dotpad
   if (state.dotpadConnected && window.DotPad) {
@@ -3564,9 +4051,11 @@ function renderEncounter() {
   typeEl.style.color = '#0a0e1a';
 
   const canvas = document.getElementById('encounter-canvas');
+  const illust = document.getElementById('encounter-illust');
   const cells = new Uint8Array(DP_W * DP_H);
   sp.draw(cells);
-  renderPadCanvas(canvas, cells, 9, accent);
+  if (canvas) renderPadCanvas(canvas, cells, 1, accent);
+  if (illust) illust.src = ART.species(e.species);
 
   document.getElementById('encounter-level').textContent = `Lv ${e.level}`;
   document.getElementById('encounter-hp').textContent = `${e.hp} / ${e.hpMax}`;
@@ -3916,6 +4405,14 @@ function showToast(msg) {
 // KEYBOARD (per-screen routing)
 // ============================================================
 document.addEventListener('keydown', (e) => {
+  // Dex overlay close (highest priority)
+  if (document.getElementById('dex-overlay')?.classList.contains('open')) {
+    if (e.key === 'Escape' || e.key === 'F3' || e.key === 'd') {
+      closeDexDetail();
+      e.preventDefault();
+      return;
+    }
+  }
   // Allow name/nickname input typing
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
     if (e.key === 'Enter' && state.screen === 'creation') { submitTrainerName(); e.preventDefault(); }
@@ -4107,6 +4604,12 @@ function init() {
   // ----- MAIN action tiles -----
   document.getElementById('btn-main-explore').addEventListener('click', openExplore);
   document.getElementById('btn-main-dex').addEventListener('click', openDexDetail);
+
+  // ----- DEX overlay close -----
+  document.getElementById('dex-close')?.addEventListener('click', closeDexDetail);
+  document.getElementById('dex-overlay')?.addEventListener('click', (e) => {
+    if (e.target.id === 'dex-overlay') closeDexDetail();
+  });
 
   // ----- REGION SELECT buttons -----
   document.getElementById('btn-region-back').addEventListener('click', () => showScreen('main'));

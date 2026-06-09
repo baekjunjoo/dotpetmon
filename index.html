@@ -6,29 +6,31 @@
 <title>닷펫몬 · DotPetMon</title>
 <style>
   :root {
-    --bg-app:      #0a0e1a;
-    --bg-card:     #18223a;
-    --bg-soft:     #1f2c4a;
-    --bg-deep:     #060912;
-    --line:        #2e3e5e;
-    --line-soft:   #1b2438;
-    --ink:         #e9eef7;
-    --ink-soft:    #aab5cc;
-    --ink-dim:     #6c7791;
+    /* === v0.7.1 LIGHT THEME (shadcn-inspired, 마누스 시안 기반) === */
+    --bg-app:      #FFFFFF;        /* pure white */
+    --bg-card:     #FFFFFF;        /* white cards w/ border */
+    --bg-soft:     #F7F5F0;        /* warm off-white */
+    --bg-deep:     #FAF8F2;        /* page section */
+    --bg-tint:     #FBF7F2;        /* very subtle warm tint */
+    --line:        #E5E1D8;        /* subtle warm gray */
+    --line-soft:   #EFECE5;        /* even softer */
+    --ink:         #3D3729;        /* warm dark gray (oklch 0.235/0.015/65) */
+    --ink-soft:    #6B6354;        /* secondary text */
+    --ink-dim:     #9E9580;        /* tertiary / hints */
 
-    --pad-on:      #ff9b6a;
-    --pad-off:     #2a2f3f;
-    --pad-bg:      #0e1421;
+    --pad-on:      #ff9b6a;        /* dot-pad pin color (warm) */
+    --pad-off:     #E5E1D8;        /* dot-pad pin off (light) */
+    --pad-bg:      #FBF7F2;        /* dot-pad background (warm cream) */
 
-    --cyan:        #4dc4d8;
-    --cyan-glow:   rgba(77, 196, 216, 0.55);
-    --purple:      #AFA9EC;
-    --purple-glow: rgba(175, 169, 236, 0.5);
-    --yellow:      #f2c14e;
+    --cyan:        #2563EB;        /* blue accent for info */
+    --cyan-glow:   rgba(37, 99, 235, 0.18);
+    --purple:      #7F77DD;        /* soft purple accent */
+    --purple-glow: rgba(127, 119, 221, 0.2);
+    --yellow:      #F2C14E;        /* warm yellow */
 
-    --accent:      #ff7a45;
-    --ok:          #6dd99a;
-    --danger:      #e85e4e;
+    --accent:      #ff7a45;        /* brand orange (preserved) */
+    --ok:          #16A34A;        /* green */
+    --danger:      #DC2626;        /* red */
 
     --t-light:     #FAC775;
     --t-nature:    #97C459;
@@ -41,13 +43,15 @@
     --t-sound:     #F4C0D1;
     --t-spirit:    #9FE1CB;
 
-    --radius:      10px;
+    --radius:      10px;           /* ~0.65rem */
     --radius-sm:   6px;
     --radius-lg:   16px;
-    --shadow:      0 4px 14px rgba(0,0,0,0.5);
-    --shadow-lg:   0 8px 24px rgba(0,0,0,0.65);
-    --glow-cyan:   0 0 18px var(--cyan-glow), inset 0 0 0 2px var(--cyan);
-    --glow-purple: 0 0 16px var(--purple-glow), inset 0 0 0 2px var(--purple);
+    /* soft functional shadows only (not decorative) */
+    --shadow:      0 1px 3px rgba(60, 50, 30, 0.06), 0 4px 12px rgba(60, 50, 30, 0.04);
+    --shadow-lg:   0 4px 12px rgba(60, 50, 30, 0.08), 0 12px 32px rgba(60, 50, 30, 0.06);
+    /* glow → subtle ring (no neon) */
+    --glow-cyan:   0 0 0 3px rgba(37, 99, 235, 0.12);
+    --glow-purple: 0 0 0 3px rgba(127, 119, 221, 0.12);
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--bg-app); color: var(--ink); font-family: 'Trebuchet MS', system-ui, sans-serif; }
@@ -58,8 +62,8 @@
   /* ============ HEADER ============ */
   .lab-header {
     position: fixed; top: 0; left: 0; right: 0; z-index: 250;
-    background: rgba(10,14,26,0.97);
-    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px) saturate(1.5);
     border-bottom: 1px solid var(--line);
     display: flex; flex-direction: column;
     padding: 8px 20px 0;
@@ -199,22 +203,18 @@
   .viewport-frame {
     position: relative;
     flex: 1;
-    background: var(--pad-bg);
+    background: var(--bg-card);
     border-radius: var(--radius-lg);
     padding: 10px;
-    border: 2px solid var(--cyan);
-    box-shadow: var(--glow-cyan), 0 6px 24px rgba(77,196,216,0.18);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
     overflow: hidden;
     min-height: 320px;
     display: flex;
     flex-direction: column;
   }
   .viewport-frame::before {
-    content: ''; position: absolute; top: -3px; left: -3px; right: -3px; bottom: -3px;
-    background: linear-gradient(135deg, var(--cyan) 0%, var(--purple) 50%, var(--cyan) 100%);
-    border-radius: var(--radius-lg);
-    z-index: -1;
-    opacity: 0.4;
+    display: none;
   }
   .viewport-canvas-wrap {
     flex: 1;
@@ -326,14 +326,14 @@
   .game-logo {
     text-align: center;
     padding: 8px 18px;
-    background: linear-gradient(135deg, var(--accent), #ffac6e);
+    background: var(--accent);
     border-radius: var(--radius);
     color: white;
     font-weight: 900;
     font-size: 18px;
     letter-spacing: 0.16em;
-    box-shadow: 0 4px 16px rgba(255,122,69,0.5);
-    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(255,122,69,0.25);
+    border: none;
     white-space: nowrap;
   }
   .game-logo small {
@@ -350,10 +350,10 @@
   }
   .right-panel {
     background: var(--bg-card);
-    border: 2px solid var(--purple);
+    border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 12px;
-    box-shadow: var(--glow-purple);
+    box-shadow: var(--shadow);
     position: relative;
   }
   .right-panel.stats { flex-shrink: 0; }
@@ -544,12 +544,12 @@
 
   .vortex-hero {
     position: relative;
-    background: linear-gradient(135deg, rgba(77,196,216,0.12), rgba(175,169,236,0.12));
-    border: 2px solid var(--cyan);
+    background: var(--bg-tint);
+    border: 1px solid var(--line);
     border-radius: var(--radius-lg);
     padding: 28px 24px;
     margin-bottom: 24px;
-    box-shadow: var(--glow-cyan);
+    box-shadow: var(--shadow);
     overflow: hidden;
   }
   .vortex-hero-sparkles {
@@ -656,11 +656,11 @@
     cursor: not-allowed;
   }
   .vortex-hero-pad {
-    background: var(--pad-bg);
+    background: var(--bg-soft);
     border-radius: var(--radius);
     padding: 12px;
-    border: 2px solid var(--purple);
-    box-shadow: var(--glow-purple);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
     text-align: center;
   }
   .vortex-hero-pad .pad-label {
@@ -1017,11 +1017,11 @@
   /* Encounter — wild illustration */
   .encounter-illust-wrap {
     position: relative;
-    background: var(--pad-bg);
+    background: var(--bg-soft);
     padding: 12px;
     border-radius: var(--radius);
-    border: 3px solid var(--danger);
-    box-shadow: 0 0 24px rgba(232,94,78,0.5);
+    border: 2px solid var(--danger);
+    box-shadow: 0 0 0 4px rgba(220,38,38,0.10), var(--shadow);
     display: flex; align-items: center; justify-content: center;
     margin: 0 auto 14px;
     max-width: 420px;
@@ -1043,15 +1043,15 @@
     background-size: cover;
     background-position: center;
     border-radius: var(--radius);
-    border: 2px solid var(--cyan);
-    box-shadow: var(--glow-cyan);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
     overflow: hidden;
     margin: 0 auto 16px;
   }
   .explore-region-bg::after {
     content: '';
     position: absolute; inset: 0;
-    background: linear-gradient(180deg, transparent 60%, rgba(10,14,26,0.75) 100%);
+    background: linear-gradient(180deg, transparent 60%, rgba(255,255,255,0.75) 100%);
     pointer-events: none;
   }
   .explore-region-pixel-pip {
@@ -1074,8 +1074,9 @@
     position: relative;
     display: flex; align-items: center; justify-content: center;
     padding: 16px;
-    background: var(--pad-bg);
+    background: var(--bg-soft);
     border-radius: var(--radius);
+    border: 1px solid var(--line);
     margin: 0 auto 16px;
     max-width: 380px;
     min-height: 240px;
@@ -1108,10 +1109,10 @@
     position: relative;
     display: flex; align-items: center; justify-content: center;
     padding: 20px;
-    background: var(--pad-bg);
+    background: var(--bg-soft);
     border-radius: var(--radius);
-    border: 3px solid var(--accent);
-    box-shadow: 0 0 30px rgba(255,122,69,0.5);
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 0 5px rgba(255,122,69,0.12), var(--shadow);
     margin: 0 auto 20px;
     max-width: 460px;
     min-height: 300px;
@@ -1133,7 +1134,8 @@
   /* DEX overlay screen */
   .dex-overlay {
     position: fixed; inset: 0;
-    background: rgba(10,14,26,0.94);
+    background: rgba(250, 248, 242, 0.97);
+    backdrop-filter: blur(8px);
     z-index: 600;
     display: none;
     overflow-y: auto;

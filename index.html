@@ -1443,8 +1443,8 @@
     padding: 16px;
     background: transparent;        /* parent .viewport-frame holds the type bg now */
     border-radius: var(--radius);
-    min-height: 480px;              /* fits the full-height sprite without clipping */
-    overflow: visible;              /* don't crop the sprite edges */
+    min-height: 220px;
+    overflow: hidden;
   }
   /* Hide the small Dot Pad mirror in the main viewport */
   #vp-pixel-pip { display: none !important; }
@@ -1512,50 +1512,6 @@
     height: auto;
     object-fit: contain;
     filter: drop-shadow(0 10px 18px rgba(0,0,0,0.30));
-  }
-  /* ========== Idle Sprite Animation (v0.7.7.36) ==========
-     Each sheet is 4 frames horizontal strip:
-       9 species: 2688×1152 (frame 672×1152)
-       voltchi  : 1536×672  (frame 384×672)
-     background-size 400% + steps(4) → bg-pos jumps 0 → -25% → -50% → -75% in 4 equal beats. */
-  /* Pure step animation — no blending between frames. Each frame holds exactly 1/4 of the cycle. */
-  @keyframes sprite-idle-4 {
-    from { background-position: 0% 0; }
-    to   { background-position: -133.333% 0; }
-    /* -100% would mean "skip past last frame" because steps(4) divides 0→to into 4 equal jumps;
-       using -133.333% as the end means the 4 steps land exactly on:
-       0%, -33.333%, -66.666%, -100%. */
-  }
-  .dotpetmon-sprite {
-    /* Default sheet frame is 672×1152 → aspect 7:12 (0.5833). */
-    --sprite-h: 460px;
-    --sprite-w: calc(var(--sprite-h) * 672 / 1152); /* ~268px */
-    width:  var(--sprite-w);
-    height: var(--sprite-h);
-    max-width: 100%;
-    background-repeat: no-repeat;
-    background-size: 400% 100%;
-    background-position: 0% 0;
-    animation: sprite-idle-4 1.6s steps(4) infinite;
-    image-rendering: auto;
-    filter: drop-shadow(0 10px 18px rgba(0,0,0,0.30));
-    pointer-events: none;
-  }
-  .dotpetmon-sprite.pibbi    { background-image: url('assets/illustrations/sprites/pibbi_idle_sheet.png'); }
-  .dotpetmon-sprite.mosshu   { background-image: url('assets/illustrations/sprites/mosshu_idle_sheet.png');   animation-duration: 1.8s; }
-  .dotpetmon-sprite.bubloo   { background-image: url('assets/illustrations/sprites/bubloo_idle_sheet.png');   animation-duration: 2.2s; }
-  .dotpetmon-sprite.fangroo  { background-image: url('assets/illustrations/sprites/fangroo_idle_sheet.png'); }
-  .dotpetmon-sprite.chikapi  { background-image: url('assets/illustrations/sprites/chikapi_idle_sheet.png');  animation-duration: 1.2s; }
-  .dotpetmon-sprite.turtloop { background-image: url('assets/illustrations/sprites/turtloop_idle_sheet.png'); animation-duration: 2.0s; }
-  .dotpetmon-sprite.nibori   { background-image: url('assets/illustrations/sprites/nibori_idle_sheet.png');   animation-duration: 2.6s; }
-  .dotpetmon-sprite.kricko   { background-image: url('assets/illustrations/sprites/kricko_idle_sheet.png');   animation-duration: 1.0s; }
-  .dotpetmon-sprite.luminoa  { background-image: url('assets/illustrations/sprites/luminoa_idle_sheet.png');  animation-duration: 2.4s; }
-  .dotpetmon-sprite.voltchi  {
-    background-image: url('assets/illustrations/sprites/voltchi_idle_sheet.png');
-    animation-duration: 0.7s;
-    /* voltchi sheet frame is 384×672 → aspect 4:7 (~0.571). Width auto-derives from height. */
-    --sprite-h: 460px;
-    --sprite-w: calc(var(--sprite-h) * 384 / 672); /* ~263px */
   }
 
   /* Encounter — wild illustration */
@@ -3103,7 +3059,7 @@
           <div class="info-type" id="vp-type" style="background: var(--bg-soft); color: var(--ink-soft);">—</div>
         </div>
         <div class="viewport-illust-wrap">
-          <div class="dotpetmon-sprite" id="vp-illust" role="img" aria-label="Active pet idle animation"></div>
+          <img class="viewport-illust" id="vp-illust" alt="Active pet illustration" />
           <div class="pixel-pip" id="vp-pixel-pip">
             <canvas id="vp-canvas"></canvas>
             <div class="pixel-pip-label">PAD</div>
@@ -3810,14 +3766,11 @@ function renderViewport() {
   }
   const spec = SPECIES[pet.species];
   const accent = spec ? getComputedStyle(document.documentElement).getPropertyValue(TYPE_COLOR[spec.type]).trim() : '#ff9b6a';
-  // Idle sprite — div with background-image sheet, 4-frame steps animation
+  // Illustration (primary)
   if (illust) {
     illust.style.display = '';
-    const KNOWN = ['pibbi','mosshu','voltchi','bubloo','fangroo','chikapi','turtloop','nibori','kricko','luminoa'];
-    illust.classList.add('dotpetmon-sprite');
-    KNOWN.forEach(k => illust.classList.remove(k));
-    if (pet.species) illust.classList.add(pet.species);
-    illust.setAttribute('aria-label', `${pet.name} (${spec ? spec.name : pet.species}) idle animation`);
+    illust.src = ART.species(pet.species);
+    illust.alt = `${pet.name} (${spec.name}) illustration`;
   }
   // Pixel PiP (Dot Pad mirror)
   const cells = new Uint8Array(DP_W * DP_H);

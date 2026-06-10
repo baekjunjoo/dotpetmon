@@ -307,7 +307,7 @@
   /* ============ MAIN LAYOUT ============ */
   main {
     max-width: 1280px; margin: 0 auto;
-    padding: 102px 16px 24px; /* fits the 90px logo + breathing room */
+    padding: 102px 28px 24px; /* extra left/right room so sticker box-shadows don't get clipped */
   }
   .stage {
     display: grid;
@@ -331,6 +331,8 @@
   /* ============ PARTY (LEFT) ============ */
   .left-col {
     display: flex; flex-direction: column; gap: 10px;
+    padding: 4px;            /* breathing room so slot box-shadows aren't clipped on the viewport edge */
+    overflow: visible;
   }
   .party-slot {
     position: relative;
@@ -1503,9 +1505,10 @@
   }
   .viewport-illust {
     max-width: 100%;
-    max-height: 320px;
+    max-height: 480px;       /* 1.5× from 320 — main character much more present */
     height: auto;
     object-fit: contain;
+    filter: drop-shadow(0 10px 18px rgba(0,0,0,0.30));
   }
 
   /* Encounter — wild illustration */

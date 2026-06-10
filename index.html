@@ -1489,43 +1489,29 @@
     background: transparent;
     border: none;
     box-shadow: none;
-    margin: 60px auto 0;       /* closer to header text + no gap before beat-row */
-    max-width: 520px;
-    min-height: 360px;
+    margin: 24px auto 0;       /* closer to header text */
+    max-width: 560px;
+    min-height: 460px;
   }
   /* Hide the pixel Pad mirror + the redundant text progress (● ○ ○ ○) */
   #hatch-pixel-pip { display: none !important; }
   #hatch-progress { display: none !important; }
   /* Push header text below the canopy + white for readability against the bg */
-  body.has-nest .hatch-stage { padding-top: 40px; }
-  body.has-nest .creation-step {
-    color: #FFFFFF;
-    text-shadow:
-      -1.5px -1.5px 0 var(--line),
-       1.5px -1.5px 0 var(--line),
-      -1.5px  1.5px 0 var(--line),
-       1.5px  1.5px 0 var(--line),
-       0 2px 4px rgba(0,0,0,0.5);
-  }
+  body.has-nest .hatch-stage { padding-top: 24px; }
+  /* All hatch screen text: clean white with soft drop shadow only — no navy stroke */
+  body.has-nest .creation-step,
   body.has-nest .hatch-stage h2,
-  body.has-nest #hatch-title {
-    color: #FFFFFF;
-    text-shadow:
-      -2px -2px 0 var(--line),
-       2px -2px 0 var(--line),
-      -2px  2px 0 var(--line),
-       2px  2px 0 var(--line),
-       0 3px 6px rgba(0,0,0,0.5);
-  }
+  body.has-nest #hatch-title,
   body.has-nest .hatch-sub,
   body.has-nest .hatch-stats {
     color: #FFFFFF;
     text-shadow: 0 2px 4px rgba(0,0,0,0.65), 0 0 6px rgba(0,0,0,0.4);
+    -webkit-text-stroke: 0;
   }
   body.has-nest .hatch-stats b { color: #FFE38A; }
   .hatch-illust {
     max-width: 100%;
-    max-height: 440px;
+    max-height: 540px;
     height: auto;
     object-fit: contain;
   }
@@ -2006,7 +1992,9 @@
   .beat-row {
     display: flex; gap: 18px;
     justify-content: center;
-    margin: -6px 0 20px;  /* pull up so dots sit just under the egg */
+    margin: -40px 0 14px;  /* tuck dots right under the egg base */
+    position: relative;
+    z-index: 2;
   }
   .beat-dot {
     width: 18px; height: 18px;

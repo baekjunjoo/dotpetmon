@@ -1450,21 +1450,12 @@
   }
   /* Hide the small Dot Pad mirror in the main viewport */
   #vp-pixel-pip { display: none !important; }
-  /* Active pet type → viewport-FRAME (whole card) background */
-  body[data-pet-type="light"]    .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_light.png'); }
-  body[data-pet-type="nature"]   .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_nature.png'); }
-  body[data-pet-type="electric"] .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_electric.png'); }
-  body[data-pet-type="water"]    .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_water.png'); }
-  body[data-pet-type="earth"]    .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_earth.png'); }
-  body[data-pet-type="fire"]     .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_fire.png'); }
-  body[data-pet-type="metal"]    .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_metal.png'); }
-  body[data-pet-type="dream"]    .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_dream.png'); }
-  body[data-pet-type="sound"]    .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_sound.png'); }
-  body[data-pet-type="spirit"]   .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_spirit.png'); }
+  /* v0.7.7.27 — pet type viewport background removed (single hub bg only).
+     Card is transparent so the trainer hub shows through. */
   body[data-pet-type] .viewport-frame {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
   }
   .viewport-illust {
     max-width: 100%;

@@ -336,7 +336,7 @@
   }
   .party-slot {
     position: relative;
-    background: #FFFFFF;             /* solid white instead of translucent (no cream bleed-through) */
+    background: #FFFFFF !important;   /* solid white — no cream bleed */
     border: 3px solid var(--line);
     border-radius: var(--radius);
     aspect-ratio: 1 / 1.15;
@@ -347,12 +347,8 @@
     display: flex; align-items: center; justify-content: center;
     overflow: hidden;
   }
-  .party-slot::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    border-radius: var(--radius);
-    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.08), transparent 60%);
-    pointer-events: none;
-  }
+  /* v0.7.7.45 — removed the soft radial highlight that was tinting slot corners cream */
+  .party-slot::before { content: none; }
   .party-slot:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
   .party-slot.active {
     background: linear-gradient(180deg, #FFEDD5 0%, #FED7AA 100%);
@@ -1668,12 +1664,16 @@
     padding: 0 !important;
     overflow: visible !important;              /* PNG drop-shadow / sticker outline isn't clipped */
   }
-  /* Icon utility buttons: explicit aspect so PNG fits naturally (sheet ≈ 1.6:1) */
+  /* Icon utility buttons: bigger box + padding so PNG's white sticker outer
+     never touches the box edge (no top-left/top-right clipping). */
   .icon-btn.png-skin {
-    width: 76px !important;
-    height: 48px !important;
-    min-width: 76px !important;
-    min-height: 48px !important;
+    width: 90px !important;
+    height: 60px !important;
+    min-width: 90px !important;
+    min-height: 60px !important;
+    padding: 3px !important;
+    background-origin: padding-box !important;
+    background-clip: padding-box !important;
   }
   .icon-btn.png-skin::before,
   .action-tile.png-skin::before { content: none !important; }

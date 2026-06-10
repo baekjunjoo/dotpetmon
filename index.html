@@ -100,6 +100,18 @@
     background-attachment: fixed;
     background-repeat: no-repeat;
   }
+  /* Type-themed background — applied on the starter reveal screen.
+     Class is set in renderReveal() based on the species type. */
+  body.type-light    { background: url('assets/illustrations/type-bgs/bg_light.png')    center/cover fixed no-repeat var(--bg-app); }
+  body.type-nature   { background: url('assets/illustrations/type-bgs/bg_nature.png')   center/cover fixed no-repeat var(--bg-app); }
+  body.type-electric { background: url('assets/illustrations/type-bgs/bg_electric.png') center/cover fixed no-repeat var(--bg-app); }
+  body.type-water    { background: url('assets/illustrations/type-bgs/bg_water.png')    center/cover fixed no-repeat var(--bg-app); }
+  body.type-earth    { background: url('assets/illustrations/type-bgs/bg_earth.png')    center/cover fixed no-repeat var(--bg-app); }
+  body.type-fire     { background: url('assets/illustrations/type-bgs/bg_fire.png')     center/cover fixed no-repeat var(--bg-app); }
+  body.type-metal    { background: url('assets/illustrations/type-bgs/bg_metal.png')    center/cover fixed no-repeat var(--bg-app); }
+  body.type-dream    { background: url('assets/illustrations/type-bgs/bg_dream.png')    center/cover fixed no-repeat var(--bg-app); }
+  body.type-sound    { background: url('assets/illustrations/type-bgs/bg_sound.png')    center/cover fixed no-repeat var(--bg-app); }
+  body.type-spirit   { background: url('assets/illustrations/type-bgs/bg_spirit.png')   center/cover fixed no-repeat var(--bg-app); }
   /* Display font for headings, big numbers, buttons */
   h1, h2, h3, .display, .vortex-logo, .reveal-name, #encounter-name, .game-logo,
   .title-img-btn-sub, .menu-btn, .vortex-cta-btn, .action-btn, .stat-value {
@@ -3651,6 +3663,14 @@ function showScreen(name) {
   document.body.classList.toggle('has-sky', name === 'title' || name === 'creation');
   // Enchanted nest background applies only to the hatching mini-game screen
   document.body.classList.toggle('has-nest', name === 'hatch');
+  // Type-themed reveal background is only valid on the reveal screen.
+  // renderReveal() adds the right type-{xxx} class; here we clear it on every
+  // screen transition so the class only persists during reveal.
+  if (name !== 'reveal') {
+    ['type-light','type-nature','type-electric','type-water','type-earth',
+     'type-fire','type-metal','type-dream','type-sound','type-spirit']
+      .forEach(c => document.body.classList.remove(c));
+  }
   // Reset any leftover entry transition state on the hero
   const sky = document.getElementById('title-sky-hero');
   if (sky) sky.classList.remove('entering');
@@ -4150,6 +4170,11 @@ function renderReveal() {
   const sp = SPECIES[state.reveal.species];
   if (!sp) return;
   const accent = getComputedStyle(document.documentElement).getPropertyValue(TYPE_COLOR[sp.type]).trim() || '#ff9b6a';
+
+  // Type-themed background — clear any previous type class then apply current
+  const TYPE_BG_CLASSES = ['type-light','type-nature','type-electric','type-water','type-earth','type-fire','type-metal','type-dream','type-sound','type-spirit'];
+  TYPE_BG_CLASSES.forEach(c => document.body.classList.remove(c));
+  if (sp.type) document.body.classList.add('type-' + sp.type.toLowerCase());
 
   document.getElementById('reveal-name').textContent = sp.name;
   document.getElementById('reveal-name').style.color = accent;

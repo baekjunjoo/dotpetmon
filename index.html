@@ -1435,25 +1435,29 @@
     position: relative;
     display: flex; align-items: center; justify-content: center;
     padding: 16px;
-    background: var(--pad-bg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background: transparent;        /* parent .viewport-frame holds the type bg now */
     border-radius: var(--radius);
     min-height: 220px;
     overflow: hidden;
   }
-  /* Active pet type → viewport-only background */
-  body[data-pet-type="light"]    .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_light.png'); }
-  body[data-pet-type="nature"]   .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_nature.png'); }
-  body[data-pet-type="electric"] .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_electric.png'); }
-  body[data-pet-type="water"]    .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_water.png'); }
-  body[data-pet-type="earth"]    .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_earth.png'); }
-  body[data-pet-type="fire"]     .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_fire.png'); }
-  body[data-pet-type="metal"]    .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_metal.png'); }
-  body[data-pet-type="dream"]    .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_dream.png'); }
-  body[data-pet-type="sound"]    .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_sound.png'); }
-  body[data-pet-type="spirit"]   .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_spirit.png'); }
+  /* Hide the small Dot Pad mirror in the main viewport */
+  #vp-pixel-pip { display: none !important; }
+  /* Active pet type → viewport-FRAME (whole card) background */
+  body[data-pet-type="light"]    .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_light.png'); }
+  body[data-pet-type="nature"]   .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_nature.png'); }
+  body[data-pet-type="electric"] .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_electric.png'); }
+  body[data-pet-type="water"]    .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_water.png'); }
+  body[data-pet-type="earth"]    .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_earth.png'); }
+  body[data-pet-type="fire"]     .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_fire.png'); }
+  body[data-pet-type="metal"]    .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_metal.png'); }
+  body[data-pet-type="dream"]    .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_dream.png'); }
+  body[data-pet-type="sound"]    .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_sound.png'); }
+  body[data-pet-type="spirit"]   .viewport-frame { background-image: url('assets/illustrations/type-bgs/bg_spirit.png'); }
+  body[data-pet-type] .viewport-frame {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
   .viewport-illust {
     max-width: 100%;
     max-height: 320px;

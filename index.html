@@ -3150,69 +3150,84 @@ const BGM = {
   enabled: true,
   playing: false,
   TARGET_VOL: 0.10,          // master volume cap (same as procedural BGM)
+  FADE_IN_MS: 300,           // very short fade-in for snappy start
+  FADE_OUT_MS: 600,
   audioEl: null,             // HTMLAudioElement
   source: null,              // MediaElementAudioSourceNode
   gain: null,                // GainNode for fade in/out + master volume
-  _wired: false,
-  _setup() {
-    const ctx = _audio(); if (!ctx) return null;
-    if (this.audioEl) return ctx;
-    // Build <audio> element
+  _started: false,           // muted-play already kicked off
+  // Build the audio element immediately on page load (no AudioContext needed yet).
+  // We start muted so most browsers allow autoplay; the first user gesture
+  // then just unmutes & ramps up — no buffering latency.
+  preload() {
+    if (this.audioEl) return;
     const a = new Audio();
     a.src = 'assets/audio/bgm-title.mp3';
     a.loop = true;
     a.preload = 'auto';
-    a.crossOrigin = 'anonymous';
-    a.volume = 1.0; // gain node controls actual volume
+    a.muted = true;
+    a.volume = 1.0; // GainNode (or muted) controls actual output
     this.audioEl = a;
-    // Route through Web Audio for gain control
+    try { a.load(); } catch(e) {}
+    // Try to begin playback silently right now — most browsers allow muted autoplay
+    const p = a.play();
+    if (p && typeof p.catch === 'function') p.catch(() => {});
+    this._started = true;
+  },
+  _wireAudioGraph() {
+    const ctx = _audio(); if (!ctx) return null;
+    if (this.gain) return ctx;
+    if (!this.audioEl) this.preload();
     try {
-      this.source = ctx.createMediaElementSource(a);
+      this.source = ctx.createMediaElementSource(this.audioEl);
       this.gain = ctx.createGain();
       this.gain.gain.value = 0;
       this.source.connect(this.gain).connect(ctx.destination);
     } catch (e) {
-      // Fallback: control volume via element directly
-      console.warn('BGM: MediaElementAudioSource failed, falling back to element volume', e);
-      this.source = null;
-      this.gain = null;
-      a.volume = 0;
+      this.source = null; this.gain = null;
     }
     return ctx;
   },
   start() {
     if (this.playing) return;
-    const ctx = this._setup(); if (!ctx) return;
+    if (!this.audioEl) this.preload();
+    const ctx = this._wireAudioGraph();
     this.playing = true;
-    const now = ctx.currentTime;
-    if (this.gain) {
+    // Unmute first — element was already playing silently from preload
+    if (this.audioEl) {
+      this.audioEl.muted = false;
+      const p = this.audioEl.play();
+      if (p && typeof p.catch === 'function') p.catch(() => { this.playing = false; });
+    }
+    // Ramp volume from 0 → TARGET_VOL quickly
+    if (ctx && this.gain) {
+      const now = ctx.currentTime;
       this.gain.gain.cancelScheduledValues(now);
       this.gain.gain.setValueAtTime(this.gain.gain.value, now);
-      this.gain.gain.linearRampToValueAtTime(this.TARGET_VOL, now + 1.4); // 1.4s fade-in
+      this.gain.gain.linearRampToValueAtTime(this.TARGET_VOL, now + this.FADE_IN_MS / 1000);
     } else if (this.audioEl) {
-      // No gain node — ramp element volume manually
-      this._rampElementVolume(this.TARGET_VOL, 1400);
-    }
-    // Play (returns promise; ignore rejection — autoplay policy will retry on next gesture)
-    if (this.audioEl) {
-      this.audioEl.play().catch(() => { this.playing = false; });
+      this.audioEl.volume = 0;
+      this._rampElementVolume(this.TARGET_VOL, this.FADE_IN_MS);
     }
   },
-  stop(fadeMs = 700) {
+  stop(fadeMs = this.FADE_OUT_MS || 600) {
     if (!this.playing) return;
     this.playing = false;
-    const ctx = _audio(); if (!ctx) return;
-    const now = ctx.currentTime;
-    if (this.gain) {
+    const ctx = _audio();
+    if (ctx && this.gain) {
+      const now = ctx.currentTime;
       this.gain.gain.cancelScheduledValues(now);
       this.gain.gain.setValueAtTime(this.gain.gain.value, now);
       this.gain.gain.linearRampToValueAtTime(0, now + fadeMs / 1000);
-      // Pause after fade so element doesn't keep ticking while inaudible
-      setTimeout(() => { if (!this.playing && this.audioEl) this.audioEl.pause(); }, fadeMs + 50);
     } else if (this.audioEl) {
       this._rampElementVolume(0, fadeMs);
-      setTimeout(() => { if (!this.playing && this.audioEl) this.audioEl.pause(); }, fadeMs + 50);
     }
+    // After fade, pause + re-mute so the element doesn't stay audible if user re-enables before AudioContext exists
+    setTimeout(() => {
+      if (this.playing || !this.audioEl) return;
+      this.audioEl.muted = true;
+      try { this.audioEl.pause(); } catch(e) {}
+    }, fadeMs + 60);
   },
   toggle() {
     this.enabled = !this.enabled;
@@ -4971,6 +4986,11 @@ function init() {
       const bgmPref = localStorage.getItem('dotpetmon:bgm');
       if (bgmPref === 'off') BGM.enabled = false;
     } catch(e) {}
+    // Kick off preload + silent (muted) playback ASAP — by the time the user
+    // makes their first gesture the buffer is ready and unmute is instant.
+    if (BGM.enabled) {
+      try { BGM.preload(); } catch(e) {}
+    }
     btnBGM.classList.toggle('active', BGM.enabled);
     btnBGM.setAttribute('aria-pressed', BGM.enabled ? 'true' : 'false');
     btnBGM.addEventListener('click', () => {

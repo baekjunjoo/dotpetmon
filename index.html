@@ -2569,8 +2569,7 @@
     <div class="controls" role="toolbar" aria-label="App controls">
       <button class="icon-btn" id="btn-dotpad" type="button" aria-label="Connect Dot Pad">PAD</button>
       <button class="icon-btn active" id="btn-voice" type="button" aria-pressed="true" aria-label="Toggle voice">Voice</button>
-      <button class="icon-btn active" id="btn-sfx" type="button" aria-pressed="true" aria-label="Toggle sound effects">FX</button>
-      <button class="icon-btn active" id="btn-bgm" type="button" aria-pressed="true" aria-label="Toggle background music">BGM</button>
+      <button class="icon-btn active" id="btn-sfx" type="button" aria-pressed="true" aria-label="Toggle sound effects and music">FX</button>
     </div>
   </div>
   <div class="lab-keymap" role="region" aria-label="Dot Pad key map">
@@ -5195,33 +5194,31 @@ function init() {
     document.getElementById('btn-voice').classList.toggle('active', state.ttsOn);
     saveSettings();
   });
-  document.getElementById('btn-sfx').addEventListener('click', () => {
+  // Unified FX toggle: controls SFX + BGM together (single button — "FX")
+  // Restore prior BGM preference from localStorage so it tracks the same on/off.
+  try {
+    const bgmPref = localStorage.getItem('dotpetmon:bgm');
+    if (bgmPref === 'off') BGM.enabled = false;
+  } catch(e) {}
+  // Initial sync: if SFX is off (saved settings), turn BGM off too.
+  if (!state.sfxOn) BGM.enabled = false;
+  // Kick off muted preload so first-gesture unmute is instant.
+  if (BGM.enabled) {
+    try { BGM.preload(); } catch(e) {}
+  }
+  const btnSfx = document.getElementById('btn-sfx');
+  btnSfx.classList.toggle('active', state.sfxOn);
+  btnSfx.setAttribute('aria-pressed', state.sfxOn ? 'true' : 'false');
+  btnSfx.addEventListener('click', () => {
     state.sfxOn = !state.sfxOn;
-    document.getElementById('btn-sfx').classList.toggle('active', state.sfxOn);
+    btnSfx.classList.toggle('active', state.sfxOn);
+    btnSfx.setAttribute('aria-pressed', state.sfxOn ? 'true' : 'false');
+    // Mirror to BGM
+    BGM.enabled = state.sfxOn;
+    if (BGM.enabled) BGM.start(); else BGM.stop();
+    try { localStorage.setItem('dotpetmon:bgm', BGM.enabled ? 'on' : 'off'); } catch(e) {}
     saveSettings();
   });
-  // BGM toggle
-  const btnBGM = document.getElementById('btn-bgm');
-  if (btnBGM) {
-    // restore from localStorage
-    try {
-      const bgmPref = localStorage.getItem('dotpetmon:bgm');
-      if (bgmPref === 'off') BGM.enabled = false;
-    } catch(e) {}
-    // Kick off preload + silent (muted) playback ASAP — by the time the user
-    // makes their first gesture the buffer is ready and unmute is instant.
-    if (BGM.enabled) {
-      try { BGM.preload(); } catch(e) {}
-    }
-    btnBGM.classList.toggle('active', BGM.enabled);
-    btnBGM.setAttribute('aria-pressed', BGM.enabled ? 'true' : 'false');
-    btnBGM.addEventListener('click', () => {
-      const on = BGM.toggle();
-      btnBGM.classList.toggle('active', on);
-      btnBGM.setAttribute('aria-pressed', on ? 'true' : 'false');
-      try { localStorage.setItem('dotpetmon:bgm', on ? 'on' : 'off'); } catch(e) {}
-    });
-  }
   // Start BGM on first user interaction (browsers block autoplay before gesture)
   const _bgmStarter = () => {
     if (BGM.enabled && !BGM.playing) BGM.start();

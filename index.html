@@ -100,6 +100,14 @@
     background-attachment: fixed;
     background-repeat: no-repeat;
   }
+  /* Trainer hub background — main game screen */
+  body.has-hub {
+    background-image: url('assets/illustrations/keyart/hub-bg.png');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
   /* Type-themed background — applied on the starter reveal screen.
      Class is set in renderReveal() based on the species type. */
   body.type-light    { background: url('assets/illustrations/type-bgs/bg_light.png')    center/cover fixed no-repeat var(--bg-app); }
@@ -3793,6 +3801,8 @@ function showScreen(name) {
   document.body.classList.toggle('has-sky', name === 'title' || name === 'creation');
   // Enchanted nest background applies only to the hatching mini-game screen
   document.body.classList.toggle('has-nest', name === 'hatch');
+  // Trainer hub background — main game screen
+  document.body.classList.toggle('has-hub', name === 'main');
   // Type-themed full-page background — reveal screen only.
   // For other screens, clear all type-* classes.
   const TYPE_BG_CLASSES = ['type-light','type-nature','type-electric','type-water','type-earth',

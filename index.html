@@ -311,16 +311,16 @@
   }
   .stage {
     display: grid;
-    grid-template-columns: 120px 1fr 280px;
+    grid-template-columns: 152px 1fr 280px;
     grid-template-rows: 1fr;
     gap: 14px;
     min-height: calc(100vh - 130px);
   }
   @media (max-width: 1100px) {
-    .stage { grid-template-columns: 100px 1fr 240px; gap: 10px; }
+    .stage { grid-template-columns: 128px 1fr 240px; gap: 10px; }
   }
   @media (max-width: 900px) {
-    .stage { grid-template-columns: 90px 1fr; }
+    .stage { grid-template-columns: 110px 1fr; }
     .right-col { display: none; }
   }
   @media (max-width: 600px) {
@@ -395,7 +395,7 @@
   }
   .viewport-frame {
     position: relative;
-    flex: 1;
+    flex: 1 1 auto;
     background: var(--bg-card);
     border-radius: var(--radius-lg);
     padding: 10px;
@@ -405,6 +405,7 @@
     min-height: 320px;
     display: flex;
     flex-direction: column;
+    justify-content: center; /* center the illust vertically inside the (now bigger) frame */
   }
   .viewport-frame::before {
     display: none;

@@ -72,14 +72,24 @@
   * { box-sizing: border-box; }
   html, body {
     margin: 0; padding: 0;
-    background: var(--bg-app);
     color: var(--ink);
     font-family: var(--font-body);
     font-weight: 600;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  body { min-height: 100vh; overflow-x: hidden; }
+  /* Global sky background — same image as title hero, behind every screen.
+     Cream fallback color in case the image fails to load. */
+  body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: var(--bg-app);
+    background-image: url('assets/illustrations/keyart/title-bg-sky.png');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
   /* Display font for headings, big numbers, buttons */
   h1, h2, h3, .display, .vortex-logo, .reveal-name, #encounter-name, .game-logo,
   .title-img-btn-sub, .menu-btn, .vortex-cta-btn, .action-btn, .stat-value {
@@ -649,19 +659,12 @@
     backdrop-filter: none;
     border-bottom-color: transparent;
   }
-  body.on-title { background: transparent !important; }
+  /* Body already has the sky bg globally — no need to force-transparent on title. */
   body.on-title main {
     padding-top: 0 !important;
-    background: transparent !important;
     max-width: none !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
-  }
-  body.on-title #screen-title,
-  body.on-title .title-fullscreen,
-  body.on-title .title-sky-hero,
-  body.on-title .title-sky-content {
-    background: transparent !important;
   }
   .title-sky-hero {
     position: relative;

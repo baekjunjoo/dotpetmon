@@ -2075,7 +2075,7 @@
   /* ============ STARTER REVEAL ============ */
   .reveal-stage {
     text-align: center;
-    max-width: 540px;
+    max-width: 720px;
     width: 100%;
     position: relative;
     padding: 20px;
@@ -2158,9 +2158,11 @@
     letter-spacing: 0.08em;
   }
   .reveal-nickname-row #nick-input {
-    max-width: 200px;
-    padding: 10px 14px;
-    font-size: 14px;
+    max-width: 360px;
+    width: 100%;
+    padding: 12px 18px;
+    font-size: 16px;
+    text-align: center;
   }
 
   /* ============ MAIN ACTION TILES (v0.5) ============ */
@@ -2763,8 +2765,7 @@
       </div>
 
       <div class="reveal-nickname-row">
-        <label for="nick-input">Nickname (optional)</label>
-        <input type="text" id="nick-input" maxlength="10" placeholder="Use default name" />
+        <input type="text" id="nick-input" maxlength="10" aria-label="Nickname (optional)" placeholder="Nickname (optional)" />
       </div>
 
       <p class="reveal-tactile" id="reveal-tactile">—</p>
@@ -4219,7 +4220,7 @@ function renderReveal() {
     `<b style="color: ${accent};">Tactile</b> ${sp.tactile} · <b style="color: ${accent};">Surface</b> ${sp.surface} · <b style="color: ${accent};">Motion</b> ${sp.motion}`;
 
   document.getElementById('nick-input').value = '';
-  document.getElementById('nick-input').placeholder = sp.name;
+  document.getElementById('nick-input').placeholder = `Nickname — defaults to ${sp.name}`;
 
   if (SPECIES_CRY[state.reveal.species]) {
     setTimeout(() => SPECIES_CRY[state.reveal.species](), 300);

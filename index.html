@@ -2648,9 +2648,9 @@
   <!-- ============ SCREEN: EGG HATCH MINIGAME ============ -->
   <section id="screen-hatch" class="full-screen" hidden>
     <div class="hatch-stage">
-      <div class="creation-step">STEP 2 / 2 · Hatching Mini-Game</div>
-      <h2 id="hatch-title">Tap F1 to the rhythm</h2>
-      <p class="hatch-sub" id="hatch-sub">Wake the egg by matching the beat</p>
+      <div class="creation-step">STEP 2 / 2 · Hatch the Egg</div>
+      <h2 id="hatch-title">Tap 4 times to hatch</h2>
+      <p class="hatch-sub" id="hatch-sub">Press TAP (or F1 / Space) four times to wake the egg</p>
 
       <div class="hatch-illust-wrap">
         <img class="hatch-illust" id="hatch-illust" src="assets/illustrations/ui/egg.png" alt="Hatching egg" />
@@ -2674,8 +2674,7 @@
       </button>
 
       <div class="hatch-stats">
-        <span>Hits: <b id="hatch-hits">0</b> / 4</span>
-        <span>Misses: <b id="hatch-miss">0</b></span>
+        <span>Taps: <b id="hatch-hits">0</b> / 4</span>
       </div>
     </div>
   </section>
@@ -4001,78 +4000,26 @@ function renderHatch() {
 }
 
 function startHatch() {
+  // v0.7.7.7 — simplified: no beat/rhythm timing; just 4 taps to hatch
   state.hatch = {
     hits: 0,
     target: 4,
-    missed: 0,
-    lastBeat: 0,
-    beatInterval: 1400,  // ms between beats (slower — easier to follow)
-    activeBeatIdx: -1,
+    missed: 0, // kept for backwards-compat with renderHatch; never increments now
   };
-  if (state.hatchTimer) clearInterval(state.hatchTimer);
+  if (state.hatchTimer) { clearInterval(state.hatchTimer); state.hatchTimer = null; }
   speak(pickCopy(COPY.hatchEncouragement));
-  // Start beat loop
-  const beatRow = document.getElementById('beat-row');
-  let beatIdx = 0;
-  const advanceBeat = () => {
-    if (!state.hatch || state.screen !== 'hatch') {
-      if (state.hatchTimer) { clearInterval(state.hatchTimer); state.hatchTimer = null; }
-      return;
-    }
-    // Mark previous as missed if active
-    if (state.hatch.activeBeatIdx >= 0) {
-      state.hatch.missed++;
-      const prev = beatRow?.querySelector(`.beat-dot[data-i="${state.hatch.activeBeatIdx}"]`);
-      if (prev) {
-        prev.classList.add('miss');
-        setTimeout(() => prev.classList.remove('miss', 'active'), 300);
-      }
-      SFX.beatMiss();
-    }
-    // Activate next
-    beatIdx = (beatIdx + 1) % 4;
-    state.hatch.activeBeatIdx = beatIdx;
-    state.hatch.lastBeat = Date.now();
-    const cur = beatRow?.querySelector(`.beat-dot[data-i="${beatIdx}"]`);
-    if (cur) {
-      cur.classList.remove('miss');
-      cur.classList.add('active');
-    }
-    SFX.beatPulse();
-  };
-  state.hatchTimer = setInterval(advanceBeat, state.hatch.beatInterval);
-  advanceBeat();  // first beat immediately
   renderHatch();
 }
 
 function tapHatch() {
   if (!state.hatch || state.screen !== 'hatch') return;
   if (state.hatch.hits >= state.hatch.target) return;
-  const now = Date.now();
-  const window = 900;  // ms window after beat (generous — easy mode)
-  const dt = now - state.hatch.lastBeat;
   const tapBtn = document.getElementById('btn-hatch-tap');
-  if (state.hatch.activeBeatIdx < 0 || dt > window) {
-    // Miss — shake button + announce
-    state.hatch.missed++;
-    SFX.beatMiss();
-    if (tapBtn) {
-      tapBtn.classList.add('shake');
-      setTimeout(() => tapBtn.classList.remove('shake'), 400);
-    }
-    speak('Miss.');
-    renderHatch();
-    return;
-  }
-  // Hit!
+  // Every tap is a hit — fill the next beat dot
   state.hatch.hits++;
   const beatRow = document.getElementById('beat-row');
-  const dot = beatRow?.querySelector(`.beat-dot[data-i="${state.hatch.activeBeatIdx}"]`);
-  if (dot) {
-    dot.classList.remove('active');
-    dot.classList.add('hit');
-  }
-  state.hatch.activeBeatIdx = -1;
+  const dot = beatRow?.querySelector(`.beat-dot[data-i="${state.hatch.hits - 1}"]`);
+  if (dot) dot.classList.add('hit');
   SFX.beatHit();
   // Visual flash on tap button
   if (tapBtn) {

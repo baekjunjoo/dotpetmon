@@ -559,16 +559,27 @@
   .right-col {
     display: flex; flex-direction: column; gap: 12px;
   }
+  /* v0.7.7.46 — PNG sticker panels (STATS / LOG) */
   .right-panel {
-    background: var(--bg-card);
-    border: 3px solid var(--line);
-    border-radius: var(--radius);
-    padding: 14px;
-    box-shadow: var(--shadow);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: 100% 100%;       /* stretch the sticker card to fit */
+    border: none;
+    box-shadow: none;
+    padding: 56px 28px 28px;          /* room for the baked-in label tab */
     position: relative;
   }
-  .right-panel.stats { flex-shrink: 0; }
-  .right-panel.log { flex: 1; display: flex; flex-direction: column; min-height: 200px; }
+  .right-panel.stats {
+    flex-shrink: 0;
+    background-image: url('assets/illustrations/ui/panel_stats.png');
+  }
+  .right-panel.log {
+    flex: 1; display: flex; flex-direction: column; min-height: 280px;
+    background-image: url('assets/illustrations/ui/panel_log.png');
+  }
+  /* PNG already includes the STATS / LOG label tab — hide the HTML label */
+  .right-panel-label { display: none !important; }
   .right-panel-label {
     position: absolute; top: -12px; left: 14px;
     background: var(--accent);
@@ -2344,45 +2355,59 @@
     text-shadow: 1px 1px 0 rgba(0,0,0,0.35);
   }
   /* 4-color action tile palette (sticker AFTER sheet) */
-  /* #1 EXPLORE — orange (handled by .menu-btn.primary already) */
-  /* #2 FOOD — warm pink/red (berry vibe) */
-  .cond-food {
-    background: linear-gradient(180deg, #FECACA 0%, #FB7185 30%, #F43F5E 70%, #BE123C 100%) !important;
-    color: var(--ink-light) !important;
+  /* v0.7.7.46 — Action tile PNG skins (Explore/Food/Play/Sleep/Dex/Trade) */
+  .main-actions .action-tile,
+  .main-secondary-actions .action-tile {
+    background-color: transparent !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    background-size: contain !important;
+    background-origin: padding-box !important;
+    background-clip: padding-box !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: transparent !important;
+    text-shadow: none !important;
+    -webkit-text-stroke: 0 !important;
+    padding: 0 !important;
+    aspect-ratio: 3 / 2;                /* PNG 2304×1536 aspect */
+    min-height: 0 !important;
+    overflow: visible !important;
+    transition: transform 150ms cubic-bezier(0.23, 1, 0.32, 1),
+                filter 150ms cubic-bezier(0.23, 1, 0.32, 1) !important;
   }
-  /* #3 PLAY — bright yellow (joyful) */
-  .cond-play {
-    background: linear-gradient(180deg, #FEF08A 0%, #FACC15 30%, #EAB308 70%, #CA8A04 100%) !important;
-    color: var(--ink-light) !important;
+  .main-actions .action-tile::before,
+  .main-secondary-actions .action-tile::before { content: none !important; }
+  .main-actions .action-tile > *,
+  .main-secondary-actions .action-tile > * { opacity: 0; pointer-events: none; }
+  .main-actions .action-tile:hover,
+  .main-secondary-actions .action-tile:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.07);
   }
-  /* #4 SLEEP — cool indigo/lavender (night vibe) */
-  .cond-sleep {
-    background: linear-gradient(180deg, #C7D2FE 0%, #818CF8 30%, #6366F1 70%, #4338CA 100%) !important;
-    color: var(--ink-light) !important;
+  .main-actions .action-tile:active,
+  .main-secondary-actions .action-tile:active {
+    transform: translateY(2px);
+    filter: brightness(0.95);
   }
-  /* Secondary actions — Dex blue / Trade purple, smaller row */
+  .main-actions .action-tile:disabled,
+  .main-secondary-actions .action-tile:disabled {
+    opacity: 0.55;
+    filter: saturate(0.65) brightness(0.95);
+    cursor: not-allowed;
+  }
+  /* Per-button PNG mapping */
+  #btn-main-explore { background-image: url('assets/illustrations/ui/btn_explore.png') !important; }
+  #btn-main-food    { background-image: url('assets/illustrations/ui/btn_food.png') !important; }
+  #btn-main-play    { background-image: url('assets/illustrations/ui/btn_play.png') !important; }
+  #btn-main-sleep   { background-image: url('assets/illustrations/ui/btn_sleep.png') !important; }
+  #btn-main-dex     { background-image: url('assets/illustrations/ui/btn_dex.png') !important; }
+  #btn-main-trade   { background-image: url('assets/illustrations/ui/btn_trade.png') !important; }
   .main-secondary-actions {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
     margin-top: 10px;
-  }
-  .main-secondary-actions .action-tile {
-    min-height: 64px;
-  }
-  #btn-main-dex {
-    background: linear-gradient(180deg, #93C5FD 0%, #60A5FA 30%, #3B82F6 70%, #2563EB 100%) !important;
-    color: var(--ink-light) !important;
-  }
-  #btn-main-trade {
-    background: linear-gradient(180deg, #DDD6FE 0%, #C4B5FD 30%, #A78BFA 60%, #8B5CF6 100%) !important;
-    color: var(--ink-light) !important;
-  }
-  /* Disabled — keep color but fade */
-  #btn-main-trade:disabled {
-    opacity: 0.55;
-    filter: saturate(0.7) brightness(0.95);
-    color: var(--ink-light) !important;
   }
 
   /* ============ REGION SELECT ============ */

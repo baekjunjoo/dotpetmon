@@ -1477,9 +1477,9 @@
     background: transparent;
     border: none;
     box-shadow: none;
-    margin: 200px auto 24px; /* push egg down into the nest */
-    max-width: 380px;
-    min-height: 240px;
+    margin: 60px auto 0;       /* closer to header text + no gap before beat-row */
+    max-width: 520px;
+    min-height: 360px;
   }
   /* Hide the pixel Pad mirror + the redundant text progress (● ○ ○ ○) */
   #hatch-pixel-pip { display: none !important; }
@@ -1513,7 +1513,7 @@
   body.has-nest .hatch-stats b { color: #FFE38A; }
   .hatch-illust {
     max-width: 100%;
-    max-height: 280px;
+    max-height: 440px;
     height: auto;
     object-fit: contain;
   }
@@ -1994,7 +1994,7 @@
   .beat-row {
     display: flex; gap: 18px;
     justify-content: center;
-    margin: 12px 0;
+    margin: -6px 0 20px;  /* pull up so dots sit just under the egg */
   }
   .beat-dot {
     width: 18px; height: 18px;

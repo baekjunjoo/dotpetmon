@@ -1559,6 +1559,48 @@
   }
   /* Hide the small Dot Pad pixel mirror on the reveal screen */
   #reveal-pixel-pip { display: none !important; }
+
+  /* ============================================================
+     v0.7.7.19 — PNG button skin (sticker reference sheet AFTER)
+     Utility (PAD/Voice/FX) + Actions (Explore/Care/Dex/Trade)
+     PNG already contains the label glyphs — hide HTML text visually
+     (kept for a11y via aria-label), strip all CSS button chrome.
+     ============================================================ */
+  .icon-btn.png-skin,
+  .action-tile.png-skin {
+    background-color: transparent !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: 100% 100% !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: transparent !important;
+    text-shadow: none !important;
+    -webkit-text-stroke: 0 !important;
+    padding: 0 !important;
+    /* keep button still keyboard-focusable */
+  }
+  .icon-btn.png-skin::before,
+  .action-tile.png-skin::before { content: none !important; }
+  .icon-btn.png-skin > *,
+  .action-tile.png-skin > * { opacity: 0; pointer-events: none; }
+  /* Inactive utility = desaturated */
+  .icon-btn.png-skin:not(.active):not(.connected) { filter: grayscale(0.8) brightness(0.95); opacity: 0.7; }
+  .icon-btn.png-skin:hover { filter: brightness(1.07); transform: translateY(-2px); }
+  .icon-btn.png-skin:active { transform: translateY(1px); filter: brightness(0.95); }
+  /* Disabled action — slightly faded but still readable */
+  .action-tile.png-skin:disabled { opacity: 0.55; filter: saturate(0.65); }
+  /* Per-button image mapping */
+  #btn-dotpad        { background-image: url('assets/illustrations/buttons/btn_pad.png'); }
+  #btn-voice         { background-image: url('assets/illustrations/buttons/btn_voice.png'); }
+  #btn-sfx           { background-image: url('assets/illustrations/buttons/btn_fx.png'); }
+  #btn-main-explore  { background-image: url('assets/illustrations/buttons/btn_explore.png') !important; }
+  #btn-main-care     { background-image: url('assets/illustrations/buttons/btn_care.png') !important; }
+  #btn-main-dex      { background-image: url('assets/illustrations/buttons/btn_dex.png') !important; }
+  #btn-main-trade    { background-image: url('assets/illustrations/buttons/btn_trade.png') !important; }
+  /* Size hints — icon-btn taller for sticker proportions */
+  .icon-btn.png-skin { min-width: 64px; min-height: 42px; padding: 0 !important; }
+  .action-tile.png-skin { min-height: 110px; aspect-ratio: auto; }
   /* Reveal text — bright white outline so the type-themed backgrounds (Fire / Storm / Dream …)
      don't swallow the eyebrow + name + type pill text. */
   body[class*="type-"] .reveal-eyebrow {
@@ -2569,9 +2611,9 @@
       <span class="beta-badge">BETA</span>
     </div>
     <div class="controls" role="toolbar" aria-label="App controls">
-      <button class="icon-btn" id="btn-dotpad" type="button" aria-label="Connect Dot Pad">PAD</button>
-      <button class="icon-btn active" id="btn-voice" type="button" aria-pressed="true" aria-label="Toggle voice">Voice</button>
-      <button class="icon-btn active" id="btn-sfx" type="button" aria-pressed="true" aria-label="Toggle sound effects and music">FX</button>
+      <button class="icon-btn png-skin" id="btn-dotpad" type="button" aria-label="Connect Dot Pad">PAD</button>
+      <button class="icon-btn png-skin active" id="btn-voice" type="button" aria-pressed="true" aria-label="Toggle voice">Voice</button>
+      <button class="icon-btn png-skin active" id="btn-sfx" type="button" aria-pressed="true" aria-label="Toggle sound effects and music">FX</button>
     </div>
   </div>
   <div class="lab-keymap" role="region" aria-label="Dot Pad key map">
@@ -2924,22 +2966,22 @@
         </div>
         <div class="viewport-tactile" id="vp-tactile">Pick a pet from your party</div>
         <div class="main-actions">
-          <button class="menu-btn primary action-tile" id="btn-main-explore" type="button">
+          <button class="menu-btn primary action-tile png-skin" id="btn-main-explore" type="button" aria-label="Explore — discover new regions">
             <span class="action-glyph">⛰</span>
             <span class="action-label">Explore</span>
             <small class="action-sub">Discover new regions</small>
           </button>
-          <button class="menu-btn action-tile" id="btn-main-care" type="button" disabled>
+          <button class="menu-btn action-tile png-skin" id="btn-main-care" type="button" disabled aria-label="Care — coming v1.5+">
             <span class="action-glyph">♥</span>
             <span class="action-label">Care</span>
             <small class="action-sub">v1.5+</small>
           </button>
-          <button class="menu-btn action-tile" id="btn-main-dex" type="button">
+          <button class="menu-btn action-tile png-skin" id="btn-main-dex" type="button" aria-label="Dex — your collection">
             <span class="action-glyph">✦</span>
             <span class="action-label">Dex</span>
             <small class="action-sub" id="dex-progress">0 / 10</small>
           </button>
-          <button class="menu-btn action-tile" id="btn-main-trade" type="button" disabled>
+          <button class="menu-btn action-tile png-skin" id="btn-main-trade" type="button" disabled aria-label="Trade — coming v1.4+">
             <span class="action-glyph">⇄</span>
             <span class="action-label">Trade</span>
             <small class="action-sub">v1.4+</small>

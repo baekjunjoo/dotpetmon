@@ -1484,14 +1484,14 @@
   /* Hatch — illustrated egg */
   .hatch-illust-wrap {
     position: relative;
-    display: flex; align-items: flex-end; justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     padding: 0;
     background: transparent;
     border: none;
     box-shadow: none;
-    margin: 24px auto 0;       /* closer to header text */
+    margin: -8px auto 0;       /* pull up so egg sits just under header text */
     max-width: 560px;
-    min-height: 460px;
+    min-height: 360px;
   }
   /* Hide the pixel Pad mirror + the redundant text progress (● ○ ○ ○) */
   #hatch-pixel-pip { display: none !important; }
@@ -1992,7 +1992,7 @@
   .beat-row {
     display: flex; gap: 18px;
     justify-content: center;
-    margin: -40px 0 14px;  /* tuck dots right under the egg base */
+    margin: -80px 0 14px;  /* tuck dots well up under the egg base */
     position: relative;
     z-index: 2;
   }

@@ -131,9 +131,9 @@
   /* ============ HEADER ============ */
   .lab-header {
     position: fixed; top: 0; left: 0; right: 0; z-index: 250;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(12px) saturate(1.5);
-    border-bottom: 1px solid var(--line);
+    background: transparent;          /* v0.7.7.20 — uniformly transparent on every screen */
+    backdrop-filter: none;
+    border-bottom: none;
     display: flex; flex-direction: column;
     padding: 8px 20px;
     color: var(--ink-soft);
@@ -142,7 +142,30 @@
   /* Hide the second-line keymap globally — keep header one row. Keys remain queryable via F4 / TTS. */
   .lab-keymap { display: none !important; }
   .lab-header-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; width: 100%; }
-  .brand-row { display: inline-flex; align-items: center; gap: 8px; }
+  /* v0.7.7.20 — replace text logo with PNG sticker (logo + BETA in one image) */
+  .brand-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-image: url('assets/illustrations/buttons/btn_logo_badge.png');
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: contain;
+    width: 220px;
+    height: 56px;
+    overflow: hidden;
+  }
+  /* Hide the inline text — kept for screen readers / search */
+  .brand-row .brand,
+  .brand-row .beta-badge {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+  }
   .brand {
     font-family: var(--font-display);
     font-size: 22px;
@@ -675,13 +698,7 @@
     justify-content: flex-start !important;
     min-height: 100vh !important;
   }
-  /* Title screen: header floats fully over the sky bg (transparent, no border) */
-  body.on-title .lab-header {
-    background: transparent;
-    backdrop-filter: none;
-    border-bottom-color: transparent;
-  }
-  /* Body already has the sky bg globally — no need to force-transparent on title. */
+  /* v0.7.7.20 — header is globally transparent now (defined above), no on-title override needed */
   body.on-title main {
     padding-top: 0 !important;
     max-width: none !important;

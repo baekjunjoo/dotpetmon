@@ -1658,15 +1658,22 @@
   .action-tile.png-skin {
     background-color: transparent !important;
     background-repeat: no-repeat !important;
-    background-position: center !important;
-    background-size: 100% 100% !important;
+    background-position: center center !important;
+    background-size: contain !important;       /* keep PNG aspect — no stretch/squash */
     border: none !important;
     box-shadow: none !important;
     color: transparent !important;
     text-shadow: none !important;
     -webkit-text-stroke: 0 !important;
     padding: 0 !important;
-    /* keep button still keyboard-focusable */
+    overflow: visible !important;              /* PNG drop-shadow / sticker outline isn't clipped */
+  }
+  /* Icon utility buttons: explicit aspect so PNG fits naturally (sheet ≈ 1.6:1) */
+  .icon-btn.png-skin {
+    width: 76px !important;
+    height: 48px !important;
+    min-width: 76px !important;
+    min-height: 48px !important;
   }
   .icon-btn.png-skin::before,
   .action-tile.png-skin::before { content: none !important; }

@@ -1449,6 +1449,57 @@
     border: none !important;
     box-shadow: none !important;
   }
+  /* v0.7.7.29 — move name/type/tactile out of viewport into STATS panel */
+  .viewport-info-bar,
+  .viewport-tactile { display: none !important; }
+  .stat-id-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 8px;
+    margin: 0 0 10px;
+    padding: 0 0 8px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .stat-id-name {
+    font-family: var(--font-display);
+    font-size: 18px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+  }
+  .stat-id-type {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--bg-soft);
+    color: var(--ink-soft);
+    border: 1.5px solid var(--line);
+    white-space: nowrap;
+  }
+  .stat-trait-list {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .stat-trait {
+    display: flex;
+    flex-direction: column;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  .stat-trait .trait-label {
+    font-family: var(--font-display);
+    color: var(--accent);
+    letter-spacing: 0.10em;
+    font-size: 11px;
+  }
+  .stat-trait .trait-value {
+    color: var(--ink);
+    font-weight: 600;
+  }
   .viewport-illust {
     max-width: 100%;
     max-height: 320px;
@@ -3065,11 +3116,20 @@
       <div class="right-panel stats">
         <div class="right-panel-label">STATS</div>
         <div id="stats-list">
+          <div class="stat-id-row">
+            <div class="stat-id-name" id="s-name">—</div>
+            <div class="stat-id-type" id="s-type">—</div>
+          </div>
           <div class="stat-row"><span class="label">Level</span><span class="value" id="s-level">—</span></div>
           <div class="stat-row"><span class="label">HP</span><div class="stat-bar"><div class="stat-bar-fill" id="s-hp-bar" style="width: 0%"></div></div><span class="value" id="s-hp">—</span></div>
           <div class="stat-row"><span class="label">Energy</span><div class="stat-bar"><div class="stat-bar-fill" id="s-en-bar" style="width: 0%"></div></div><span class="value" id="s-en">—</span></div>
           <div class="stat-row"><span class="label">Bond</span><div class="stat-bar"><div class="stat-bar-fill" id="s-bond-bar" style="width: 0%"></div></div><span class="value" id="s-bond">—</span></div>
           <div class="stat-row"><span class="label">Caught</span><span class="value" id="s-catch">—</span></div>
+          <div class="stat-trait-list" id="s-traits">
+            <div class="stat-trait"><span class="trait-label">Tactile</span><span class="trait-value" id="s-tactile">—</span></div>
+            <div class="stat-trait"><span class="trait-label">Surface</span><span class="trait-value" id="s-surface">—</span></div>
+            <div class="stat-trait"><span class="trait-label">Motion</span><span class="trait-value" id="s-motion">—</span></div>
+          </div>
         </div>
       </div>
       <div class="right-panel log">
@@ -3721,25 +3781,45 @@ function renderViewport() {
 
 function renderStats() {
   const pet = state.party[state.activeIdx];
+  const $ = (id) => document.getElementById(id);
   if (!pet) {
-    document.getElementById('s-level').textContent = '—';
-    document.getElementById('s-hp').textContent = '—';
-    document.getElementById('s-en').textContent = '—';
-    document.getElementById('s-bond').textContent = '—';
-    document.getElementById('s-catch').textContent = '—';
-    document.getElementById('s-hp-bar').style.width = '0%';
-    document.getElementById('s-en-bar').style.width = '0%';
-    document.getElementById('s-bond-bar').style.width = '0%';
+    ['s-name','s-type','s-level','s-hp','s-en','s-bond','s-catch','s-tactile','s-surface','s-motion']
+      .forEach(id => { const el = $(id); if (el) el.textContent = '—'; });
+    if ($('s-hp-bar')) $('s-hp-bar').style.width = '0%';
+    if ($('s-en-bar')) $('s-en-bar').style.width = '0%';
+    if ($('s-bond-bar')) $('s-bond-bar').style.width = '0%';
+    if ($('s-type')) $('s-type').style.background = '';
     return;
   }
-  document.getElementById('s-level').textContent = 'L' + pet.level;
-  document.getElementById('s-hp').textContent = pet.hp + ' / ' + pet.hpMax;
-  document.getElementById('s-en').textContent = pet.energy + '%';
-  document.getElementById('s-bond').textContent = pet.bond + '%';
-  document.getElementById('s-catch').textContent = pet.catches;
-  document.getElementById('s-hp-bar').style.width = (pet.hp / pet.hpMax * 100) + '%';
-  document.getElementById('s-en-bar').style.width = pet.energy + '%';
-  document.getElementById('s-bond-bar').style.width = pet.bond + '%';
+  const sp = SPECIES[pet.species];
+  const nick = (pet.nickname && pet.nickname.trim()) || (sp ? sp.name : pet.species);
+  const display = sp && sp.name && nick !== sp.name ? `${nick} (${sp.name})` : nick;
+  if ($('s-name')) $('s-name').textContent = display;
+  if ($('s-type') && sp) {
+    const typeGlyph = (TYPE_GLYPH[sp.type] || '');
+    $('s-type').textContent = `${typeGlyph} ${sp.type}`.trim();
+    // color the type pill with that type's accent
+    const tokenName = TYPE_COLOR[sp.type];
+    const accent = tokenName ? getComputedStyle(document.documentElement).getPropertyValue(tokenName).trim() : '';
+    if (accent) {
+      $('s-type').style.background = accent;
+      $('s-type').style.color = '#0a0e1a';
+      $('s-type').style.borderColor = 'var(--line)';
+    }
+  }
+  $('s-level').textContent = 'L' + pet.level;
+  $('s-hp').textContent = pet.hp + ' / ' + pet.hpMax;
+  $('s-en').textContent = pet.energy + '%';
+  $('s-bond').textContent = pet.bond + '%';
+  $('s-catch').textContent = pet.catches;
+  $('s-hp-bar').style.width = (pet.hp / pet.hpMax * 100) + '%';
+  $('s-en-bar').style.width = pet.energy + '%';
+  $('s-bond-bar').style.width = pet.bond + '%';
+  if (sp) {
+    if ($('s-tactile')) $('s-tactile').textContent = sp.tactile || '—';
+    if ($('s-surface')) $('s-surface').textContent = sp.surface || '—';
+    if ($('s-motion'))  $('s-motion').textContent  = sp.motion  || '—';
+  }
 }
 
 function renderBadges() {

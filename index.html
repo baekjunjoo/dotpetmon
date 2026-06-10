@@ -1536,21 +1536,29 @@
   .reveal-illust-wrap {
     position: relative;
     display: flex; align-items: center; justify-content: center;
-    padding: 22px;
-    background: linear-gradient(180deg, #FFEDD5 0%, #FED7AA 100%);
-    border-radius: var(--radius);
-    border: 3px solid var(--line);
-    box-shadow: var(--shadow-lg);
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
     margin: 0 auto 20px;
-    max-width: 460px;
-    min-height: 300px;
+    max-width: 560px;
+    min-height: 460px;
   }
   .reveal-illust {
     max-width: 100%;
-    max-height: 360px;
+    max-height: 500px;
     height: auto;
     object-fit: contain;
+    filter: drop-shadow(0 12px 20px rgba(0,0,0,0.35));
+    animation: reveal-bob 3.2s ease-in-out infinite;
+    will-change: transform;
   }
+  @keyframes reveal-bob {
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    50%      { transform: translateY(-14px) rotate(1deg); }
+  }
+  /* Hide the small Dot Pad pixel mirror on the reveal screen */
+  #reveal-pixel-pip { display: none !important; }
 
   /* Party slot — illustration small (replaces canvas) */
   .party-slot .slot-illust {

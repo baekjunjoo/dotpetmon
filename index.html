@@ -1614,10 +1614,7 @@
   #btn-dotpad        { background-image: url('assets/illustrations/buttons/btn_pad.png'); }
   #btn-voice         { background-image: url('assets/illustrations/buttons/btn_voice.png'); }
   #btn-sfx           { background-image: url('assets/illustrations/buttons/btn_fx.png'); }
-  #btn-main-explore  { background-image: url('assets/illustrations/buttons/btn_explore.png') !important; }
-  #btn-main-care     { background-image: url('assets/illustrations/buttons/btn_care.png') !important; }
-  #btn-main-dex      { background-image: url('assets/illustrations/buttons/btn_dex.png') !important; }
-  #btn-main-trade    { background-image: url('assets/illustrations/buttons/btn_trade.png') !important; }
+  /* v0.7.7.23: action-tile PNG mapping removed — using CSS gradient sticker style for all 4 conditions + Dex/Trade */
   /* Size hints — icon-btn taller for sticker proportions */
   .icon-btn.png-skin { min-width: 64px; min-height: 42px; padding: 0 !important; }
   .action-tile.png-skin { min-height: 110px; aspect-ratio: auto; }
@@ -2273,24 +2270,40 @@
   }
   /* 4-color action tile palette (sticker AFTER sheet) */
   /* #1 EXPLORE — orange (handled by .menu-btn.primary already) */
-  /* #2 CARE — green */
-  #btn-main-care {
-    background: linear-gradient(180deg, #BEF264 0%, #A3E635 30%, #84CC16 70%, #65A30D 100%) !important;
+  /* #2 FOOD — warm pink/red (berry vibe) */
+  .cond-food {
+    background: linear-gradient(180deg, #FECACA 0%, #FB7185 30%, #F43F5E 70%, #BE123C 100%) !important;
     color: var(--ink-light) !important;
   }
-  /* #3 DEX — blue */
+  /* #3 PLAY — bright yellow (joyful) */
+  .cond-play {
+    background: linear-gradient(180deg, #FEF08A 0%, #FACC15 30%, #EAB308 70%, #CA8A04 100%) !important;
+    color: var(--ink-light) !important;
+  }
+  /* #4 SLEEP — cool indigo/lavender (night vibe) */
+  .cond-sleep {
+    background: linear-gradient(180deg, #C7D2FE 0%, #818CF8 30%, #6366F1 70%, #4338CA 100%) !important;
+    color: var(--ink-light) !important;
+  }
+  /* Secondary actions — Dex blue / Trade purple, smaller row */
+  .main-secondary-actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .main-secondary-actions .action-tile {
+    min-height: 64px;
+  }
   #btn-main-dex {
     background: linear-gradient(180deg, #93C5FD 0%, #60A5FA 30%, #3B82F6 70%, #2563EB 100%) !important;
     color: var(--ink-light) !important;
   }
-  /* #4 TRADE — purple */
   #btn-main-trade {
     background: linear-gradient(180deg, #DDD6FE 0%, #C4B5FD 30%, #A78BFA 60%, #8B5CF6 100%) !important;
     color: var(--ink-light) !important;
   }
-  /* Even when disabled, keep color recognizable — just dim */
-  #btn-main-care:disabled,
-  #btn-main-dex:disabled,
+  /* Disabled — keep color but fade */
   #btn-main-trade:disabled {
     opacity: 0.55;
     filter: saturate(0.7) brightness(0.95);
@@ -2986,22 +2999,34 @@
         </div>
         <div class="viewport-tactile" id="vp-tactile">Pick a pet from your party</div>
         <div class="main-actions">
-          <button class="menu-btn primary action-tile png-skin" id="btn-main-explore" type="button" aria-label="Explore — discover new regions">
+          <button class="menu-btn primary action-tile" id="btn-main-explore" type="button" aria-label="Explore — discover new regions">
             <span class="action-glyph">⛰</span>
             <span class="action-label">Explore</span>
-            <small class="action-sub">Discover new regions</small>
+            <small class="action-sub">New regions</small>
           </button>
-          <button class="menu-btn action-tile png-skin" id="btn-main-care" type="button" disabled aria-label="Care — coming v1.5+">
-            <span class="action-glyph">♥</span>
-            <span class="action-label">Care</span>
-            <small class="action-sub">v1.5+</small>
+          <button class="menu-btn action-tile cond-food" id="btn-main-food" type="button" aria-label="Food — feed your pet">
+            <span class="action-glyph">🍓</span>
+            <span class="action-label">Food</span>
+            <small class="action-sub">Feed</small>
           </button>
-          <button class="menu-btn action-tile png-skin" id="btn-main-dex" type="button" aria-label="Dex — your collection">
+          <button class="menu-btn action-tile cond-play" id="btn-main-play" type="button" aria-label="Play — play with your pet">
+            <span class="action-glyph">🎈</span>
+            <span class="action-label">Play</span>
+            <small class="action-sub">Have fun</small>
+          </button>
+          <button class="menu-btn action-tile cond-sleep" id="btn-main-sleep" type="button" aria-label="Sleep — let your pet rest">
+            <span class="action-glyph">🌙</span>
+            <span class="action-label">Sleep</span>
+            <small class="action-sub">Rest</small>
+          </button>
+        </div>
+        <div class="main-secondary-actions">
+          <button class="menu-btn action-tile" id="btn-main-dex" type="button" aria-label="Dex — your collection">
             <span class="action-glyph">✦</span>
             <span class="action-label">Dex</span>
             <small class="action-sub" id="dex-progress">0 / 10</small>
           </button>
-          <button class="menu-btn action-tile png-skin" id="btn-main-trade" type="button" disabled aria-label="Trade — coming v1.4+">
+          <button class="menu-btn action-tile" id="btn-main-trade" type="button" disabled aria-label="Trade — coming v1.4+">
             <span class="action-glyph">⇄</span>
             <span class="action-label">Trade</span>
             <small class="action-sub">v1.4+</small>
@@ -3749,13 +3774,18 @@ function showScreen(name) {
   document.body.classList.toggle('has-sky', name === 'title' || name === 'creation');
   // Enchanted nest background applies only to the hatching mini-game screen
   document.body.classList.toggle('has-nest', name === 'hatch');
-  // Type-themed reveal background is only valid on the reveal screen.
-  // renderReveal() adds the right type-{xxx} class; here we clear it on every
-  // screen transition so the class only persists during reveal.
-  if (name !== 'reveal') {
-    ['type-light','type-nature','type-electric','type-water','type-earth',
-     'type-fire','type-metal','type-dream','type-sound','type-spirit']
-      .forEach(c => document.body.classList.remove(c));
+  // Type-themed background applies on reveal + main (active pet's type).
+  // For other screens, clear all type-* classes.
+  const TYPE_BG_CLASSES = ['type-light','type-nature','type-electric','type-water','type-earth',
+                           'type-fire','type-metal','type-dream','type-sound','type-spirit'];
+  if (name === 'main' && state.party && state.party.length) {
+    // Use the active pet's species type
+    const activePet = state.party[state.activeIdx] || state.party[0];
+    const sp = activePet && SPECIES[activePet.species];
+    TYPE_BG_CLASSES.forEach(c => document.body.classList.remove(c));
+    if (sp && sp.type) document.body.classList.add('type-' + sp.type.toLowerCase());
+  } else if (name !== 'reveal') {
+    TYPE_BG_CLASSES.forEach(c => document.body.classList.remove(c));
   }
   // Reset any leftover entry transition state on the hero
   const sky = document.getElementById('title-sky-hero');
@@ -5372,6 +5402,20 @@ function init() {
   // ----- MAIN action tiles -----
   document.getElementById('btn-main-explore').addEventListener('click', openExplore);
   document.getElementById('btn-main-dex').addEventListener('click', openDexDetail);
+  // v0.7.7.23 — condition action stubs (Food / Play / Sleep). Real logic comes with stat system.
+  const _condFeedback = (label, glyph) => {
+    const activePet = state.party[state.activeIdx] || state.party[0];
+    const name = activePet ? (activePet.nickname || SPECIES[activePet.species].name) : 'Your pet';
+    SFX.beatHit();
+    log(`${glyph} ${label}: ${name} loves it!`);
+    speak(`${name} loves a bit of ${label.toLowerCase()}.`);
+  };
+  const btnFood = document.getElementById('btn-main-food');
+  const btnPlay = document.getElementById('btn-main-play');
+  const btnSleep = document.getElementById('btn-main-sleep');
+  if (btnFood) btnFood.addEventListener('click', () => _condFeedback('Food', '🍓'));
+  if (btnPlay) btnPlay.addEventListener('click', () => _condFeedback('Play', '🎈'));
+  if (btnSleep) btnSleep.addEventListener('click', () => _condFeedback('Sleep', '🌙'));
 
   // ----- DEX overlay close -----
   document.getElementById('dex-close')?.addEventListener('click', closeDexDetail);

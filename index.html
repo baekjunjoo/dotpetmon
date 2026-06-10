@@ -1436,9 +1436,24 @@
     display: flex; align-items: center; justify-content: center;
     padding: 16px;
     background: var(--pad-bg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     border-radius: var(--radius);
     min-height: 220px;
+    overflow: hidden;
   }
+  /* Active pet type → viewport-only background */
+  body[data-pet-type="light"]    .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_light.png'); }
+  body[data-pet-type="nature"]   .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_nature.png'); }
+  body[data-pet-type="electric"] .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_electric.png'); }
+  body[data-pet-type="water"]    .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_water.png'); }
+  body[data-pet-type="earth"]    .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_earth.png'); }
+  body[data-pet-type="fire"]     .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_fire.png'); }
+  body[data-pet-type="metal"]    .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_metal.png'); }
+  body[data-pet-type="dream"]    .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_dream.png'); }
+  body[data-pet-type="sound"]    .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_sound.png'); }
+  body[data-pet-type="spirit"]   .viewport-illust-wrap { background-image: url('assets/illustrations/type-bgs/bg_spirit.png'); }
   .viewport-illust {
     max-width: 100%;
     max-height: 320px;
@@ -3774,18 +3789,21 @@ function showScreen(name) {
   document.body.classList.toggle('has-sky', name === 'title' || name === 'creation');
   // Enchanted nest background applies only to the hatching mini-game screen
   document.body.classList.toggle('has-nest', name === 'hatch');
-  // Type-themed background applies on reveal + main (active pet's type).
+  // Type-themed full-page background — reveal screen only.
   // For other screens, clear all type-* classes.
   const TYPE_BG_CLASSES = ['type-light','type-nature','type-electric','type-water','type-earth',
                            'type-fire','type-metal','type-dream','type-sound','type-spirit'];
+  if (name !== 'reveal') {
+    TYPE_BG_CLASSES.forEach(c => document.body.classList.remove(c));
+  }
+  // Pet-type viewport background — set via data-attribute on main screen.
+  // (Body bg stays cream; only the .viewport-illust-wrap shows the type scene.)
   if (name === 'main' && state.party && state.party.length) {
-    // Use the active pet's species type
     const activePet = state.party[state.activeIdx] || state.party[0];
     const sp = activePet && SPECIES[activePet.species];
-    TYPE_BG_CLASSES.forEach(c => document.body.classList.remove(c));
-    if (sp && sp.type) document.body.classList.add('type-' + sp.type.toLowerCase());
-  } else if (name !== 'reveal') {
-    TYPE_BG_CLASSES.forEach(c => document.body.classList.remove(c));
+    document.body.dataset.petType = sp && sp.type ? sp.type.toLowerCase() : '';
+  } else {
+    document.body.removeAttribute('data-pet-type');
   }
   // Reset any leftover entry transition state on the hero
   const sky = document.getElementById('title-sky-hero');
@@ -4979,6 +4997,10 @@ function selectSlot(i) {
     if (SPECIES_CRY[pet.species]) SPECIES_CRY[pet.species]();
     speak(`${pet.name}, level ${pet.level}, ${spec.type} type.`);
     logEntry('info', `Selected ${pet.name} (${spec.name}, L${pet.level})`);
+    // Update viewport type-themed background to match the newly selected pet
+    if (state.screen === 'main' && spec.type) {
+      document.body.dataset.petType = spec.type.toLowerCase();
+    }
   }
   renderAll();
 }

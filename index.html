@@ -1443,8 +1443,8 @@
     padding: 16px;
     background: transparent;        /* parent .viewport-frame holds the type bg now */
     border-radius: var(--radius);
-    min-height: 220px;
-    overflow: hidden;
+    min-height: 480px;              /* fits the full-height sprite without clipping */
+    overflow: visible;              /* don't crop the sprite edges */
   }
   /* Hide the small Dot Pad mirror in the main viewport */
   #vp-pixel-pip { display: none !important; }
@@ -1523,14 +1523,16 @@
     to   { background-position: -100% 0; }
   }
   .dotpetmon-sprite {
-    --sprite-w: 270px;
-    --sprite-h: 480px;
+    /* Default sheet frame is 672×1152 → aspect 7:12 (0.5833).
+       Pick a display height and derive width to match exactly so the frame
+       isn't squashed/stretched. */
+    --sprite-h: 460px;
+    --sprite-w: calc(var(--sprite-h) * 672 / 1152); /* ~268px */
     width:  var(--sprite-w);
     height: var(--sprite-h);
     max-width: 100%;
-    max-height: 100%;
     background-repeat: no-repeat;
-    background-size: 400% 100%;
+    background-size: 400% 100%;          /* 4 frames laid horizontally fill the box exactly */
     background-position: 0% 0;
     animation: sprite-idle-4 0.8s steps(4) infinite;
     image-rendering: auto;
@@ -1549,7 +1551,9 @@
   .dotpetmon-sprite.voltchi  {
     background-image: url('assets/illustrations/sprites/voltchi_idle_sheet.png');
     animation-duration: 0.35s;
-    --sprite-w: 220px; /* narrower frame */
+    /* voltchi sheet frame is 384×672 → aspect 4:7 (~0.571). Width auto-derives from height. */
+    --sprite-h: 460px;
+    --sprite-w: calc(var(--sprite-h) * 384 / 672); /* ~263px */
   }
 
   /* Encounter — wild illustration */

@@ -78,12 +78,14 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  /* Global sky background — same image as title hero, behind every screen.
-     Cream fallback color in case the image fails to load. */
   body {
     min-height: 100vh;
     overflow-x: hidden;
     background-color: var(--bg-app);
+  }
+  /* Sky background only on title + creation (name input) screens.
+     All other screens use the cream body bg above. */
+  body.has-sky {
     background-image: url('assets/illustrations/keyart/title-bg-sky.png');
     background-size: cover;
     background-position: center center;
@@ -3609,6 +3611,8 @@ function showScreen(name) {
   }
   // Toggle body class for screen-specific global styles (header transparency on title)
   document.body.classList.toggle('on-title', name === 'title');
+  // Sky background applies only to title + creation (name input) screens
+  document.body.classList.toggle('has-sky', name === 'title' || name === 'creation');
   // Reset any leftover entry transition state on the hero
   const sky = document.getElementById('title-sky-hero');
   if (sky) sky.classList.remove('entering');

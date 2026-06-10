@@ -2313,6 +2313,7 @@
       <button class="icon-btn" id="btn-dotpad" type="button" aria-label="Connect Dot Pad">PAD</button>
       <button class="icon-btn active" id="btn-voice" type="button" aria-pressed="true" aria-label="Toggle voice">Voice</button>
       <button class="icon-btn active" id="btn-sfx" type="button" aria-pressed="true" aria-label="Toggle sound effects">FX</button>
+      <button class="icon-btn active" id="btn-bgm" type="button" aria-pressed="true" aria-label="Toggle background music">BGM</button>
     </div>
   </div>
   <div class="lab-keymap" role="region" aria-label="Dot Pad key map">
@@ -3137,6 +3138,115 @@ const SFX = {
   hatchOpen: () => {
     [262, 330, 392, 523, 659, 784, 1047, 1319].forEach((f, i) =>
       setTimeout(() => _tone(f, 0.12, 'sine', 0.18), i * 100));
+  },
+};
+
+// ============================================================
+// BGM — procedural cozy ambient (Web Audio API, no external files)
+// Chord progression C - G - Am - F (I-V-vi-IV), 8s loop
+// Soft sine pad + occasional triangle bell arpeggio
+// ============================================================
+const BGM = {
+  enabled: true,
+  playing: false,
+  master: null,
+  filter: null,
+  schedTimer: null,
+  barIdx: 0,
+  // Notes in Hz — soft mid register
+  CHORDS: [
+    { notes: [261.63, 329.63, 392.00] }, // C  (C-E-G)
+    { notes: [196.00, 246.94, 293.66] }, // G  (G-B-D)
+    { notes: [220.00, 261.63, 329.63] }, // Am (A-C-E)
+    { notes: [174.61, 220.00, 261.63] }, // F  (F-A-C)
+  ],
+  CHORD_DUR: 2.0, // seconds per chord — 8s total loop
+  _setup() {
+    const ctx = _audio(); if (!ctx) return null;
+    if (this.master) return ctx;
+    this.master = ctx.createGain();
+    this.master.gain.value = 0;
+    // Lowpass to soften the pad (warmer, less harsh top-end)
+    this.filter = ctx.createBiquadFilter();
+    this.filter.type = 'lowpass';
+    this.filter.frequency.value = 1800;
+    this.filter.Q.value = 0.5;
+    this.master.connect(this.filter).connect(ctx.destination);
+    return ctx;
+  },
+  start() {
+    if (this.playing) return;
+    const ctx = this._setup(); if (!ctx) return;
+    this.playing = true;
+    this.barIdx = 0;
+    const now = ctx.currentTime;
+    this.master.gain.cancelScheduledValues(now);
+    this.master.gain.setValueAtTime(this.master.gain.value, now);
+    this.master.gain.linearRampToValueAtTime(0.10, now + 1.4); // fade in 1.4s
+    this._scheduleBar(now + 0.05);
+  },
+  stop(fadeMs = 700) {
+    if (!this.playing) return;
+    this.playing = false;
+    const ctx = _audio(); if (!ctx || !this.master) return;
+    const now = ctx.currentTime;
+    this.master.gain.cancelScheduledValues(now);
+    this.master.gain.setValueAtTime(this.master.gain.value, now);
+    this.master.gain.linearRampToValueAtTime(0, now + fadeMs / 1000);
+    if (this.schedTimer) { clearTimeout(this.schedTimer); this.schedTimer = null; }
+  },
+  toggle() {
+    this.enabled = !this.enabled;
+    if (this.enabled) this.start(); else this.stop();
+    return this.enabled;
+  },
+  _scheduleBar(when) {
+    if (!this.playing) return;
+    const ctx = _audio(); if (!ctx) return;
+    const chord = this.CHORDS[this.barIdx % this.CHORDS.length];
+    // Soft sustained pad — 3 sine voices per chord
+    chord.notes.forEach((freq) => this._pad(freq, when, this.CHORD_DUR));
+    // Octave-up sub-bass on first note (gentle low)
+    this._pad(chord.notes[0] / 2, when, this.CHORD_DUR, 0.045, 'triangle');
+    // Sparse melody — 60% chance per bar, random note from chord +1 octave
+    if (Math.random() < 0.6) {
+      const noteFreq = chord.notes[Math.floor(Math.random() * chord.notes.length)] * 2;
+      this._bell(noteFreq, when + 0.3 + Math.random() * (this.CHORD_DUR - 0.8), 0.55);
+    }
+    // Occasional grace bell halfway through (cozy sparkle)
+    if (Math.random() < 0.3) {
+      const noteFreq = chord.notes[(this.barIdx + 1) % chord.notes.length] * 2;
+      this._bell(noteFreq, when + this.CHORD_DUR * 0.6, 0.4, 0.05);
+    }
+    this.barIdx++;
+    const nextWhen = when + this.CHORD_DUR;
+    const aheadMs = (nextWhen - ctx.currentTime) * 1000 - 250;
+    this.schedTimer = setTimeout(() => this._scheduleBar(nextWhen), Math.max(50, aheadMs));
+  },
+  _pad(freq, when, dur, peak = 0.09, type = 'sine') {
+    const ctx = _audio(); if (!ctx) return;
+    const o = ctx.createOscillator();
+    o.type = type;
+    o.frequency.setValueAtTime(freq, when);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0, when);
+    g.gain.linearRampToValueAtTime(peak, when + 0.6);   // 0.6s attack — gentle swell
+    g.gain.setValueAtTime(peak, when + dur - 0.5);
+    g.gain.linearRampToValueAtTime(0, when + dur);      // 0.5s release
+    o.connect(g).connect(this.master);
+    o.start(when); o.stop(when + dur + 0.05);
+  },
+  _bell(freq, when, dur, peak = 0.07) {
+    const ctx = _audio(); if (!ctx) return;
+    const o = ctx.createOscillator();
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(freq, when);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0, when);
+    g.gain.linearRampToValueAtTime(peak, when + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+    o.connect(g).connect(this.master);
+    o.start(when); o.stop(when + dur + 0.05);
   },
 };
 
@@ -4868,6 +4978,38 @@ function init() {
     state.sfxOn = !state.sfxOn;
     document.getElementById('btn-sfx').classList.toggle('active', state.sfxOn);
     saveSettings();
+  });
+  // BGM toggle
+  const btnBGM = document.getElementById('btn-bgm');
+  if (btnBGM) {
+    // restore from localStorage
+    try {
+      const bgmPref = localStorage.getItem('dotpetmon:bgm');
+      if (bgmPref === 'off') BGM.enabled = false;
+    } catch(e) {}
+    btnBGM.classList.toggle('active', BGM.enabled);
+    btnBGM.setAttribute('aria-pressed', BGM.enabled ? 'true' : 'false');
+    btnBGM.addEventListener('click', () => {
+      const on = BGM.toggle();
+      btnBGM.classList.toggle('active', on);
+      btnBGM.setAttribute('aria-pressed', on ? 'true' : 'false');
+      try { localStorage.setItem('dotpetmon:bgm', on ? 'on' : 'off'); } catch(e) {}
+    });
+  }
+  // Start BGM on first user interaction (browsers block autoplay before gesture)
+  const _bgmStarter = () => {
+    if (BGM.enabled && !BGM.playing) BGM.start();
+    document.removeEventListener('click', _bgmStarter);
+    document.removeEventListener('keydown', _bgmStarter);
+    document.removeEventListener('touchstart', _bgmStarter);
+  };
+  document.addEventListener('click', _bgmStarter, { once: false });
+  document.addEventListener('keydown', _bgmStarter, { once: false });
+  document.addEventListener('touchstart', _bgmStarter, { once: false });
+  // Pause BGM when tab is hidden, resume when visible
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) BGM.stop(300);
+    else if (BGM.enabled) BGM.start();
   });
 
   // ----- TITLE screen buttons -----

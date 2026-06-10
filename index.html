@@ -1559,6 +1559,34 @@
   }
   /* Hide the small Dot Pad pixel mirror on the reveal screen */
   #reveal-pixel-pip { display: none !important; }
+  /* Reveal text — bright white outline so the type-themed backgrounds (Fire / Storm / Dream …)
+     don't swallow the eyebrow + name + type pill text. */
+  body[class*="type-"] .reveal-eyebrow {
+    color: #FFFFFF !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.55), 0 0 6px rgba(0,0,0,0.4);
+  }
+  body[class*="type-"] .reveal-name {
+    -webkit-text-stroke: 2.5px #FFFFFF;
+    paint-order: stroke fill;
+    text-shadow: 0 4px 8px rgba(0,0,0,0.55), 0 0 14px rgba(0,0,0,0.35) !important;
+  }
+  body[class*="type-"] .reveal-type {
+    -webkit-text-stroke: 1.5px #FFFFFF;
+    paint-order: stroke fill;
+    box-shadow: 0 0 0 2.5px #FFFFFF, 0 6px 12px rgba(0,0,0,0.35);
+  }
+  /* Reveal action buttons — keep them on one row even on narrow screens */
+  #screen-reveal .creation-actions {
+    flex-wrap: nowrap;
+    align-items: stretch;
+  }
+  #screen-reveal .creation-actions .menu-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    white-space: nowrap;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
 
   /* Party slot — illustration small (replaces canvas) */
   .party-slot .slot-illust {

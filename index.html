@@ -1472,12 +1472,12 @@
   /* Hatch — illustrated egg */
   .hatch-illust-wrap {
     position: relative;
-    display: flex; align-items: center; justify-content: center;
+    display: flex; align-items: flex-end; justify-content: center;
     padding: 0;
     background: transparent;
     border: none;
     box-shadow: none;
-    margin: 0 auto 16px;
+    margin: 100px auto 24px; /* pushes egg lower into the nest scene */
     max-width: 380px;
     min-height: 240px;
   }
@@ -4006,7 +4006,7 @@ function startHatch() {
     target: 4,
     missed: 0,
     lastBeat: 0,
-    beatInterval: 900,  // ms between beats
+    beatInterval: 1400,  // ms between beats (slower — easier to follow)
     activeBeatIdx: -1,
   };
   if (state.hatchTimer) clearInterval(state.hatchTimer);
@@ -4049,7 +4049,7 @@ function tapHatch() {
   if (!state.hatch || state.screen !== 'hatch') return;
   if (state.hatch.hits >= state.hatch.target) return;
   const now = Date.now();
-  const window = 350;  // ms window after beat
+  const window = 900;  // ms window after beat (generous — easy mode)
   const dt = now - state.hatch.lastBeat;
   const tapBtn = document.getElementById('btn-hatch-tap');
   if (state.hatch.activeBeatIdx < 0 || dt > window) {

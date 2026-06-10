@@ -1477,12 +1477,40 @@
     background: transparent;
     border: none;
     box-shadow: none;
-    margin: 100px auto 24px; /* pushes egg lower into the nest scene */
+    margin: 200px auto 24px; /* push egg down into the nest */
     max-width: 380px;
     min-height: 240px;
   }
-  /* Hide the pixel Pad mirror on the hatch screen (background is rich enough) */
+  /* Hide the pixel Pad mirror + the redundant text progress (● ○ ○ ○) */
   #hatch-pixel-pip { display: none !important; }
+  #hatch-progress { display: none !important; }
+  /* Push header text below the canopy + white for readability against the bg */
+  body.has-nest .hatch-stage { padding-top: 40px; }
+  body.has-nest .creation-step {
+    color: #FFFFFF;
+    text-shadow:
+      -1.5px -1.5px 0 var(--line),
+       1.5px -1.5px 0 var(--line),
+      -1.5px  1.5px 0 var(--line),
+       1.5px  1.5px 0 var(--line),
+       0 2px 4px rgba(0,0,0,0.5);
+  }
+  body.has-nest .hatch-stage h2,
+  body.has-nest #hatch-title {
+    color: #FFFFFF;
+    text-shadow:
+      -2px -2px 0 var(--line),
+       2px -2px 0 var(--line),
+      -2px  2px 0 var(--line),
+       2px  2px 0 var(--line),
+       0 3px 6px rgba(0,0,0,0.5);
+  }
+  body.has-nest .hatch-sub,
+  body.has-nest .hatch-stats {
+    color: #FFFFFF;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.65), 0 0 6px rgba(0,0,0,0.4);
+  }
+  body.has-nest .hatch-stats b { color: #FFE38A; }
   .hatch-illust {
     max-width: 100%;
     max-height: 280px;

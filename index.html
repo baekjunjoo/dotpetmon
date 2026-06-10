@@ -574,7 +574,20 @@
     backdrop-filter: none;
     border-bottom-color: transparent;
   }
-  body.on-title main { padding-top: 0 !important; }
+  body.on-title { background: transparent !important; }
+  body.on-title main {
+    padding-top: 0 !important;
+    background: transparent !important;
+    max-width: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  body.on-title #screen-title,
+  body.on-title .title-fullscreen,
+  body.on-title .title-sky-hero,
+  body.on-title .title-sky-content {
+    background: transparent !important;
+  }
   .title-sky-hero {
     position: relative;
     width: 100%;

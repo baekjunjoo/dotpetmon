@@ -3142,111 +3142,95 @@ const SFX = {
 };
 
 // ============================================================
-// BGM — procedural cozy ambient (Web Audio API, no external files)
-// Chord progression C - G - Am - F (I-V-vi-IV), 8s loop
-// Soft sine pad + occasional triangle bell arpeggio
+// BGM — MP3 file looped, routed through Web Audio gain for volume control
+// Source: assets/audio/bgm-title.mp3 (Moonwalk — With Friends Again, fantasy instrumental)
+// Master volume 0.10 — does not clash with SFX/Voice TTS
 // ============================================================
 const BGM = {
   enabled: true,
   playing: false,
-  master: null,
-  filter: null,
-  schedTimer: null,
-  barIdx: 0,
-  // Notes in Hz — soft mid register
-  CHORDS: [
-    { notes: [261.63, 329.63, 392.00] }, // C  (C-E-G)
-    { notes: [196.00, 246.94, 293.66] }, // G  (G-B-D)
-    { notes: [220.00, 261.63, 329.63] }, // Am (A-C-E)
-    { notes: [174.61, 220.00, 261.63] }, // F  (F-A-C)
-  ],
-  CHORD_DUR: 2.0, // seconds per chord — 8s total loop
+  TARGET_VOL: 0.10,          // master volume cap (same as procedural BGM)
+  audioEl: null,             // HTMLAudioElement
+  source: null,              // MediaElementAudioSourceNode
+  gain: null,                // GainNode for fade in/out + master volume
+  _wired: false,
   _setup() {
     const ctx = _audio(); if (!ctx) return null;
-    if (this.master) return ctx;
-    this.master = ctx.createGain();
-    this.master.gain.value = 0;
-    // Lowpass to soften the pad (warmer, less harsh top-end)
-    this.filter = ctx.createBiquadFilter();
-    this.filter.type = 'lowpass';
-    this.filter.frequency.value = 1800;
-    this.filter.Q.value = 0.5;
-    this.master.connect(this.filter).connect(ctx.destination);
+    if (this.audioEl) return ctx;
+    // Build <audio> element
+    const a = new Audio();
+    a.src = 'assets/audio/bgm-title.mp3';
+    a.loop = true;
+    a.preload = 'auto';
+    a.crossOrigin = 'anonymous';
+    a.volume = 1.0; // gain node controls actual volume
+    this.audioEl = a;
+    // Route through Web Audio for gain control
+    try {
+      this.source = ctx.createMediaElementSource(a);
+      this.gain = ctx.createGain();
+      this.gain.gain.value = 0;
+      this.source.connect(this.gain).connect(ctx.destination);
+    } catch (e) {
+      // Fallback: control volume via element directly
+      console.warn('BGM: MediaElementAudioSource failed, falling back to element volume', e);
+      this.source = null;
+      this.gain = null;
+      a.volume = 0;
+    }
     return ctx;
   },
   start() {
     if (this.playing) return;
     const ctx = this._setup(); if (!ctx) return;
     this.playing = true;
-    this.barIdx = 0;
     const now = ctx.currentTime;
-    this.master.gain.cancelScheduledValues(now);
-    this.master.gain.setValueAtTime(this.master.gain.value, now);
-    this.master.gain.linearRampToValueAtTime(0.10, now + 1.4); // fade in 1.4s
-    this._scheduleBar(now + 0.05);
+    if (this.gain) {
+      this.gain.gain.cancelScheduledValues(now);
+      this.gain.gain.setValueAtTime(this.gain.gain.value, now);
+      this.gain.gain.linearRampToValueAtTime(this.TARGET_VOL, now + 1.4); // 1.4s fade-in
+    } else if (this.audioEl) {
+      // No gain node — ramp element volume manually
+      this._rampElementVolume(this.TARGET_VOL, 1400);
+    }
+    // Play (returns promise; ignore rejection — autoplay policy will retry on next gesture)
+    if (this.audioEl) {
+      this.audioEl.play().catch(() => { this.playing = false; });
+    }
   },
   stop(fadeMs = 700) {
     if (!this.playing) return;
     this.playing = false;
-    const ctx = _audio(); if (!ctx || !this.master) return;
+    const ctx = _audio(); if (!ctx) return;
     const now = ctx.currentTime;
-    this.master.gain.cancelScheduledValues(now);
-    this.master.gain.setValueAtTime(this.master.gain.value, now);
-    this.master.gain.linearRampToValueAtTime(0, now + fadeMs / 1000);
-    if (this.schedTimer) { clearTimeout(this.schedTimer); this.schedTimer = null; }
+    if (this.gain) {
+      this.gain.gain.cancelScheduledValues(now);
+      this.gain.gain.setValueAtTime(this.gain.gain.value, now);
+      this.gain.gain.linearRampToValueAtTime(0, now + fadeMs / 1000);
+      // Pause after fade so element doesn't keep ticking while inaudible
+      setTimeout(() => { if (!this.playing && this.audioEl) this.audioEl.pause(); }, fadeMs + 50);
+    } else if (this.audioEl) {
+      this._rampElementVolume(0, fadeMs);
+      setTimeout(() => { if (!this.playing && this.audioEl) this.audioEl.pause(); }, fadeMs + 50);
+    }
   },
   toggle() {
     this.enabled = !this.enabled;
     if (this.enabled) this.start(); else this.stop();
     return this.enabled;
   },
-  _scheduleBar(when) {
-    if (!this.playing) return;
-    const ctx = _audio(); if (!ctx) return;
-    const chord = this.CHORDS[this.barIdx % this.CHORDS.length];
-    // Soft sustained pad — 3 sine voices per chord
-    chord.notes.forEach((freq) => this._pad(freq, when, this.CHORD_DUR));
-    // Octave-up sub-bass on first note (gentle low)
-    this._pad(chord.notes[0] / 2, when, this.CHORD_DUR, 0.045, 'triangle');
-    // Sparse melody — 60% chance per bar, random note from chord +1 octave
-    if (Math.random() < 0.6) {
-      const noteFreq = chord.notes[Math.floor(Math.random() * chord.notes.length)] * 2;
-      this._bell(noteFreq, when + 0.3 + Math.random() * (this.CHORD_DUR - 0.8), 0.55);
-    }
-    // Occasional grace bell halfway through (cozy sparkle)
-    if (Math.random() < 0.3) {
-      const noteFreq = chord.notes[(this.barIdx + 1) % chord.notes.length] * 2;
-      this._bell(noteFreq, when + this.CHORD_DUR * 0.6, 0.4, 0.05);
-    }
-    this.barIdx++;
-    const nextWhen = when + this.CHORD_DUR;
-    const aheadMs = (nextWhen - ctx.currentTime) * 1000 - 250;
-    this.schedTimer = setTimeout(() => this._scheduleBar(nextWhen), Math.max(50, aheadMs));
-  },
-  _pad(freq, when, dur, peak = 0.09, type = 'sine') {
-    const ctx = _audio(); if (!ctx) return;
-    const o = ctx.createOscillator();
-    o.type = type;
-    o.frequency.setValueAtTime(freq, when);
-    const g = ctx.createGain();
-    g.gain.setValueAtTime(0, when);
-    g.gain.linearRampToValueAtTime(peak, when + 0.6);   // 0.6s attack — gentle swell
-    g.gain.setValueAtTime(peak, when + dur - 0.5);
-    g.gain.linearRampToValueAtTime(0, when + dur);      // 0.5s release
-    o.connect(g).connect(this.master);
-    o.start(when); o.stop(when + dur + 0.05);
-  },
-  _bell(freq, when, dur, peak = 0.07) {
-    const ctx = _audio(); if (!ctx) return;
-    const o = ctx.createOscillator();
-    o.type = 'triangle';
-    o.frequency.setValueAtTime(freq, when);
-    const g = ctx.createGain();
-    g.gain.setValueAtTime(0, when);
-    g.gain.linearRampToValueAtTime(peak, when + 0.02);
-    g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
-    o.connect(g).connect(this.master);
-    o.start(when); o.stop(when + dur + 0.05);
+  // Fallback ramp when MediaElementAudioSource is unavailable
+  _rampElementVolume(target, ms) {
+    if (!this.audioEl) return;
+    const start = this.audioEl.volume;
+    const t0 = performance.now();
+    const tick = () => {
+      if (!this.audioEl) return;
+      const p = Math.min(1, (performance.now() - t0) / ms);
+      this.audioEl.volume = Math.max(0, Math.min(1, start + (target - start) * p));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    tick();
   },
 };
 

@@ -473,16 +473,16 @@ export function drawLuminoa(c) {
 // SPECIES REGISTRY
 // ============================================================
 export const SPECIES = {
-  pibbi:    { num: 1,  name: 'Pibbi',    type: 'Light',    tactile: '큰 둥근 귀, 통통한 몸, 별 꼬리',     draw: drawPibbi,    surface: '부드러움', motion: '반짝반짝 깜빡임' },
-  mosshu:   { num: 2,  name: 'Mosshu',   type: 'Nature',   tactile: '물방울 모양 몸, 새싹 머리',           draw: drawMosshu,   surface: '매우 부드러움', motion: '천천히 흔들치듯' },
-  voltchi:  { num: 3,  name: 'Voltchi',  type: 'Electric', tactile: '뾰족 귀, 위로 솟은 번개 꼬리, 4족',  draw: drawVoltchi,  surface: '보통', motion: '빠르고 경쾌한 진동' },
-  bubloo:   { num: 4,  name: 'Bubloo',   type: 'Water',    tactile: '고래 몸, 부채 꼬리, 물 분수',         draw: drawBubloo,   surface: '매끄러움', motion: '위아래로 둥실둥실' },
-  fangroo:  { num: 5,  name: 'Fangroo',  type: 'Earth',    tactile: '늘어진 긴 귀, 직립, 두꺼운 꼬리',     draw: drawFangroo,  surface: '거침', motion: '위아래로 튀어오름' },
-  chikapi:  { num: 6,  name: 'Chikapi',  type: 'Fire',     tactile: '5개 불꽃 머리, 둥근 몸, 큰 입',       draw: drawChikapi,  surface: '따뜻한 울퉁퉁', motion: '열정적 깜빡임' },
-  turtloop: { num: 7,  name: 'Turtloop', type: 'Metal',    tactile: '돔 등껍질에 나선형 패턴',             draw: drawTurtloop, surface: '단단하고 선명', motion: '느리고 묵직' },
-  nibori:   { num: 8,  name: 'Nibori',   type: 'Dream',    tactile: '눕는 자세, 고양이 귀, 꼬리 말림, Zzz',draw: drawNibori,   surface: '매우 부드러움', motion: '느리게 숨쉬듯' },
-  kricko:   { num: 9,  name: 'Kricko',   type: 'Sound',    tactile: '긴 더듬이, 드럼, 음파',               draw: drawKricko,   surface: '진동하는 느낌', motion: '리듬에 맞춰 두드림' },
-  luminoa:  { num: 10, name: 'Luminoa',  type: 'Spirit',   tactile: '여러 가지 뿔, 사슴 체형, 빛 구슬',    draw: drawLuminoa,  surface: '부드럽고 섬세함', motion: '천천히 빛을 내며' },
+  pibbi:    { num: 1,  name: 'Pibbi',    type: 'Light',    tactile: 'Big round ears, plump body, star tail',         draw: drawPibbi,    surface: 'Soft',              motion: 'Sparkling flicker' },
+  mosshu:   { num: 2,  name: 'Mosshu',   type: 'Nature',   tactile: 'Droplet-shaped body, sprout on head',           draw: drawMosshu,   surface: 'Very soft',         motion: 'Gentle sway' },
+  voltchi:  { num: 3,  name: 'Voltchi',  type: 'Electric', tactile: 'Pointy ears, lightning tail, four legs',        draw: drawVoltchi,  surface: 'Medium',            motion: 'Quick lively buzz' },
+  bubloo:   { num: 4,  name: 'Bubloo',   type: 'Water',    tactile: 'Whale body, fan tail, water spout',             draw: drawBubloo,   surface: 'Smooth',            motion: 'Bobs up and down' },
+  fangroo:  { num: 5,  name: 'Fangroo',  type: 'Earth',    tactile: 'Long droopy ears, upright stance, thick tail',  draw: drawFangroo,  surface: 'Rough',             motion: 'Bouncing hops' },
+  chikapi:  { num: 6,  name: 'Chikapi',  type: 'Fire',     tactile: 'Five flame tufts, round body, big mouth',       draw: drawChikapi,  surface: 'Warm and bumpy',    motion: 'Eager flicker' },
+  turtloop: { num: 7,  name: 'Turtloop', type: 'Metal',    tactile: 'Domed shell with spiral pattern',               draw: drawTurtloop, surface: 'Hard and crisp',    motion: 'Slow and steady' },
+  nibori:   { num: 8,  name: 'Nibori',   type: 'Dream',    tactile: 'Lying pose, cat ears, curled tail, Zzz',        draw: drawNibori,   surface: 'Very soft',         motion: 'Slow breathing' },
+  kricko:   { num: 9,  name: 'Kricko',   type: 'Sound',    tactile: 'Long antennae, drum, sound waves',              draw: drawKricko,   surface: 'Vibrating feel',    motion: 'Drums to a rhythm' },
+  luminoa:  { num: 10, name: 'Luminoa',  type: 'Spirit',   tactile: 'Many horns, deer-like body, light orb',         draw: drawLuminoa,  surface: 'Soft and delicate', motion: 'Slowly glowing' },
 };
 
 export function drawSpecies(key, cells) {

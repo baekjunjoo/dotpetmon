@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>닷펫몬 · DotPetMon</title>
+<title>DotPetMon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
@@ -2512,10 +2512,10 @@
       <div class="title-sky-content">
         <img class="title-sky-logo" src="assets/illustrations/keyart/title-logo.png" alt="DOTPETMON — Monster Collection RPG" />
         <div class="title-sky-buttons">
-          <button class="title-img-btn" id="btn-new-game" type="button" aria-label="새 게임 시작">
+          <button class="title-img-btn" id="btn-new-game" type="button" aria-label="Start new game">
             <img src="assets/illustrations/ui/btn-new-game.png" alt="" aria-hidden="true" />
           </button>
-          <button class="title-img-btn" id="btn-continue" type="button" aria-label="이어하기" disabled>
+          <button class="title-img-btn" id="btn-continue" type="button" aria-label="Continue" disabled>
             <img src="assets/illustrations/ui/btn-continue.png" alt="" aria-hidden="true" />
           </button>
         </div>
@@ -2525,14 +2525,14 @@
     <div class="vortex-page" id="below" hidden>
 
       <!-- Top sub-nav (Vortex pattern: external links row) -->
-      <nav class="vortex-subnav" aria-label="외부 링크">
+      <nav class="vortex-subnav" aria-label="External links">
         <a class="subnav-link" href="https://github.com/baekjunjoo/dotpetmon" target="_blank" rel="noopener">GitHub</a>
         <a class="subnav-link" href="#" id="link-changelog">Changelog</a>
-        <a class="subnav-link" href="#" id="link-dex-public">도감</a>
+        <a class="subnav-link" href="#" id="link-dex-public">Dex</a>
       </nav>
 
       <!-- Main nav -->
-      <nav class="vortex-nav" aria-label="메인 메뉴">
+      <nav class="vortex-nav" aria-label="Main menu">
         <button class="vortex-nav-btn active" data-nav="home" type="button">HOME</button>
         <button class="vortex-nav-btn" data-nav="play" id="vortex-play-nav" type="button">PLAY</button>
         <button class="vortex-nav-btn" data-nav="dex" type="button">DEX</button>
@@ -2544,8 +2544,8 @@
       <!-- STARTER GRID: 10 species pixel sprites in 5×2 -->
       <div class="vortex-section">
         <div class="vortex-section-header">
-          <h2>만나게 될 닷펫몬 10종</h2>
-          <p>★ 표시 4종은 스타터 풀 — 알 부화 시 랜덤 1마리. 나머지 6종은 야생에서.</p>
+          <h2>Meet the 10 DotPetMon</h2>
+          <p>The 4 marked with ★ are the starter pool — one random pick when your egg hatches. The other 6 appear in the wild.</p>
         </div>
         <div class="vortex-grid" id="vortex-grid"></div>
         <div class="vortex-detail" id="vortex-detail" hidden>
@@ -2566,18 +2566,18 @@
       <div class="vortex-features">
         <div class="vortex-feature">
           <div class="vortex-feature-glyph">⊙</div>
-          <h3>촉각 정체성</h3>
-          <p>각 종은 60×40 핀 위 고유 시그너처. 손끝으로 인식하는 새 종 = 핵심 보상.</p>
+          <h3>Tactile Identity</h3>
+          <p>Each species has a unique signature on the 60×40 pins. Recognizing a new species by touch is the core reward.</p>
         </div>
         <div class="vortex-feature">
           <div class="vortex-feature-glyph">♥</div>
-          <h3>케어 = 힘</h3>
-          <p>잘 키운 펫일수록 강함. DotPet 케어 스탯이 배틀 데미지/명중률/크리에 직결.</p>
+          <h3>Care = Power</h3>
+          <p>Well-cared pets grow stronger. DotPet care stats feed directly into battle damage, accuracy, and crit.</p>
         </div>
         <div class="vortex-feature">
           <div class="vortex-feature-glyph">⇄</div>
-          <h3>사회적 연결</h3>
-          <p>친구와 트레이드. 받은 펫의 촉각을 손끝으로 처음 만지는 순간 = 핵심 감동.</p>
+          <h3>Social Connection</h3>
+          <p>Trade with friends. Feeling a traded pet's tactile signature for the first time is the heart of the experience.</p>
         </div>
       </div>
 
@@ -2592,7 +2592,7 @@
         </div>
         <div class="vortex-footer-copy">
           © 2026 Dot Incorporation · DotPetMon v0.5 BETA<br>
-          <small>닌텐도/Game Freak 포켓몬 IP 사용 안 함. 메커니즘 영감만 받은 오리지널 작품.</small>
+          <small>Does not use Nintendo / Game Freak Pokémon IP. An original work inspired only by the genre's mechanics.</small>
         </div>
       </footer>
 
@@ -2603,15 +2603,15 @@
   <section id="screen-creation" class="full-screen" hidden>
     <div class="creation-stage">
       <div class="creation-step">STEP 1 / 3</div>
-      <h2>당신의 이름을 알려주세요</h2>
-      <p class="creation-sub">트레이너 이름을 입력하세요. 닷펫몬들이 부를 이름입니다.</p>
+      <h2>What's your name?</h2>
+      <p class="creation-sub">Enter your trainer name. This is what your DotPetMon will call you.</p>
       <div class="name-input-wrap">
-        <input type="text" id="name-input" maxlength="12" placeholder="이름 입력" autocomplete="off" />
-        <div class="name-hint">최대 12자 · 한글 / 영문 / 숫자</div>
+        <input type="text" id="name-input" maxlength="12" placeholder="Enter name" autocomplete="off" />
+        <div class="name-hint">Up to 12 characters · letters / numbers</div>
       </div>
       <div class="creation-actions">
-        <button class="menu-btn ghost" id="btn-name-back" type="button">← 뒤로</button>
-        <button class="menu-btn primary" id="btn-name-submit" type="button">다음 →</button>
+        <button class="menu-btn ghost" id="btn-name-back" type="button">← Back</button>
+        <button class="menu-btn primary" id="btn-name-submit" type="button">Next →</button>
       </div>
     </div>
   </section>
@@ -2625,18 +2625,18 @@
         <canvas id="egg-canvas" aria-label="Egg"></canvas>
       </div>
       <div class="creation-actions">
-        <button class="menu-btn primary large" id="btn-egg-continue" type="button">계속 ▸</button>
+        <button class="menu-btn primary large" id="btn-egg-continue" type="button">Continue ▸</button>
       </div>
-      <div class="creation-hint">Enter 또는 F1로 진행</div>
+      <div class="creation-hint">Press Enter or F1 to continue</div>
     </div>
   </section>
 
   <!-- ============ SCREEN: EGG HATCH MINIGAME ============ -->
   <section id="screen-hatch" class="full-screen" hidden>
     <div class="hatch-stage">
-      <div class="creation-step">STEP 3 / 3 · 부화 미니게임</div>
-      <h2 id="hatch-title">리듬에 맞춰 F1을 누르세요</h2>
-      <p class="hatch-sub" id="hatch-sub">박자에 맞춰 알을 깨워주세요</p>
+      <div class="creation-step">STEP 3 / 3 · Hatching Mini-Game</div>
+      <h2 id="hatch-title">Tap F1 to the rhythm</h2>
+      <p class="hatch-sub" id="hatch-sub">Wake the egg by matching the beat</p>
 
       <div class="hatch-illust-wrap">
         <img class="hatch-illust" id="hatch-illust" src="assets/illustrations/ui/egg.png" alt="Hatching egg" />
@@ -2660,8 +2660,8 @@
       </button>
 
       <div class="hatch-stats">
-        <span>성공: <b id="hatch-hits">0</b> / 4</span>
-        <span>놓침: <b id="hatch-miss">0</b></span>
+        <span>Hits: <b id="hatch-hits">0</b> / 4</span>
+        <span>Misses: <b id="hatch-miss">0</b></span>
       </div>
     </div>
   </section>
@@ -2674,7 +2674,7 @@
         <div class="r-sparkle s2"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
         <div class="r-sparkle s3"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0 L9 6 L14 7 L9 8 L8 14 L7 8 L2 7 L7 6 Z"/></svg></div>
       </div>
-      <p class="reveal-eyebrow">알에서 부화한 첫 닷펫몬</p>
+      <p class="reveal-eyebrow">Your first DotPetMon, freshly hatched</p>
       <h1 id="reveal-name" class="reveal-name">—</h1>
       <div class="reveal-type" id="reveal-type">—</div>
 
@@ -2689,15 +2689,15 @@
       <p class="reveal-tactile" id="reveal-tactile">—</p>
 
       <div class="reveal-nickname-row">
-        <label for="nick-input">애칭 (선택)</label>
-        <input type="text" id="nick-input" maxlength="10" placeholder="기본 이름 사용" />
+        <label for="nick-input">Nickname (optional)</label>
+        <input type="text" id="nick-input" maxlength="10" placeholder="Use default name" />
       </div>
 
       <div class="creation-actions">
-        <button class="menu-btn ghost" id="btn-reroll" type="button">↻ 다시 부화</button>
-        <button class="menu-btn primary large" id="btn-accept-starter" type="button">이 친구와 시작하기 ▸</button>
+        <button class="menu-btn ghost" id="btn-reroll" type="button">↻ Re-hatch</button>
+        <button class="menu-btn primary large" id="btn-accept-starter" type="button">Start with this buddy ▸</button>
       </div>
-      <div class="creation-hint">다시 부화는 오프닝에 한 번만 가능합니다</div>
+      <div class="creation-hint">You can only re-hatch once during the opening</div>
     </div>
   </section>
 
@@ -2705,8 +2705,8 @@
   <section id="screen-region-select" class="full-screen" hidden>
     <div class="region-select-stage">
       <div class="region-header">
-        <button class="menu-btn ghost small" id="btn-region-back" type="button">← 메인</button>
-        <h2 id="region-title">탐험 지역 선택</h2>
+        <button class="menu-btn ghost small" id="btn-region-back" type="button">← Main</button>
+        <h2 id="region-title">Select Region to Explore</h2>
         <div class="region-progress-pill" id="region-progress-pill">0 / 8</div>
       </div>
       <div class="region-grid" id="region-grid"></div>
@@ -2714,13 +2714,13 @@
         <h3 id="region-detail-name">—</h3>
         <p class="region-mood" id="region-detail-mood">—</p>
         <div class="region-meta">
-          <span>레벨 <b id="region-detail-level">—</b></span>
-          <span>출현 종 <b id="region-detail-species">—</b></span>
-          <span>방문 <b id="region-detail-visits">0</b></span>
+          <span>Level <b id="region-detail-level">—</b></span>
+          <span>Species <b id="region-detail-species">—</b></span>
+          <span>Visits <b id="region-detail-visits">0</b></span>
         </div>
         <div class="creation-actions">
-          <button class="menu-btn ghost" id="btn-region-cancel" type="button">취소</button>
-          <button class="menu-btn primary large" id="btn-region-go" type="button">출발 ▸</button>
+          <button class="menu-btn ghost" id="btn-region-cancel" type="button">Cancel</button>
+          <button class="menu-btn primary large" id="btn-region-go" type="button">Go ▸</button>
         </div>
       </div>
     </div>
@@ -2730,9 +2730,9 @@
   <section id="screen-exploring" class="full-screen" hidden>
     <div class="explore-stage">
       <div class="explore-header">
-        <button class="menu-btn ghost small" id="btn-explore-leave" type="button">← 돌아가기</button>
+        <button class="menu-btn ghost small" id="btn-explore-leave" type="button">← Back</button>
         <div class="explore-region-name" id="explore-region-name">—</div>
-        <div class="explore-steps">스텝 <b id="explore-steps">0</b></div>
+        <div class="explore-steps">Steps <b id="explore-steps">0</b></div>
       </div>
       <div class="explore-mood" id="explore-mood">—</div>
       <div class="explore-region-bg" id="explore-region-bg" role="img" aria-label="Region environment">
@@ -2740,12 +2740,12 @@
           <canvas id="explore-canvas"></canvas>
         </div>
       </div>
-      <div class="explore-status" id="explore-status">조용합니다... 한 걸음 더 나아가 볼까요?</div>
+      <div class="explore-status" id="explore-status">All quiet... want to take another step?</div>
       <button class="menu-btn primary large" id="btn-explore-step" type="button">
-        ▶ 한 걸음 <small>F1 · Space</small>
+        ▶ One Step <small>F1 · Space</small>
       </button>
       <div class="explore-tip">
-        F1 = 한 걸음 / F3 = 도감 보기 / F4 = 돌아가기
+        F1 = Step / F3 = View Dex / F4 = Back
       </div>
     </div>
   </section>
@@ -2753,8 +2753,8 @@
   <!-- ============ SCREEN: WILD ENCOUNTER ============ -->
   <section id="screen-encounter" class="full-screen" hidden>
     <div class="encounter-stage">
-      <div class="encounter-alert">! 야생 등장 !</div>
-      <h2 id="encounter-name">야생 —</h2>
+      <div class="encounter-alert">! Wild Encounter !</div>
+      <h2 id="encounter-name">Wild —</h2>
       <div class="encounter-type" id="encounter-type">—</div>
       <div class="encounter-illust-wrap">
         <img class="encounter-illust" id="encounter-illust" alt="Wild creature" />
@@ -2765,7 +2765,7 @@
       </div>
       <div class="encounter-info">
         <div class="encounter-stat">
-          <span class="encounter-stat-label">레벨</span>
+          <span class="encounter-stat-label">Level</span>
           <span class="encounter-stat-value" id="encounter-level">—</span>
         </div>
         <div class="encounter-stat">
@@ -2776,17 +2776,17 @@
           <span class="encounter-stat-value" id="encounter-hp">—</span>
         </div>
         <div class="encounter-stat">
-          <span class="encounter-stat-label">도감</span>
+          <span class="encounter-stat-label">Dex</span>
           <span class="encounter-stat-value" id="encounter-dex">—</span>
         </div>
       </div>
       <div class="encounter-actions">
-        <button class="menu-btn primary" id="btn-enc-fight" type="button">⚔ 싸움<small>F1</small></button>
-        <button class="menu-btn" id="btn-enc-catch" type="button">⊙ 포획<small>F2</small></button>
-        <button class="menu-btn ghost" id="btn-enc-run" type="button">↩ 도망<small>F3</small></button>
+        <button class="menu-btn primary" id="btn-enc-fight" type="button">⚔ Attack<small>F1</small></button>
+        <button class="menu-btn" id="btn-enc-catch" type="button">⊙ Catch<small>F2</small></button>
+        <button class="menu-btn ghost" id="btn-enc-run" type="button">↩ Run<small>F3</small></button>
       </div>
       <div class="encounter-tip" id="encounter-tip">
-        싸움 — 데미지 후 약해진 야생은 포획 확률 ↑ · 포획 — 즉시 시도
+        Attack — weakening the wild boosts catch rate · Catch — try right away
       </div>
     </div>
   </section>
@@ -2839,32 +2839,32 @@
           <div class="info-type" id="vp-type" style="background: var(--bg-soft); color: var(--ink-soft);">—</div>
         </div>
         <div class="viewport-illust-wrap">
-          <img class="viewport-illust" id="vp-illust" alt="활성 펫 일러스트" />
+          <img class="viewport-illust" id="vp-illust" alt="Active pet illustration" />
           <div class="pixel-pip" id="vp-pixel-pip">
             <canvas id="vp-canvas"></canvas>
             <div class="pixel-pip-label">PAD</div>
           </div>
         </div>
-        <div class="viewport-tactile" id="vp-tactile">파티에서 펫을 선택하세요</div>
+        <div class="viewport-tactile" id="vp-tactile">Pick a pet from your party</div>
         <div class="main-actions">
           <button class="menu-btn primary action-tile" id="btn-main-explore" type="button">
             <span class="action-glyph">⛰</span>
-            <span class="action-label">탐험</span>
-            <small class="action-sub">새 지역 발견</small>
+            <span class="action-label">Explore</span>
+            <small class="action-sub">Discover new regions</small>
           </button>
           <button class="menu-btn action-tile" id="btn-main-care" type="button" disabled>
             <span class="action-glyph">♥</span>
-            <span class="action-label">케어</span>
+            <span class="action-label">Care</span>
             <small class="action-sub">v1.5+</small>
           </button>
           <button class="menu-btn action-tile" id="btn-main-dex" type="button">
             <span class="action-glyph">✦</span>
-            <span class="action-label">도감</span>
+            <span class="action-label">Dex</span>
             <small class="action-sub" id="dex-progress">0 / 10</small>
           </button>
           <button class="menu-btn action-tile" id="btn-main-trade" type="button" disabled>
             <span class="action-glyph">⇄</span>
-            <span class="action-label">트레이드</span>
+            <span class="action-label">Trade</span>
             <small class="action-sub">v1.4+</small>
           </button>
         </div>
@@ -2872,15 +2872,15 @@
 
       <div class="bottom-row">
         <div class="info-band">
-          <div class="info-band-label">DEX 도감</div>
+          <div class="info-band-label">DEX</div>
           <div class="badges-row" id="badges-row"></div>
         </div>
         <div class="game-logo">
-          닷펫몬
+          DotPetMon
           <small>DOTPETMON</small>
         </div>
         <div class="info-band">
-          <div class="info-band-label">ENERGY 에너지</div>
+          <div class="info-band-label">ENERGY</div>
           <div class="lives-row" id="lives-row"></div>
         </div>
       </div>
@@ -2889,17 +2889,17 @@
     <!-- RIGHT: Stats + Log -->
     <aside class="right-col">
       <div class="right-panel stats">
-        <div class="right-panel-label">STATS 상태</div>
+        <div class="right-panel-label">STATS</div>
         <div id="stats-list">
-          <div class="stat-row"><span class="label">레벨</span><span class="value" id="s-level">—</span></div>
+          <div class="stat-row"><span class="label">Level</span><span class="value" id="s-level">—</span></div>
           <div class="stat-row"><span class="label">HP</span><div class="stat-bar"><div class="stat-bar-fill" id="s-hp-bar" style="width: 0%"></div></div><span class="value" id="s-hp">—</span></div>
           <div class="stat-row"><span class="label">Energy</span><div class="stat-bar"><div class="stat-bar-fill" id="s-en-bar" style="width: 0%"></div></div><span class="value" id="s-en">—</span></div>
           <div class="stat-row"><span class="label">Bond</span><div class="stat-bar"><div class="stat-bar-fill" id="s-bond-bar" style="width: 0%"></div></div><span class="value" id="s-bond">—</span></div>
-          <div class="stat-row"><span class="label">포획</span><span class="value" id="s-catch">—</span></div>
+          <div class="stat-row"><span class="label">Caught</span><span class="value" id="s-catch">—</span></div>
         </div>
       </div>
       <div class="right-panel log">
-        <div class="right-panel-label">LOG 활동</div>
+        <div class="right-panel-label">LOG</div>
         <div class="log-list" id="log-list"></div>
       </div>
     </aside>
@@ -2918,11 +2918,11 @@
 <div class="live-region" id="live-region" aria-live="polite" aria-atomic="true"></div>
 
 <!-- DEX overlay (v0.7) -->
-<div class="dex-overlay" id="dex-overlay" role="dialog" aria-label="DotDex 도감">
-  <button class="dex-close" id="dex-close" type="button" aria-label="닫기">×</button>
+<div class="dex-overlay" id="dex-overlay" role="dialog" aria-label="DotDex">
+  <button class="dex-close" id="dex-close" type="button" aria-label="Close">×</button>
   <div class="dex-container">
     <div class="dex-header">
-      <h2>📖 DotDex 도감</h2>
+      <h2>📖 DotDex</h2>
       <div class="dex-progress" id="dex-overlay-progress">0 / 10</div>
     </div>
     <div class="dex-grid" id="dex-grid"></div>
@@ -3044,38 +3044,38 @@ function typeBadgeStyle(typeName, size = 28) {
 
 // 8 regions, each with native species + level range + unlock threshold (dex caught count)
 const REGIONS = [
-  { id: 'starter-plains', name: 'Starter Plains', nameKo: '스타터 평원',
+  { id: 'starter-plains', name: 'Starter Plains', nameKo: 'Where it all begins',
     species: ['pibbi', 'mosshu'], levelMin: 3, levelMax: 8, unlockDex: 0,
-    mood: '바람이 풀잎을 스치는 소리, 따뜻한 햇살.',
+    mood: 'Breeze rustles through the grass. Warm sunlight on your face.',
     color: '#97C459', glyph: '⊙' },
-  { id: 'whispering-forest', name: 'Whispering Forest', nameKo: '속삭이는 숲',
+  { id: 'whispering-forest', name: 'Whispering Forest', nameKo: 'Hidden voices in the mist',
     species: ['mosshu', 'nibori'], levelMin: 5, levelMax: 12, unlockDex: 2,
-    mood: '안개가 자욱하다. 멀리서 누군가 속삭이는 듯하다.',
+    mood: 'Thick fog drifts. Somewhere far off, a whisper.',
     color: '#5DCAA5', glyph: '✿' },
-  { id: 'ember-volcano', name: 'Ember Volcano', nameKo: '불꽃 화산',
+  { id: 'ember-volcano', name: 'Ember Volcano', nameKo: 'A mountain of living flame',
     species: ['chikapi', 'fangroo'], levelMin: 8, levelMax: 15, unlockDex: 4,
-    mood: '발 밑에서 열기가 올라온다. 용암 흐르는 소리.',
+    mood: 'Heat rises through your soles. Lava murmurs somewhere below.',
     color: '#E24B4A', glyph: '▲' },
-  { id: 'mirror-lake', name: 'Mirror Lake', nameKo: '거울 호수',
+  { id: 'mirror-lake', name: 'Mirror Lake', nameKo: 'Still water, hidden depths',
     species: ['bubloo', 'luminoa'], levelMin: 10, levelMax: 18, unlockDex: 5,
-    mood: '수면이 잔잔하다. 가끔 물고기가 튀어오른다.',
+    mood: 'The surface is glassy. Now and then a fish leaps.',
     color: '#85B7EB', glyph: '○' },
-  { id: 'storm-plain', name: 'Storm Plain', nameKo: '폭풍 평원',
+  { id: 'storm-plain', name: 'Storm Plain', nameKo: 'Where the sky bites back',
     species: ['voltchi', 'kricko'], levelMin: 13, levelMax: 22, unlockDex: 6,
-    mood: '천둥소리. 머리카락이 곤두선다.',
+    mood: 'Thunder rolls. The hair on your arms stands up.',
     color: '#F2C14E', glyph: '⚡' },
-  { id: 'iron-cave', name: 'Iron Cave', nameKo: '철의 동굴',
+  { id: 'iron-cave', name: 'Iron Cave', nameKo: 'Tunnels that hum and echo',
     species: ['turtloop', 'fangroo', 'voltchi'], levelMin: 15, levelMax: 25, unlockDex: 7,
-    mood: '발자국이 메아리친다. 차가운 공기.',
+    mood: 'Footsteps echo around you. The air is cold and metallic.',
     color: '#888780', glyph: '◇' },
-  { id: 'sacred-grove', name: 'Sacred Grove', nameKo: '성스러운 숲',
+  { id: 'sacred-grove', name: 'Sacred Grove', nameKo: 'Old trees, older songs',
     species: ['luminoa', 'pibbi'], levelMin: 18, levelMax: 28, unlockDex: 8,
-    mood: '오래된 나무들이 빛을 낸다. 신비로운 음악.',
+    mood: 'Ancient trees glow faintly. A mysterious melody hangs in the air.',
     color: '#9FE1CB', glyph: '✿' },
-  { id: 'echo-sanctum', name: 'Echo Sanctum', nameKo: '메아리 신전',
+  { id: 'echo-sanctum', name: 'Echo Sanctum', nameKo: 'Where every journey gathers',
     species: ['pibbi','mosshu','voltchi','bubloo','fangroo','chikapi','turtloop','nibori','kricko','luminoa'],
     levelMin: 25, levelMax: 40, unlockDex: 10,
-    mood: '당신의 모든 모험이 여기로 모인다.',
+    mood: 'All of your adventures converge here.',
     color: '#AFA9EC', glyph: '✦' },
 ];
 
@@ -3444,7 +3444,7 @@ function renderLog() {
   const el = document.getElementById('log-list');
   if (!el) return;
   if (state.log.length === 0) {
-    el.innerHTML = '<div class="log-entry" style="color: var(--ink-dim); text-align: center;">활동이 여기에 표시됩니다</div>';
+    el.innerHTML = '<div class="log-entry" style="color: var(--ink-dim); text-align: center;">Activity will appear here</div>';
     return;
   }
   el.innerHTML = state.log.map(e =>
@@ -3486,7 +3486,7 @@ function renderPartySlots() {
     if (!pet) {
       slot.classList.add('empty');
       slot.classList.remove('active');
-      labelEl.textContent = '비어있음';
+      labelEl.textContent = 'Empty';
       if (canvas) { canvas.width = 0; canvas.height = 0; canvas.style.display = ''; }
       continue;
     }
@@ -3518,7 +3518,7 @@ function renderViewport() {
     typeEl.textContent = '—';
     typeEl.style.background = 'var(--bg-soft)';
     typeEl.style.color = 'var(--ink-soft)';
-    tactEl.textContent = '파티에서 펫을 선택하세요';
+    tactEl.textContent = 'Pick a pet from your party';
     if (canvas) { canvas.width = 0; canvas.height = 0; }
     if (illust) { illust.style.display = 'none'; }
     return;
@@ -3540,9 +3540,9 @@ function renderViewport() {
   typeEl.style.background = accent;
   typeEl.style.color = '#0a0e1a';
   tactEl.innerHTML =
-    '<b style="color: ' + accent + ';">촉각 시그너처</b>: ' + spec.tactile +
-    ' · <b style="color: ' + accent + ';">표면</b>: ' + spec.surface +
-    ' · <b style="color: ' + accent + ';">움직임</b>: ' + spec.motion;
+    '<b style="color: ' + accent + ';">Tactile</b>: ' + spec.tactile +
+    ' · <b style="color: ' + accent + ';">Surface</b>: ' + spec.surface +
+    ' · <b style="color: ' + accent + ';">Motion</b>: ' + spec.motion;
 }
 
 function renderStats() {
@@ -3576,7 +3576,7 @@ function renderBadges() {
     const collected = state.collectedTypes.has(t);
     const color = collected ? `var(${TYPE_COLOR[t]})` : 'transparent';
     const glyph = TYPE_GLYPH[t] || '?';
-    return `<div class="type-badge ${collected ? '' : 'locked'}" style="${collected ? `background: ${color};` : ''}" title="${t}${collected ? '' : ' (미발견)'}" aria-label="${t}${collected ? '' : ' (locked)'}">${glyph}</div>`;
+    return `<div class="type-badge ${collected ? '' : 'locked'}" style="${collected ? `background: ${color};` : ''}" title="${t}${collected ? '' : ' (undiscovered)'}" aria-label="${t}${collected ? '' : ' (locked)'}">${glyph}</div>`;
   }).join('');
 }
 
@@ -3661,9 +3661,9 @@ function renderTitle() {
   }
   if (continueSub) {
     if (hasSavedGame()) {
-      continueSub.textContent = `${state.trainer.name} · 도감 ${state.dexCaught.size}/10`;
+      continueSub.textContent = `${state.trainer.name} · Dex ${state.dexCaught.size}/10`;
     } else {
-      continueSub.textContent = '저장 없음';
+      continueSub.textContent = 'No save';
     }
   }
   // Render 10-species grid
@@ -3677,7 +3677,7 @@ function renderTitle() {
         <div class="vortex-species-card ${isStarter ? 'starter' : ''} ${isSelected ? 'selected' : ''}"
              data-species="${key}"
              role="button" tabindex="0"
-             aria-label="#${sp.num} ${sp.name} ${sp.type} 타입${isStarter ? ' 스타터 후보' : ''}">
+             aria-label="#${sp.num} ${sp.name} ${sp.type} type${isStarter ? ' starter candidate' : ''}">
           <div class="species-art">
             <img src="${ART.species(key)}" alt="${sp.name} illustration" loading="lazy" />
             <div class="pixel-pip">
@@ -3734,8 +3734,8 @@ function renderTitleDetail() {
   typeEl.textContent = (TYPE_GLYPH[sp.type] || '') + ' ' + sp.type;
   typeEl.style.background = accent;
   typeEl.style.color = '#0a0e1a';
-  document.getElementById('vortex-d-tactile').textContent = '촉각: ' + sp.tactile;
-  document.getElementById('vortex-d-surface').textContent = '표면: ' + sp.surface + ' · 움직임: ' + sp.motion;
+  document.getElementById('vortex-d-tactile').textContent = 'Tactile: ' + sp.tactile;
+  document.getElementById('vortex-d-surface').textContent = 'Surface: ' + sp.surface + ' · Motion: ' + sp.motion;
   // Detail canvas (large)
   const canvas = document.getElementById('vortex-detail-canvas');
   if (canvas) {
@@ -3848,7 +3848,7 @@ function renderEgg() {
   // Narration (rotated from variation pool)
   const narr = document.getElementById('egg-narration');
   if (narr) {
-    const name = state.trainer?.name || '트레이너';
+    const name = state.trainer?.name || 'Trainer';
     narr.textContent = pickCopy(COPY.eggNarration)(name);
   }
   // Egg illustration on canvas
@@ -4174,7 +4174,7 @@ function renderReveal() {
   if (illust) illust.src = ART.species(state.reveal.species);
 
   document.getElementById('reveal-tactile').innerHTML =
-    `<b style="color: ${accent};">촉각</b> ${sp.tactile} · <b style="color: ${accent};">표면</b> ${sp.surface} · <b style="color: ${accent};">움직임</b> ${sp.motion}`;
+    `<b style="color: ${accent};">Tactile</b> ${sp.tactile} · <b style="color: ${accent};">Surface</b> ${sp.surface} · <b style="color: ${accent};">Motion</b> ${sp.motion}`;
 
   document.getElementById('nick-input').value = '';
   document.getElementById('nick-input').placeholder = sp.name;
@@ -4197,7 +4197,7 @@ function renderReveal() {
 }
 
 function rerollStarter() {
-  if (!confirm('정말 다시 부화하시겠어요? 다른 스타터가 나옵니다. (오프닝에 한 번만 가능)')) return;
+  if (!confirm('Re-hatch the egg? A different starter will appear. (Only once during the opening.)')) return;
   SFX.pad();
   rollStarter();
   renderReveal();
@@ -4227,9 +4227,9 @@ function acceptStarter() {
   saveSettings();
   // Initial log entries
   state.log = [];
-  logEntry('discover', `${name}이(가) 부화했습니다! ${sp.type} 타입`);
-  logEntry('info', `트레이너 ${state.trainer.name} (ID: ${state.trainer.id})`);
-  logEntry('care', `Starter Plains에서 모험을 시작하세요`);
+  logEntry('discover', `${name} hatched! ${sp.type} type`);
+  logEntry('info', `Trainer ${state.trainer.name} (ID: ${state.trainer.id})`);
+  logEntry('care', `Begin your adventure at Starter Plains`);
   // Celebratory fanfare
   [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => _tone(f, 0.16, 'sine', 0.20), i * 120));
   speak(pickCopy(COPY.starterAccept)(name, sp));
@@ -4286,11 +4286,11 @@ function continueGame() {
 
 function showCredits() {
   alert(
-    '닷펫몬 v0.5 BETA\n' +
-    'DotPetMon — 시각장애 친화 턴제 몬스터 수집 RPG\n\n' +
-    '제작: Dot Inc + Claude\n' +
+    'DotPetMon v0.5 BETA\n' +
+    'DotPetMon — A turn-based monster-collecting RPG for blind and low-vision players\n\n' +
+    'Made by: Dot Inc + Claude\n' +
     '© 2026 Dot Incorporation\n\n' +
-    '특별 감사: 모든 닷패드 사용자'
+    'Special thanks: every Dot Pad user'
   );
 }
 
@@ -4300,7 +4300,7 @@ function showCredits() {
 function openExplore() {
   if (state.party.length === 0) {
     SFX.err();
-    showToast('파티에 닷펫몬이 필요합니다');
+    showToast('You need a DotPetMon in your party');
     return;
   }
   SFX.selectPet();
@@ -4357,7 +4357,7 @@ function openDexDetail() {
   }
   // Progress label
   const prog = document.getElementById('dex-overlay-progress');
-  if (prog) prog.textContent = `포획 ${state.dexCaught.size} / 10 · 만남 ${state.dexSeen.size} / 10`;
+  if (prog) prog.textContent = `Caught ${state.dexCaught.size} / 10 · Seen ${state.dexSeen.size} / 10`;
   overlay.classList.add('open');
 }
 function closeDexDetail() {
@@ -4385,12 +4385,12 @@ function renderRegionSelect() {
       <div class="region-card ${unlocked ? '' : 'locked'} ${_selectedRegionId === r.id ? 'selected' : ''}"
            data-region-id="${r.id}"
            role="button" tabindex="0"
-           aria-label="${r.name} ${unlocked ? '' : '잠김'} 레벨 ${r.levelMin}부터 ${r.levelMax}">
+           aria-label="${r.name} ${unlocked ? '' : 'locked'} level ${r.levelMin} to ${r.levelMax}">
         <div class="region-num">#${idx + 1}</div>
         <div class="region-glyph" style="color: ${unlocked ? r.color : 'var(--ink-dim)'}">${r.glyph}</div>
         <div class="region-name">${r.name}</div>
         <div class="region-name-ko">${r.nameKo}</div>
-        <div class="region-level">Lv ${r.levelMin}–${r.levelMax} · ${visits}회</div>
+        <div class="region-level">Lv ${r.levelMin}–${r.levelMax} · ${visits}x</div>
       </div>
     `;
   }).join('');
@@ -4413,7 +4413,7 @@ function renderRegionSelect() {
       document.getElementById('region-detail-species').textContent =
         r.species.length <= 5
           ? r.species.map(s => SPECIES[s]?.name || s).join(', ')
-          : '모든 종';
+          : 'All species';
       document.getElementById('region-detail-visits').textContent =
         state.regionProgress[r.id]?.visits ?? 0;
     } else {
@@ -4455,7 +4455,7 @@ function goToRegion() {
   state.regionProgress[r.id].visits++;
   saveSettings();
   showScreen('exploring');
-  logEntry('info', `${r.name} 진입`);
+  logEntry('info', `Entered ${r.name}`);
 }
 
 // ============================================================
@@ -4475,8 +4475,8 @@ function renderExploring() {
   if (statusEl && !statusEl.dataset.locked) {
     statusEl.classList.remove('alert');
     statusEl.textContent = state.exploring.steps === 0
-      ? '주변을 둘러봅니다. 한 걸음 내디뎌 볼까요?'
-      : '조용합니다. 한 걸음 더 나아가 볼까요?';
+      ? 'You look around. Ready to take a step?'
+      : 'All quiet. Want to take another step?';
   }
   // Illustrated region background
   const bg = document.getElementById('explore-region-bg');
@@ -4612,12 +4612,12 @@ function exploreStep() {
   const statusEl = document.getElementById('explore-status');
   if (statusEl) {
     const flavors = [
-      '바람이 부드럽게 스칩니다.',
-      '풀잎이 흔들립니다.',
-      '먼 곳에서 작은 소리가 들립니다.',
-      '아무것도 없습니다.',
-      '잠시 멈춰 숨을 고릅니다.',
-      '발자국 소리만 들립니다.',
+      'A soft breeze brushes past.',
+      'Blades of grass sway gently.',
+      'A faint sound carries from far away.',
+      'Nothing happens here.',
+      'You pause to catch your breath.',
+      'Only the sound of your footsteps.',
     ];
     statusEl.textContent = pickCopy(flavors);
   }
@@ -4661,7 +4661,7 @@ function rollEncounter() {
   SFX.err();
   if (SPECIES_CRY[speciesKey]) setTimeout(() => SPECIES_CRY[speciesKey](), 200);
   // Log
-  logEntry('discover', `야생 ${sp.name} (Lv ${level}) 등장`);
+  logEntry('discover', `Wild ${sp.name} (Lv ${level}) appeared`);
 }
 
 function renderEncounter() {
@@ -4671,7 +4671,7 @@ function renderEncounter() {
   if (!sp) return;
   const accent = getComputedStyle(document.documentElement).getPropertyValue(TYPE_COLOR[sp.type]).trim() || '#ff9b6a';
 
-  document.getElementById('encounter-name').textContent = `야생 ${sp.name}`;
+  document.getElementById('encounter-name').textContent = `Wild ${sp.name}`;
   document.getElementById('encounter-name').style.color = accent;
   const typeEl = document.getElementById('encounter-type');
   typeEl.textContent = (TYPE_GLYPH[sp.type] || '') + ' ' + sp.type;
@@ -4690,18 +4690,18 @@ function renderEncounter() {
   const hpPct = (e.hp / e.hpMax) * 100;
   document.getElementById('encounter-hp-fill').style.width = `${hpPct}%`;
 
-  const dexStatus = state.dexCaught.has(e.species) ? '포획됨'
-                  : state.dexSeen.has(e.species) ? '만남'
-                  : '신규!';
+  const dexStatus = state.dexCaught.has(e.species) ? 'Caught'
+                  : state.dexSeen.has(e.species) ? 'Seen'
+                  : 'New!';
   document.getElementById('encounter-dex').textContent = dexStatus;
 
   // Tip text varies by HP
   const tipEl = document.getElementById('encounter-tip');
   if (tipEl) {
-    if (hpPct >= 80) tipEl.textContent = '체력이 가득합니다. 싸움으로 약하게 만들면 포획이 쉬워집니다.';
-    else if (hpPct >= 40) tipEl.textContent = '약간 약해진 상태입니다. 포획 시도가 가능합니다.';
-    else if (hpPct >= 20) tipEl.textContent = '많이 약해졌습니다! 포획 확률 높음.';
-    else tipEl.textContent = '거의 쓰러질 듯합니다! 지금이 기회입니다.';
+    if (hpPct >= 80) tipEl.textContent = 'HP is full. Wear it down to boost your catch rate.';
+    else if (hpPct >= 40) tipEl.textContent = 'A little weakened. You can try a catch now.';
+    else if (hpPct >= 20) tipEl.textContent = 'Very weakened! Catch rate is high.';
+    else tipEl.textContent = 'About to faint! Now is your chance.';
   }
 
   // Push to dot pad
@@ -4724,14 +4724,14 @@ function encounterFight() {
   const dmg = Math.max(1, myAttack - Math.floor(e.level * 1.2) + Math.floor(Math.random() * 6));
   e.hp = Math.max(0, e.hp - dmg);
   SFX.beatHit();
-  speak(`${myPet.name} 공격! ${dmg} 데미지.`);
-  logEntry('battle', `${myPet.name}이(가) 야생 ${SPECIES[e.species].name}에게 ${dmg} 데미지`);
+  speak(`${myPet.name} attacks! ${dmg} damage.`);
+  logEntry('battle', `${myPet.name} dealt ${dmg} damage to wild ${SPECIES[e.species].name}`);
   renderEncounter();
   if (e.hp <= 0) {
     // Defeated — XP + small recovery
     const xpGain = Math.max(5, e.level * 3);
-    speak(`야생 ${SPECIES[e.species].name} 쓰러졌다! ${xpGain} XP 획득.`);
-    logEntry('battle', `승리! ${xpGain} XP`);
+    speak(`Wild ${SPECIES[e.species].name} fainted! Gained ${xpGain} XP.`);
+    logEntry('battle', `Victory! ${xpGain} XP`);
     setTimeout(() => {
       state.encounter = null;
       showScreen('exploring');
@@ -4744,11 +4744,11 @@ function encounterFight() {
     const counterDmg = Math.max(1, Math.floor(e.level * 0.8) - 2 + Math.floor(Math.random() * 4));
     myPet.hp = Math.max(0, (myPet.hp ?? myPet.hpMax ?? 20) - counterDmg);
     SFX.beatMiss();
-    speak(`야생 ${SPECIES[e.species].name} 반격! ${counterDmg} 데미지를 받았다.`);
+    speak(`Wild ${SPECIES[e.species].name} counterattacks! Took ${counterDmg} damage.`);
     if (myPet.hp <= 0) {
       myPet.hp = 1;  // Don't fully KO in v0.5 — just barely
-      speak(`${myPet.name}이(가) 매우 약해졌습니다. 일단 도망칩니다.`);
-      logEntry('battle', `${myPet.name} 위기 — 도망`);
+      speak(`${myPet.name} is critically weakened. Retreating for now.`);
+      logEntry('battle', `${myPet.name} critical — fleeing`);
       setTimeout(encounterRun, 800);
     }
   }, 700);
@@ -4796,7 +4796,7 @@ function encounterCatch() {
       const r = getRegion(state.exploring?.regionId);
       if (r && state.regionProgress[r.id]) state.regionProgress[r.id].caught++;
       saveSettings();
-      logEntry('discover', `${sp.name} 포획! ${isNewDex ? '도감 첫 등록!' : ''}`);
+      logEntry('discover', `Caught ${sp.name}! ${isNewDex ? 'First dex entry!' : ''}`);
       speak(`Caught! ${sp.name}, level ${e.level}.${isNewDex ? ' New dex entry!' : ''}`);
       setTimeout(() => {
         state.encounter = null;
@@ -4806,7 +4806,7 @@ function encounterCatch() {
       // FAILED
       SFX.beatMiss();
       speak('Escaped! The wild creature broke free.');
-      logEntry('info', `${sp.name} 포획 실패 (${Math.round(chance*100)}%)`);
+      logEntry('info', `Failed to catch ${sp.name} (${Math.round(chance*100)}%)`);
       renderEncounter();
     }
   }, 600);
@@ -4843,7 +4843,7 @@ function selectSlot(i) {
   if (spec) {
     if (SPECIES_CRY[pet.species]) SPECIES_CRY[pet.species]();
     speak(`${pet.name}, level ${pet.level}, ${spec.type} type.`);
-    logEntry('info', `${pet.name} 선택 (${spec.name}, L${pet.level})`);
+    logEntry('info', `Selected ${pet.name} (${spec.name}, L${pet.level})`);
   }
   renderAll();
 }
@@ -4851,7 +4851,7 @@ function selectSlot(i) {
 function pushPadAndAnnounce() {
   if (!state.dotpadConnected) {
     SFX.err();
-    showToast('Dot Pad가 연결되지 않았습니다');
+    showToast('Dot Pad is not connected');
     return;
   }
   pushDotpad();
@@ -4859,7 +4859,7 @@ function pushPadAndAnnounce() {
   const pet = state.party[state.activeIdx];
   if (pet) {
     const spec = SPECIES[pet.species];
-    logEntry('discover', `${pet.name}을 패드에 표시 — ${spec.tactile}`);
+    logEntry('discover', `Showing ${pet.name} on Dot Pad — ${spec.tactile}`);
   }
 }
 
@@ -4890,7 +4890,7 @@ function pushDotpad() {
 }
 
 async function connectBle() {
-  if (!dotpadAvailable()) { showToast('Dot Pad SDK 로드 실패'); return; }
+  if (!dotpadAvailable()) { showToast('Dot Pad SDK failed to load'); return; }
   try {
     window.DotPad.sdk.setCallBack(onDotpadMessage, onDotpadKey);
     const device = await window.DotPad.scanner.startBleScan();
@@ -4899,10 +4899,10 @@ async function connectBle() {
     const dot = await window.DotPad.sdk.connectBleDevice(device);
     if (!dot) throw new Error('connectBleDevice returned null');
     closePopup();
-  } catch(e) { console.warn('[ble] failed:', e); showToast('연결 실패: ' + (e.message || e)); }
+  } catch(e) { console.warn('[ble] failed:', e); showToast('Connection failed: ' + (e.message || e)); }
 }
 async function connectUsb() {
-  if (!dotpadAvailable()) { showToast('Dot Pad SDK 로드 실패'); return; }
+  if (!dotpadAvailable()) { showToast('Dot Pad SDK failed to load'); return; }
   try {
     window.DotPad.sdk.setCallBack(onDotpadMessage, onDotpadKey);
     const port = await window.DotPad.scanner.startUsbScan();
@@ -4911,7 +4911,7 @@ async function connectUsb() {
     const dot = await window.DotPad.sdk.connectUsbDevice(port);
     if (!dot) throw new Error('connectUsbDevice returned null');
     closePopup();
-  } catch(e) { console.warn('[usb] failed:', e); showToast('연결 실패: ' + (e.message || e)); }
+  } catch(e) { console.warn('[usb] failed:', e); showToast('Connection failed: ' + (e.message || e)); }
 }
 function disconnectDot() {
   if (!dotpadAvailable()) return;
@@ -4931,15 +4931,15 @@ function onDotpadMessage(device, code) {
     state.dotpadDevice = state.dotpadDevices[0];
     state.dotpadName = device.connectDevice?.name || state.dotpadName || 'Dot Pad';
     updateDotpadStatus();
-    showToast('Dot Pad 연결됨: ' + state.dotpadName);
-    logEntry('info', `Dot Pad 연결: ${state.dotpadName}`);
+    showToast('Dot Pad connected: ' + state.dotpadName);
+    logEntry('info', `Dot Pad connected: ${state.dotpadName}`);
     setTimeout(pushDotpad, 300);
   } else if (code === DC.Disconnected) {
     state.dotpadDevices = state.dotpadDevices.filter(d => d !== device);
     state.dotpadConnected = state.dotpadDevices.length > 0;
     state.dotpadDevice = state.dotpadDevices[0] || null;
     updateDotpadStatus();
-    showToast('Dot Pad 연결 해제');
+    showToast('Dot Pad disconnected');
   }
 }
 function onDotpadKey(device, keyCode) {
@@ -5221,14 +5221,14 @@ function init() {
     e.preventDefault();
     alert(
       'Changelog (recent):\\n\\n' +
-      'v0.5.1 — 타이틀 화면 Pokemon Vortex 스타일 리디자인\\n' +
-      'v0.5   — 8 지역 시스템 + 탐험 + 야생 인카운트\\n' +
-      'v0.4.1 — 인사 다양화 + 부화 애니메이션 강화\\n' +
-      'v0.4   — 게임 시작 플로우 (타이틀 → 트레이너 → 알 부화 → 스타터)\\n' +
-      'v0.3   — UI 셸 프로토타입\\n' +
-      'v0.2.1 — 10종 스프라이트 충실도 개선\\n' +
-      'v0.2   — 10종 캐릭터 도트 스프라이트 디자인\\n' +
-      'v0.1   — GDD 초안'
+      'v0.5.1 — Title screen redesigned in a Pokemon Vortex style\\n' +
+      'v0.5   — 8-region system + exploration + wild encounters\\n' +
+      'v0.4.1 — Varied greetings + improved hatch animation\\n' +
+      'v0.4   — Game start flow (title -> trainer -> hatch egg -> starter)\\n' +
+      'v0.3   — UI shell prototype\\n' +
+      'v0.2.1 — Sprite fidelity passes for all 10 species\\n' +
+      'v0.2   — Pixel sprite designs for all 10 species\\n' +
+      'v0.1   — GDD draft'
     );
   });
   document.getElementById('link-dex-public')?.addEventListener('click', (e) => {
@@ -5236,7 +5236,7 @@ function init() {
     openDexDetail();
   });
   document.getElementById('link-reset')?.addEventListener('click', () => {
-    if (!confirm('정말 모든 저장 데이터를 삭제하시겠어요?\\n트레이너, 파티, 도감, 지역 진척 모두 사라집니다.')) return;
+    if (!confirm('Really delete all save data?\\nYour trainer, party, dex, and region progress will all be lost.')) return;
     try { localStorage.removeItem(SAVE_KEY); } catch(e){}
     state.trainer = null;
     state.hasStarter = false;
@@ -5248,7 +5248,7 @@ function init() {
     state.caughtCount = 0;
     state.regionProgress = {};
     state.log = [];
-    showToast('저장 데이터 초기화 완료');
+    showToast('Save data reset');
     renderTitle();
   });
 

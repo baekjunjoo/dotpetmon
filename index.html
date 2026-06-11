@@ -1540,28 +1540,28 @@
     object-fit: contain;
     filter: drop-shadow(0 10px 18px rgba(0,0,0,0.30));
   }
-  /* ========== Species sprite animation (v0.7.7.55) ==========
+  /* ========== Species sprite animation (v0.7.7.56) ==========
      Pibbi: 1024×1024 sheet, 12 frames in 4×3 grid (frame 256×341, aspect 3:4).
-     Keyframes step through all 12 cells with no inter-frame blending. */
+     Each frame dwells exactly 1/12 of the cycle, no inter-frame blending. */
   @keyframes pibbi-idle-12 {
-    0%     { background-position:    0%    0%; }
-    8.333% { background-position: -33.333%  0%; }
-    16.66% { background-position: -66.666%  0%; }
-    25%    { background-position: -100%     0%; }
-    33.33% { background-position:    0%   -50%; }
-    41.66% { background-position: -33.333%-50%; }
-    50%    { background-position: -66.666%-50%; }
-    58.33% { background-position: -100%   -50%; }
-    66.66% { background-position:    0%  -100%; }
-    75%    { background-position: -33.333%-100%; }
-    83.33% { background-position: -66.666%-100%; }
-    91.66% { background-position: -100%  -100%; }
-    100%   { background-position:    0%    0%; }
+    0%,   7.99%  { background-position:    0%      0%; }
+    8.33%,15.99% { background-position: -33.333%   0%; }
+    16.67%,24.99%{ background-position: -66.666%   0%; }
+    25%,  32.99% { background-position: -100%      0%; }
+    33.33%,41.32%{ background-position:    0%    -50%; }
+    41.67%,49.99%{ background-position: -33.333% -50%; }
+    50%,  57.99% { background-position: -66.666% -50%; }
+    58.33%,66.32%{ background-position: -100%    -50%; }
+    66.67%,74.99%{ background-position:    0%   -100%; }
+    75%,  82.99% { background-position: -33.333%-100%; }
+    83.33%,91.32%{ background-position: -66.666%-100%; }
+    91.67%,100%  { background-position: -100%   -100%; }
   }
   .species-sprite {
-    display: none;          /* shown via JS only when active pet matches */
+    display: none;
     height: 460px;
     max-height: 100%;
+    background-color: transparent;
     background-repeat: no-repeat;
     background-position: 0 0;
     image-rendering: auto;
@@ -1574,7 +1574,7 @@
     width: calc(460px * 256 / 341);   /* keep frame aspect 0.75 → ~345px */
     background-image: url('assets/illustrations/sprites/pibbi_sprite.png');
     background-size: 400% 300%;       /* 4 cols × 3 rows */
-    animation: pibbi-idle-12 2.4s steps(1, end) infinite;
+    animation: pibbi-idle-12 1.5s linear infinite;
   }
 
   /* Encounter — wild illustration */

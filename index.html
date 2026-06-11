@@ -574,7 +574,9 @@
   .right-panel.stats {
     flex-shrink: 0;
     background-image: url('assets/illustrations/ui/panel_stats.png');
-    aspect-ratio: 1577 / 2632;         /* exact stats PNG aspect (tall) */
+    /* aspect-ratio removed — panel grows tall enough to fit all stat rows + tactile/surface/motion */
+    min-height: 460px;
+    padding: 60px 24px 32px;
   }
   .right-panel.log {
     flex-shrink: 0;
@@ -2324,7 +2326,8 @@
   .main-actions {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
+    column-gap: 8px;
+    row-gap: 8px;        /* same as column gap → Dex/Trade row sits right under Explore/Food */
     padding: 10px 14px 14px;
   }
   @media (max-width: 540px) {

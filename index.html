@@ -559,24 +559,33 @@
   .right-col {
     display: flex; flex-direction: column; gap: 12px;
   }
-  /* v0.7.7.46 — PNG sticker panels (STATS / LOG) */
+  /* v0.7.7.47 — PNG sticker panels (STATS / LOG) keep PNG aspect 2176:1632 ≈ 4:3 */
   .right-panel {
     background-color: transparent;
     background-repeat: no-repeat;
     background-position: center top;
-    background-size: 100% 100%;       /* stretch the sticker card to fit */
+    background-size: contain;          /* keep PNG aspect — no vertical stretch */
     border: none;
     box-shadow: none;
-    padding: 56px 28px 28px;          /* room for the baked-in label tab */
+    padding: 56px 28px 28px;
     position: relative;
+    aspect-ratio: 2176 / 1632;         /* exact PNG aspect → panel never elongates */
+    width: 100%;
   }
   .right-panel.stats {
     flex-shrink: 0;
     background-image: url('assets/illustrations/ui/panel_stats.png');
   }
   .right-panel.log {
-    flex: 1; display: flex; flex-direction: column; min-height: 280px;
+    flex-shrink: 0;
+    display: flex; flex-direction: column;
     background-image: url('assets/illustrations/ui/panel_log.png');
+  }
+  /* Log content scrolls inside the fixed-aspect panel if it overflows */
+  .right-panel.log .log-list {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
   }
   /* PNG already includes the STATS / LOG label tab — hide the HTML label */
   .right-panel-label { display: none !important; }
@@ -2405,7 +2414,7 @@
   #btn-main-trade   { background-image: url('assets/illustrations/ui/btn_trade.png') !important; }
   .main-secondary-actions {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);   /* same column count as main-actions → identical cell size */
     gap: 10px;
     margin-top: 10px;
   }

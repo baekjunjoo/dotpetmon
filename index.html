@@ -1684,14 +1684,14 @@
     padding: 0 !important;
     overflow: visible !important;              /* PNG drop-shadow / sticker outline isn't clipped */
   }
-  /* Icon utility buttons: bigger box + padding so PNG's white sticker outer
-     never touches the box edge (no top-left/top-right clipping). */
+  /* Icon utility buttons: generous box + padding so PNG's white sticker outer
+     never touches the box edge (no clipping at any corner). */
   .icon-btn.png-skin {
-    width: 90px !important;
-    height: 60px !important;
-    min-width: 90px !important;
-    min-height: 60px !important;
-    padding: 3px !important;
+    width: 96px !important;
+    height: 64px !important;
+    min-width: 96px !important;
+    min-height: 64px !important;
+    padding: 5px !important;
     background-origin: padding-box !important;
     background-clip: padding-box !important;
   }

@@ -2412,11 +2412,10 @@
   #btn-main-sleep   { background-image: url('assets/illustrations/ui/btn_sleep.png') !important; }
   #btn-main-dex     { background-image: url('assets/illustrations/ui/btn_dex.png') !important; }
   #btn-main-trade   { background-image: url('assets/illustrations/ui/btn_trade.png') !important; }
+  /* v0.7.7.49 — main-secondary-actions container merged into .main-actions (6 buttons, 4-col grid auto-flows to 2 rows).
+     Keeping the rule here in case future builds re-introduce a separate row. */
   .main-secondary-actions {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);   /* same column count as main-actions → identical cell size */
-    gap: 10px;
-    margin-top: 10px;
+    display: contents;   /* if container still exists, its children flow directly into the parent grid */
   }
 
   /* ============ REGION SELECT ============ */
@@ -3128,8 +3127,6 @@
             <span class="action-label">Sleep</span>
             <small class="action-sub">Rest</small>
           </button>
-        </div>
-        <div class="main-secondary-actions">
           <button class="menu-btn action-tile" id="btn-main-dex" type="button" aria-label="Dex — your collection">
             <span class="action-glyph">✦</span>
             <span class="action-label">Dex</span>

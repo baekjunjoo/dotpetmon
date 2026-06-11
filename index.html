@@ -559,27 +559,28 @@
   .right-col {
     display: flex; flex-direction: column; gap: 12px;
   }
-  /* v0.7.7.47 — PNG sticker panels (STATS / LOG) keep PNG aspect 2176:1632 ≈ 4:3 */
+  /* v0.7.7.50 — PNG sticker panels (STATS / LOG) — each panel keeps its own PNG aspect */
   .right-panel {
     background-color: transparent;
     background-repeat: no-repeat;
     background-position: center top;
-    background-size: contain;          /* keep PNG aspect — no vertical stretch */
+    background-size: 100% 100%;        /* fill the panel (aspect is set per-panel below) */
     border: none;
     box-shadow: none;
-    padding: 56px 28px 28px;
+    padding: 56px 24px 24px;
     position: relative;
-    aspect-ratio: 2176 / 1632;         /* exact PNG aspect → panel never elongates */
     width: 100%;
   }
   .right-panel.stats {
     flex-shrink: 0;
     background-image: url('assets/illustrations/ui/panel_stats.png');
+    aspect-ratio: 1577 / 2632;         /* exact stats PNG aspect (tall) */
   }
   .right-panel.log {
     flex-shrink: 0;
     display: flex; flex-direction: column;
     background-image: url('assets/illustrations/ui/panel_log.png');
+    aspect-ratio: 2176 / 2632;         /* exact log PNG aspect (tall) */
   }
   /* Log content scrolls inside the fixed-aspect panel if it overflows */
   .right-panel.log .log-list {

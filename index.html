@@ -159,12 +159,12 @@
     background-repeat: no-repeat;
     background-position: left center;
     background-size: contain;
-    width: 340px;
-    height: 90px;
-    overflow: hidden;
+    width: 510px;            /* 340 × 1.5 */
+    height: 135px;           /* 90 × 1.5 */
+    overflow: visible;
   }
   @media (max-width: 640px) {
-    .brand-row { width: 260px; height: 70px; }
+    .brand-row { width: 390px; height: 105px; }
   }
   /* Hide the inline text — kept for screen readers / search */
   .brand-row .brand,
@@ -307,7 +307,7 @@
   /* ============ MAIN LAYOUT ============ */
   main {
     max-width: 1280px; margin: 0 auto;
-    padding: 102px 28px 24px; /* extra left/right room so sticker box-shadows don't get clipped */
+    padding: 148px 28px 24px; /* fits the larger 135px logo + breathing room */
   }
   .stage {
     display: grid;

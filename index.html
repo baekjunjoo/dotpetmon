@@ -1540,32 +1540,30 @@
     object-fit: contain;
     filter: drop-shadow(0 10px 18px rgba(0,0,0,0.30));
   }
-  /* ========== Species sprite animation (v0.7.7.57) ==========
-     Pibbi: 1024×1024 sheet, 12 frames in 4×3 grid (frame 256×341).
-     steps(1) timing prevents any interpolation between keyframes (no flicker). */
+  /* ========== Species sprite animation (v0.7.7.59) ==========
+     Pixel-exact addressing avoids fractional % issues and PNG row mis-alignment.
+     Pibbi sheet 1024×1024 → 4 cols × 3 rows → native frame 256×341.
+     Box is the native frame size and scaled visually with transform. */
   @keyframes pibbi-idle-12 {
-    0%      { background-position: 0% 0%; }
-    8.333%  { background-position: -33.333% 0%; }
-    16.666% { background-position: -66.666% 0%; }
-    25%     { background-position: -100% 0%; }
-    33.333% { background-position: 0% -50%; }
-    41.666% { background-position: -33.333% -50%; }
-    50%     { background-position: -66.666% -50%; }
-    58.333% { background-position: -100% -50%; }
-    66.666% { background-position: 0% -100%; }
-    75%     { background-position: -33.333% -100%; }
-    83.333% { background-position: -66.666% -100%; }
-    91.666% { background-position: -100% -100%; }
-    100%    { background-position: 0% 0%; }
+    0%       { background-position: 0       0;     }
+    8.3334%  { background-position: -256px  0;     }
+    16.6667% { background-position: -512px  0;     }
+    25%      { background-position: -768px  0;     }
+    33.3334% { background-position: 0       -341px;}
+    41.6667% { background-position: -256px  -341px;}
+    50%      { background-position: -512px  -341px;}
+    58.3334% { background-position: -768px  -341px;}
+    66.6667% { background-position: 0       -682px;}
+    75%      { background-position: -256px  -682px;}
+    83.3334% { background-position: -512px  -682px;}
+    91.6667% { background-position: -768px  -682px;}
+    100%     { background-position: 0       0;     }
   }
   .species-sprite {
     display: none;
-    width: 360px;
-    height: 480px;
-    max-width: 100%;
     background-color: transparent;
     background-repeat: no-repeat;
-    background-position: 0% 0%;
+    background-position: 0 0;
     image-rendering: auto;
     filter: drop-shadow(0 10px 18px rgba(0,0,0,0.30));
     pointer-events: none;
@@ -1573,10 +1571,17 @@
   }
   .species-sprite.pibbi {
     display: block;
+    width: 256px;
+    height: 341px;
     background-image: url('assets/illustrations/sprites/pibbi_sprite.png');
-    background-size: 400% 300%;
-    /* steps(1) keeps the position fixed between keyframes — no flicker, no interpolation */
-    animation: pibbi-idle-12 1.6s steps(1) infinite;
+    background-size: 1024px 1024px;   /* native sheet size, no fractional stretching */
+    transform: scale(1.5);             /* visually larger (~384×512) without changing layout box */
+    transform-origin: center center;
+    animation: pibbi-idle-12 1.6s steps(1, end) infinite;
+  }
+  /* Reserve layout space for the scaled sprite so siblings don't overlap */
+  .viewport-illust-wrap .species-sprite.pibbi {
+    margin-block: 100px;
   }
 
   /* Encounter — wild illustration */

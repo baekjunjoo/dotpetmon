@@ -1587,10 +1587,12 @@
     width: 256px;
     height: 384px;
     background-image: url('assets/illustrations/sprites/pibbi_sprite.png');
-    background-size: 1536px 1536px;   /* sheet (2048×2048) scaled to 1536 so each frame = 256×384 */
-    transform: scale(1.4);             /* visually ~358×538 */
+    background-size: 1536px 1536px;
+    transform: scale(1.4);
     transform-origin: center center;
-    animation: pibbi-idle-24 2.4s steps(1, end) infinite;
+    animation: pibbi-idle-24 1.5s steps(1, end) infinite;
+    will-change: background-position;     /* hint GPU to optimise frame jumps */
+    backface-visibility: hidden;
   }
   /* Reserve layout space for the scaled sprite so siblings don't overlap */
   .viewport-illust-wrap .species-sprite.pibbi {

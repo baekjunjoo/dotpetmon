@@ -1544,22 +1544,20 @@
      Pixel-exact addressing avoids fractional % issues and PNG row mis-alignment.
      Pibbi sheet 1024×1024 → 4 cols × 3 rows → native frame 256×341.
      Box is the native frame size and scaled visually with transform. */
-  /* Each frame dwells ~80% of its slice, then cross-fades into the next over ~20%.
-     This adds visual smoothness for the user's 12-frame idle while keeping each frame visible. */
   @keyframes pibbi-idle-12 {
-    0%,      6.7%   { background-position: 0       0;     }
-    8.3334%,15%     { background-position: -256px  0;     }
-    16.6667%,23.3%  { background-position: -512px  0;     }
-    25%,    31.7%   { background-position: -768px  0;     }
-    33.3334%,40%    { background-position: 0       -341px;}
-    41.6667%,48.3%  { background-position: -256px  -341px;}
-    50%,    56.7%   { background-position: -512px  -341px;}
-    58.3334%,65%    { background-position: -768px  -341px;}
-    66.6667%,73.3%  { background-position: 0       -682px;}
-    75%,    81.7%   { background-position: -256px  -682px;}
-    83.3334%,90%    { background-position: -512px  -682px;}
-    91.6667%,98.3%  { background-position: -768px  -682px;}
-    100%            { background-position: 0       0;     }
+    0%       { background-position: 0       0;     }
+    8.3334%  { background-position: -256px  0;     }
+    16.6667% { background-position: -512px  0;     }
+    25%      { background-position: -768px  0;     }
+    33.3334% { background-position: 0       -341px;}
+    41.6667% { background-position: -256px  -341px;}
+    50%      { background-position: -512px  -341px;}
+    58.3334% { background-position: -768px  -341px;}
+    66.6667% { background-position: 0       -682px;}
+    75%      { background-position: -256px  -682px;}
+    83.3334% { background-position: -512px  -682px;}
+    91.6667% { background-position: -768px  -682px;}
+    100%     { background-position: 0       0;     }
   }
   .species-sprite {
     display: none;
@@ -1579,7 +1577,7 @@
     background-size: 1024px 1024px;   /* native sheet size, no fractional stretching */
     transform: scale(1.5);             /* visually larger (~384×512) without changing layout box */
     transform-origin: center center;
-    animation: pibbi-idle-12 2.2s linear infinite;
+    animation: pibbi-idle-12 2.8s steps(1, end) infinite;
   }
   /* Reserve layout space for the scaled sprite so siblings don't overlap */
   .viewport-illust-wrap .species-sprite.pibbi {

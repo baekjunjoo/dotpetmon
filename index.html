@@ -3881,7 +3881,7 @@ function renderViewport() {
   const accent = spec ? getComputedStyle(document.documentElement).getPropertyValue(TYPE_COLOR[spec.type]).trim() : '#ff9b6a';
   // Illustration vs sprite — Pibbi gets the 12-frame animated sprite, others use the static PNG
   const vpSprite = document.getElementById('vp-sprite');
-  const SPRITE_SPECIES = ['pibbi'];   // grows as more sheets land
+  const SPRITE_SPECIES = [];   // pibbi now uses its animated WebP (pibbi.webp) via ART.species(); sprite-sheet path retired
   if (vpSprite) {
     SPRITE_SPECIES.forEach(s => vpSprite.classList.remove(s));
     if (SPRITE_SPECIES.includes(pet.species)) {

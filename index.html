@@ -3333,8 +3333,10 @@ const STARTER_POOL = ['pibbi', 'chikapi', 'bubloo', 'mosshu'];
 // ============================================================
 // ILLUSTRATION ASSETS (v0.7 — co-play visual layer)
 // ============================================================
+// Species that have an animated WebP sprite (idle loop). Others fall back to PNG.
+const ANIMATED_SPECIES = new Set(['bubloo','chikapi','fangroo','kricko','luminoa','mosshu','nibori','pibbi','turtloop','voltchi']);
 const ART = {
-  species: (key) => `assets/illustrations/species/${key}.png`,
+  species: (key) => `assets/illustrations/species/${key}.${ANIMATED_SPECIES.has(key) ? 'webp' : 'png'}`,
   trainer: {
     hero:     'assets/illustrations/trainer/hero.png',
     action:   'assets/illustrations/trainer/action.png',

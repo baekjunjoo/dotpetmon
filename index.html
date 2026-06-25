@@ -2905,7 +2905,7 @@
         </div>
         <div class="vortex-grid" id="vortex-grid"></div>
         <div class="vortex-detail" id="vortex-detail" hidden>
-          <canvas class="vortex-detail-canvas" id="vortex-detail-canvas"></canvas>
+          <canvas class="vortex-detail-canvas" id="vortex-detail-canvas" aria-hidden="true"></canvas>
           <div class="vortex-detail-meta">
             <div class="vortex-detail-row">
               <span class="vortex-detail-num" id="vortex-d-num">#01</span>
@@ -2962,7 +2962,7 @@
       <h2>What's your name?</h2>
       <p class="creation-sub">Enter your trainer name. This is what your DotPetMon will call you.</p>
       <div class="name-input-wrap">
-        <input type="text" id="name-input" maxlength="12" placeholder="Enter name" autocomplete="off" />
+        <input type="text" id="name-input" maxlength="12" placeholder="Enter name" autocomplete="off" aria-label="Trainer name" />
         <div class="name-hint">Up to 12 characters · letters / numbers</div>
       </div>
       <div class="creation-actions">
@@ -2997,7 +2997,7 @@
       <div class="hatch-illust-wrap">
         <img class="hatch-illust" id="hatch-illust" src="assets/illustrations/ui/egg.png" alt="Hatching egg" />
         <div class="pixel-pip" id="hatch-pixel-pip">
-          <canvas id="hatch-canvas"></canvas>
+          <canvas id="hatch-canvas" aria-hidden="true"></canvas>
           <div class="pixel-pip-label">PAD</div>
         </div>
       </div>
@@ -3036,7 +3036,7 @@
       <div class="reveal-illust-wrap">
         <img class="reveal-illust" id="reveal-illust" alt="Your starter" />
         <div class="pixel-pip" id="reveal-pixel-pip">
-          <canvas id="reveal-canvas"></canvas>
+          <canvas id="reveal-canvas" aria-hidden="true"></canvas>
           <div class="pixel-pip-label">PAD</div>
         </div>
       </div>
@@ -3091,7 +3091,7 @@
       <div class="explore-mood" id="explore-mood">—</div>
       <div class="explore-region-bg" id="explore-region-bg" role="img" aria-label="Region environment">
         <div class="explore-region-pixel-pip">
-          <canvas id="explore-canvas"></canvas>
+          <canvas id="explore-canvas" aria-hidden="true"></canvas>
         </div>
       </div>
       <div class="explore-status" id="explore-status">All quiet... want to take another step?</div>
@@ -3113,7 +3113,7 @@
       <div class="encounter-illust-wrap">
         <img class="encounter-illust" id="encounter-illust" alt="Wild creature" />
         <div class="pixel-pip" id="enc-pixel-pip">
-          <canvas id="encounter-canvas"></canvas>
+          <canvas id="encounter-canvas" aria-hidden="true"></canvas>
           <div class="pixel-pip-label">PAD</div>
         </div>
       </div>
@@ -3151,32 +3151,32 @@
     <aside class="left-col" role="region" aria-label="Party">
       <div class="party-slot" data-slot="0">
         <div class="party-num">1</div>
-        <canvas data-slot-canvas="0"></canvas>
+        <canvas data-slot-canvas="0" aria-hidden="true"></canvas>
         <div class="party-label">—</div>
       </div>
       <div class="party-slot" data-slot="1">
         <div class="party-num">2</div>
-        <canvas data-slot-canvas="1"></canvas>
+        <canvas data-slot-canvas="1" aria-hidden="true"></canvas>
         <div class="party-label">—</div>
       </div>
       <div class="party-slot" data-slot="2">
         <div class="party-num">3</div>
-        <canvas data-slot-canvas="2"></canvas>
+        <canvas data-slot-canvas="2" aria-hidden="true"></canvas>
         <div class="party-label">—</div>
       </div>
       <div class="party-slot" data-slot="3">
         <div class="party-num">4</div>
-        <canvas data-slot-canvas="3"></canvas>
+        <canvas data-slot-canvas="3" aria-hidden="true"></canvas>
         <div class="party-label">—</div>
       </div>
       <div class="party-slot" data-slot="4">
         <div class="party-num">5</div>
-        <canvas data-slot-canvas="4"></canvas>
+        <canvas data-slot-canvas="4" aria-hidden="true"></canvas>
         <div class="party-label">—</div>
       </div>
       <div class="party-slot" data-slot="5">
         <div class="party-num">6</div>
-        <canvas data-slot-canvas="5"></canvas>
+        <canvas data-slot-canvas="5" aria-hidden="true"></canvas>
         <div class="party-label">—</div>
       </div>
     </aside>
@@ -3196,7 +3196,7 @@
           <img class="viewport-illust" id="vp-illust" alt="Active pet illustration" />
           <div class="species-sprite" id="vp-sprite" role="img" aria-hidden="true"></div>
           <div class="pixel-pip" id="vp-pixel-pip">
-            <canvas id="vp-canvas"></canvas>
+            <canvas id="vp-canvas" aria-hidden="true"></canvas>
             <div class="pixel-pip-label">PAD</div>
           </div>
         </div>
@@ -4123,7 +4123,7 @@ function renderTitle() {
           <div class="species-art">
             <img src="${ART.species(key)}" alt="${sp.name} illustration" loading="lazy" />
             <div class="pixel-pip">
-              <canvas data-grid-canvas="${key}"></canvas>
+              <canvas data-grid-canvas="${key}" aria-hidden="true"></canvas>
             </div>
           </div>
           <div class="vortex-species-num">#${String(sp.num).padStart(2, '0')}</div>
@@ -4718,8 +4718,8 @@ function openDexDetail() {
         : `<div style="color: var(--ink-dim); font-size: 32px;">?</div>`;
       const label = caught ? sp.name : seen ? sp.name + ' ?' : '???';
       return `
-        <div class="dex-entry ${cls}" data-species="${k}" role="button" tabindex="0">
-          <div class="dex-entry-art">${img}</div>
+        <div class="dex-entry ${cls}" data-species="${k}" role="button" tabindex="0" aria-label="${label}, ${caught ? sp.type + ' type, caught' : seen ? sp.type + ' type, seen' : 'not yet discovered'}">
+          <div class="dex-entry-art" aria-hidden="true">${img}</div>
           <div class="dex-entry-num">#${String(sp.num).padStart(2, '0')}</div>
           <div class="dex-entry-name">${label}</div>
         </div>
@@ -4754,10 +4754,16 @@ function openDexDetail() {
   // Progress label
   const prog = document.getElementById('dex-overlay-progress');
   if (prog) prog.textContent = `Caught ${state.dexCaught.size} / 10 · Seen ${state.dexSeen.size} / 10`;
+  _dexLastFocus = document.activeElement;
   overlay.classList.add('open');
+  overlay.setAttribute('aria-modal', 'true');
+  const _dc = document.getElementById('dex-close');
+  if (_dc) _dc.focus();
 }
 function closeDexDetail() {
-  document.getElementById('dex-overlay')?.classList.remove('open');
+  const o = document.getElementById('dex-overlay');
+  if (o) { o.classList.remove('open'); o.removeAttribute('aria-modal'); }
+  if (_dexLastFocus && _dexLastFocus.focus) { try { _dexLastFocus.focus(); } catch(e){} }
 }
 
 // ============================================================
@@ -5418,6 +5424,7 @@ function updateDotpadStatus() {
   }
 }
 let _popupLastFocus = null;
+let _dexLastFocus = null;
 function openPopup() {
   const p = document.getElementById('dotpad-popup');
   _popupLastFocus = document.activeElement;
@@ -5576,6 +5583,19 @@ function init() {
     if (e.key === 'Escape') { closePopup(); e.preventDefault(); return; }
     if (e.key === 'Tab') {
       const f = popup.querySelectorAll('button:not([hidden])');
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { last.focus(); e.preventDefault(); }
+      else if (!e.shiftKey && document.activeElement === last) { first.focus(); e.preventDefault(); }
+    }
+  });
+  // a11y: Esc + Tab trap for the DotDex dialog (WCAG 2.1.2 / 2.4.3)
+  document.addEventListener('keydown', (e) => {
+    const dex = document.getElementById('dex-overlay');
+    if (!dex || !dex.classList.contains('open')) return;
+    if (e.key === 'Escape') { closeDexDetail(); e.preventDefault(); return; }
+    if (e.key === 'Tab') {
+      const f = dex.querySelectorAll('button:not([hidden]), [tabindex="0"]');
       if (!f.length) return;
       const first = f[0], last = f[f.length - 1];
       if (e.shiftKey && document.activeElement === first) { last.focus(); e.preventDefault(); }

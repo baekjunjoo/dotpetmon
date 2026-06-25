@@ -3326,6 +3326,25 @@ import {
 
 const DP_W = 30, DP_H = 10, PW = 60, PH = 40;
 
+// ===== Dot Pad tactile icons for care actions (60x40 pin space, v0.7.9 a11y) =====
+function _disc(cells, cx, cy, r, on = true) {
+  for (let y = cy - r; y <= cy + r; y++)
+    for (let x = cx - r; x <= cx + r; x++)
+      if ((x - cx) * (x - cx) + (y - cy) * (y - cy) <= r * r) setPin(cells, x, y, on);
+}
+function _vline(cells, x, y0, y1) { for (let y = y0; y <= y1; y++) setPin(cells, x, y); }
+const PAD_ICONS = {
+  food(c)  { _disc(c, 30, 24, 11); _vline(c, 30, 11, 15); for (let i = 0; i < 6; i++) setPin(c, 31 + i, 12 - (i >> 1)); },
+  play(c)  { _disc(c, 30, 15, 10); let x = 30; for (let y = 25; y <= 38; y++) { setPin(c, x, y); x += (Math.floor((y - 25) / 2) % 2 === 0) ? 1 : -1; } },
+  sleep(c) { _disc(c, 29, 20, 13, true); _disc(c, 37, 15, 12, false); setPin(c, 46, 8); setPin(c, 47, 8); setPin(c, 46, 9); setPin(c, 47, 9); },
+};
+function padPush(cells, text) {
+  if (!state.dotpadConnected || !window.DotPad) return false;
+  try { window.DotPad.sdk.displayGraphicData(bytesToHex(cells)); } catch (e) { return false; }
+  try { window.DotPad.sdk.displayTextData(text); } catch (e) {}
+  return true;
+}
+
 // ============================================================
 // STATE
 // ============================================================
@@ -5730,6 +5749,14 @@ function init() {
     SFX.beatHit();
     log(`${glyph} ${label}: ${name} loves it!`);
     speak(`${name} loves a bit of ${label.toLowerCase()}.`);
+    announce(`${label}. ${name} loves it.`);
+    // Tactile feedback on the Dot Pad (food = apple, play = balloon, sleep = crescent moon)
+    const _icon = PAD_ICONS[label.toLowerCase()];
+    if (_icon) {
+      const cells = new Uint8Array(DP_W * DP_H);
+      _icon(cells);
+      padPush(cells, `${label.toUpperCase()} ${name}`.slice(0, 16));
+    }
   };
   const btnFood = document.getElementById('btn-main-food');
   const btnPlay = document.getElementById('btn-main-play');

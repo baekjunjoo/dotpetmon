@@ -2810,6 +2810,30 @@
     color: var(--ink-dim);
     line-height: 1.5;
   }
+
+  /* ===== Accessibility AA pass (v0.7.8) ===== */
+  :root { --ink-dim: #565666; }                 /* hint text -> >=4.5:1 on cream */
+  :focus-visible { outline: 3px solid #0A66C2; outline-offset: 2px; }
+  button:focus-visible, a:focus-visible, input:focus-visible,
+  .icon-btn:focus-visible, .action-tile:focus-visible, .menu-btn:focus-visible,
+  .dotpad-popup-btn:focus-visible, .skip-link:focus-visible, [tabindex]:focus-visible {
+    outline: 3px solid #0A66C2; outline-offset: 3px;
+  }
+  .skip-link { background: var(--ink) !important; color: #fff !important; }
+  /* outlined text for legibility on colored fills (matches brand stroke style) */
+  .game-logo, .info-band-label {
+    text-shadow:
+      -1.5px -1.5px 0 var(--line),  1.5px -1.5px 0 var(--line),
+      -1.5px  1.5px 0 var(--line),  1.5px  1.5px 0 var(--line);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -3335,8 +3359,10 @@ const STARTER_POOL = ['pibbi', 'chikapi', 'bubloo', 'mosshu'];
 // ============================================================
 // Species that have an animated WebP sprite (idle loop). Others fall back to PNG.
 const ANIMATED_SPECIES = new Set(['bubloo','chikapi','fangroo','kricko','luminoa','mosshu','nibori','pibbi','turtloop','voltchi']);
+// Respect reduced-motion: serve the static PNG instead of the looping WebP (WCAG 2.2.2/2.3.3)
+const _prefersReducedMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 const ART = {
-  species: (key) => `assets/illustrations/species/${key}.${ANIMATED_SPECIES.has(key) ? 'webp' : 'png'}`,
+  species: (key) => `assets/illustrations/species/${key}.${(ANIMATED_SPECIES.has(key) && !_prefersReducedMotion) ? 'webp' : 'png'}`,
   trainer: {
     hero:     'assets/illustrations/trainer/hero.png',
     action:   'assets/illustrations/trainer/action.png',
@@ -3991,6 +4017,7 @@ const SCREENS = ['title', 'creation', 'egg', 'hatch', 'reveal', 'main', 'region-
 
 function showScreen(name) {
   state.screen = name;
+  try { _announceScreen(name); } catch(e){}
   for (const s of SCREENS) {
     const el = document.getElementById('screen-' + s);
     if (el) el.hidden = (s !== name);
@@ -5390,9 +5417,32 @@ function updateDotpadStatus() {
     document.getElementById('dpd-disc').hidden = true;
   }
 }
-function openPopup() { document.getElementById('dotpad-popup').classList.add('open'); }
-function closePopup() { document.getElementById('dotpad-popup').classList.remove('open'); }
+let _popupLastFocus = null;
+function openPopup() {
+  const p = document.getElementById('dotpad-popup');
+  _popupLastFocus = document.activeElement;
+  p.classList.add('open');
+  p.setAttribute('aria-modal', 'true');
+  const f = p.querySelector('button:not([hidden])');
+  if (f) f.focus();
+}
+function closePopup() {
+  const p = document.getElementById('dotpad-popup');
+  p.classList.remove('open');
+  p.removeAttribute('aria-modal');
+  if (_popupLastFocus && _popupLastFocus.focus) { try { _popupLastFocus.focus(); } catch(e){} }
+}
 
+function announce(msg) {
+  try {
+    const el = document.getElementById('live-region');
+    if (!el) return;
+    el.textContent = '';
+    setTimeout(function(){ el.textContent = msg; }, 60);
+  } catch(e){}
+}
+const _SCREEN_LABELS = { title: '시작 화면', hatch: '알 부화 미니게임', reveal: '새 닷펫몬 공개', main: '메인 허브' };
+function _announceScreen(name) { announce((_SCREEN_LABELS[name] || name) + ' 화면'); }
 function showToast(msg) {
   const t = document.getElementById('toast');
   if (!t) return;
@@ -5517,6 +5567,19 @@ function init() {
     const popup = document.getElementById('dotpad-popup');
     if (popup.classList.contains('open') && !popup.contains(e.target) && e.target.id !== 'btn-dotpad') {
       closePopup();
+    }
+  });
+  // a11y: Esc closes the Dot Pad dialog, Tab is trapped inside it (WCAG 2.1.2 / 2.4.3)
+  document.addEventListener('keydown', (e) => {
+    const popup = document.getElementById('dotpad-popup');
+    if (!popup || !popup.classList.contains('open')) return;
+    if (e.key === 'Escape') { closePopup(); e.preventDefault(); return; }
+    if (e.key === 'Tab') {
+      const f = popup.querySelectorAll('button:not([hidden])');
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { last.focus(); e.preventDefault(); }
+      else if (!e.shiftKey && document.activeElement === last) { first.focus(); e.preventDefault(); }
     }
   });
   document.getElementById('btn-voice').addEventListener('click', () => {
